@@ -1,0 +1,24 @@
+A label
+
+New project:
+X- task
+...
+new note
+...
+...end note
+X- new task @tag @20-Aug-2010
+...
+new line
+2nd line
+...
+- new task which was edited once more **
+- task with a single tag @1tag
+
+With another below
+
+Project 2:
+- new task @ home [http://www.google.com|Google] and http://www.portableapps.com|PortableApps] *
+... note
+- simple task edited again
+... some junk
+X- second task

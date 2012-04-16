@@ -1,0 +1,647 @@
+/*
+Colours
+---------------------
+WHERE USED                  COLOUR  HOVER       NAME
+------------------------------------------------------------
+container/table borders     #D7D5D4             [light gray]
+hyperlinks                  #5A981C (#003939)   [teal]
+page/column backgrounds     #FFF                [off-white]
+window background           #FBFBFB             [off-gray]
+projects                    #D55A12 (#1B6BAE)   [dark red]
+    label text              #D3A07E             [dark red]
+    label backgrd           #F5F5F5             [pastel red]
+    label border            #F5EAEA
+tags header                 #1B6BAE             [blue]          ALT: #006699
+    tag                     #6F6FB9 (#5958A1)   [blue]
+    backgrd                 #F6F7F9             [pastel blue]
+    border                  #EDEDFA (#5958A1)
+task / result header        #6BBA1F
+note text                   #777                [gray]
+completed task text         #BCBCBC             [soft gray]
+text box backgrd            #FFFFAA             [pastel yellow]
+cheatsheet backgrd          #E0E2EB             [light gray]
+highlight/starred           #FF9                [post-it yellow]
+*/
+
+
+/* basic reset */
+html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, pre, form, fieldset, table, th, td {
+    margin: 0; padding: 0;
+}
+
+/* basic font and sizes */
+body {
+    font:14px/18px "Segoe UI", "Verdana", helvetica, sans-serif;
+    background-color:#FBFBFB;
+    /*background-color:#EAEAEA;*/
+    width:100%;
+    height:100%;
+    min-width:50% !important;
+}
+h1 {
+    font-size:120%;
+    margin:0.2em 0 0.4em 0;
+}
+a {
+    color:#886671;
+    text-decoration:none;
+}
+a:hover {
+    color:#003939;
+    text-decoration:underline;
+    cursor:pointer;
+}
+#indicator {
+   position:fixed;
+   width:50px;
+   height:50px;
+   top:20px;
+   left:20px;
+   background-image:url(img/indicator.gif);
+   background-repeat:no-repeat;
+   z-index:100;
+   display:none;
+   -moz-opacity:0.5;
+}
+
+/* Main content areas, 3-column layout */
+/* column container */
+.colmask {
+    position:relative;      /* This fixes the IE7 overflow hidden bug */
+    clear:both;
+    float:left;
+    width:100%;             /* width of whole page */
+    overflow:hidden;        /* This chops off any overhanging divs */
+}
+/* common column settings */
+.colright,
+.colmid,
+.colleft {
+    float:left;
+    width:100%;             /* width of page */
+    position:relative;
+}
+.tasks,
+.projects,
+.tags {
+    float:left;
+    position:relative;
+    padding:0 0 1em 0;      /* no left and right padding on columns, we just make them narrower instead
+                            only padding top and bottom is included here, make it whatever value you need */
+    overflow:hidden;
+}
+/* 3 Column settings */
+.threecol {
+    background:#fff;        /* right column background colour */
+    border:1px solid #D7D5D4;
+    border-top:0;
+}
+.threecol .colmid {
+    right:12%;              /* width of the right column */
+    background:#fff;        /* center column background colour */
+    border-right:1px solid #D7D5D4;
+}
+.threecol .colleft {
+    right:70%;              /* width of the middle column */
+    background:#fff;     /* left column background colour */
+    border-right:1px solid #D7D5D4;
+}
+.threecol .tasks {
+    width:68%;              /* width of center column content (column width minus padding on either side) */
+    left:101%;              /* 100% plus left padding of center column */
+}
+.threecol .projects {
+    width:16%;              /* Width of left column content (column width minus padding on either side) */
+    left:15%;               /* width of (right column) plus (center column left and right padding) plus (left column left padding) */
+}
+.threecol .tags {
+    width:10%;              /* Width of right column content (column width minus padding on either side) */
+    left:87%;               /* Please make note of the brackets here:
+                            (100% - left column width) plus (center column left and right padding)
+                            plus (left column left and right padding) plus (right column left padding) */
+}
+
+#frame {
+    width:90%;
+    margin-left:auto;
+    margin-right:auto;
+    border-top:0;
+    padding-bottom:0px;
+    text-align:left;
+    background:white;
+}
+
+#header {
+    margin-top:7px;
+    overflow:auto;
+    background-color:#FBFBFB;
+}
+.left {
+    float:left;
+    padding:3px 10px 0;
+    margin:2px 0 0 20px;
+
+}
+/* the Taskpaper name and logo */
+.left img {
+    width:170px;
+    height:32px;
+    padding:4px 4px;
+    border:0;
+}
+.left img:hover {
+    width:174px;
+    height:36px;
+    padding:2px 2px;
+    cursor:pointer;
+}
+.right {
+    float:right;
+    padding:5px 3px 3px 3px;
+    position:relative;
+}
+.right #search-box {
+    font:16px Verdana, helvetica, sans-serif;
+    height:24px;
+    width:540px;
+    padding:3px 6px;
+    margin:7px;
+    margin-right:0;
+    vertical-align:top;
+    border-width:1px;
+    border-color:#B2B2B1;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+}
+.right #search-box:active {
+    border-color:#F7BA00;
+}
+.right #placeholder {
+    position:absolute;
+    top:17px;
+    left:20px;
+    color:#B2B2B1;
+    font-size:130%;
+}
+.right img {
+    display:none;
+    position:absolute;
+    top:22px;
+    right:12px;
+    height:12px;
+    width:12px;
+    opacity:0.2;
+}
+.right img:hover {
+    opacity:0.5;
+}
+#header a {
+    position:absolute;
+    top:-5px;
+    right:3px;
+    font-size:75%;
+}
+/* main content headers */
+.colmask h1 {
+    display:block;
+    padding-bottom:4px;
+    padding-top:12px;
+    margin-bottom:12px;
+    font-size:18px;
+    border-bottom:1px solid #D7D5D4;
+}
+#task-view {
+}
+
+/*** PROJECTS SIDEBAR ***/
+.projects h1 {
+    color:#D84329;
+}
+.projects ul {
+    list-style:none;
+}
+.projects li {
+    margin-left:30px;
+    margin-bottom:2px;
+    color:#D84329;
+    font-style:italic;
+    font-size:105%;
+}
+.projects li:hover, #tasks>h3:hover {
+    text-shadow: 0 0 1px #8F2A31;
+    cursor:pointer;
+}
+
+/*** TAGS SIDEBAR ***/
+.tags h1 {
+    color:#1B6BAE;
+}
+.tags li {
+    margin-left:10px;
+    margin-bottom:2px;
+    list-style:none;
+    line-height:160%;
+}
+
+/*** TASK LIST ***/
+.tasks h1 {
+    color:#1F1F1F;
+    color:#323232;
+}
+.tasks h2 {
+    font-size:105%;
+    color:gray;
+    padding-left:0.1em;
+    padding-bottom:2px;
+    border-bottom:1px solid #E3E3E3;
+}
+/* Project headers */
+#tasks>h3 {
+    font-style:italic;
+    font-size:105%;
+    color:#D84329;
+    display:block;
+    padding-left:0.3em;
+    padding-top:2px;
+    padding-bottom:2px;
+    margin-bottom:3px;
+    margin-top:12px;
+    border:1px transparent solid;
+}
+
+/* Labels and misc headers */
+.tasks h4 {
+    font-size:100%;
+    color:#5A5A5A;
+    margin-left:10px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 105%;
+}
+#tasks>li {
+    margin-left:12px;
+    margin-top:1px;
+    padding-top:3px;
+    list-style:none;
+    line-height:110%;
+    text-indent:-30px;
+    padding-left:30px;
+    position:relative;
+    border:1px transparent solid;
+}
+#tasks>li:hover, #tasks h3:hover {
+    background:#FAFAFA;
+    border:1px #D7D5D4 dotted;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+/* Task body text */
+#tasks p {
+    display:inline;
+    margin-left:1px;
+    padding:0px 3px 0px 3px;
+    vertical-align:4px;
+}
+#tasks li .tag, #tasks li .project {
+    margin-left:7px;
+    vertical-align:4px;
+}
+#tasks li .project {
+    padding:0px 3px;
+    color:#D3A07E;
+    border:1px solid #F5EAEA;
+    background:#F5F5F5;
+    font-size:85%;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+#tasks li input {
+    vertical-align:1px;
+    padding:2px 4px;
+}
+
+/* all the Task line settings */
+.tag {
+    color:#6F6FB9;
+    font-size:90%;
+    padding:0px 4px 1px;
+    border:1px solid #EDEDFA;
+    background:#F6F7F9;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+.tag:hover,
+.filters span:hover,
+#tasks li .project:hover {
+    -moz-box-shadow: 0 0 3px #888;
+    -webkit-box-shadow: 0 0 3px #888;
+    box-shadow: 0 0 3px #888;
+    cursor:pointer;
+}
+.note, .hidden-note, .reveal {
+    display:block;
+    text-indent:0;
+    padding-left:0;
+    margin-left:0;
+    margin-top:0;
+    padding-left:5px;
+    color:#777;
+	font-style:normal;
+	font-size:85%;
+}
+.reveal {
+    margin-top:4px !important;
+}
+.reveal p {
+    margin-left:2px;
+}
+.reveal img {
+    width:14px;
+    padding:1px;
+}
+.reveal p:hover, img:hover {
+    text-shadow: 0 0 3px #999;
+    cursor:pointer;
+}
+.reveal img:hover {
+    cursor:pointer;
+    padding:0px;
+    width:16px;
+}
+.hidden-note {
+    display:none;
+    font-weight:normal;
+    text-shadow:none;
+    text-indent:0px;
+    background:#FFFFD7;
+    padding:0 3px 3px;
+    margin:0 0 0 10px;
+}
+.strike {
+    color:#BCBCBC;
+    text-decoration:line-through;
+}
+.filters span, .starred {
+    padding:0 4px 0 4px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+/* sequence of CSS colours used for Filters */
+.filter-yellow, .starred {
+    background:#ff9;
+}
+.filter-gray {
+    background:#EAEAEA;
+}
+.filter-blue {
+    background:#BFD3ED;
+}
+.filter-cyan {
+    background:#BFFFFF;
+}
+.filter-green {
+    background:#DBFCB9;
+}
+.filter-red {
+    background:#FCDBD6;
+}
+.filter-brown {
+    background:#EAE0C9;
+}
+.filter-violet{
+    background:#F5D3FC;
+}
+.just-info {
+    font-size: 90%;
+    color:gray;
+    margin-left:10px;
+    margin-top:4px;
+}
+.tasks h1 .just-info {
+    margin:0 10px 0 0;
+    font-size:100%;
+}
+.tasks h1 .can-sort {
+    color:#C6C6C6;
+    margin-left:12px;
+    font-size:60%;
+    display:inline;
+    font-weight:normal;
+    vertical-align:bottom;
+}
+.freq {
+    display:inline;
+    font-weight:normal;
+    color:#C6C6C6;
+    margin-left:0.35em;
+    vertical-align:top;
+    font-size:75%;
+}
+
+#footer {
+    background:#FFF url(img/header.png) bottom left repeat-x;
+    padding:5px;
+    text-align:center;
+    vertical-align:top;
+    margin-top:10px;
+    margin-right:-2px;
+    clear:both;
+    color:#003939;
+    height:auto;
+}
+#footer a {
+    padding:0 5px 0 5px;
+}
+#footer .link, #footer p, #footer .label {
+    font-size:70%;
+    float:right;
+    padding-right:10px;
+    color:gray;
+}
+#footer .link:hover {
+    cursor:pointer;
+    color:black;
+}
+#footer p {
+    float:left;
+    font-style:italic;
+    margin-left:10px;
+}
+#footer .label {
+    padding-right:5px;
+}
+#footer select {
+    float:right;
+    vertical-align:top;
+    border-width:1px;
+    border-color:#B2B2B1;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+}
+
+/* Buttons and icons */
+.icon {
+    vertical-align:top;
+    height:32px;
+    width:32px;
+    margin-right:10px;
+    padding:2px;
+    border:0;
+}
+.icon:hover {
+    height:36px;
+    width:36px;
+    padding:0;
+    cursor:pointer;
+}
+.tool-icon, .editable-box img {
+    padding:2px;
+    height:24px;
+    width:24px;
+    margin:2px 3px 0 3px;
+}
+.tool-icon:hover, .editable-box img:hover {
+    padding:0px;
+    height:28px;
+    width:28px;
+}
+.task-buttons {
+    position:absolute;
+    top:0px;
+    right:0px;
+    width:80px !important;
+    text-align:right;
+    visibility:hidden;
+    margin:0px 2px;
+    background:rgba(250, 250, 250, 0.75);
+}
+.task-buttons input {
+    margin:4px 2px 0px 2px;
+    height:12px;
+    width:12px;
+    /*vertical-align:0px;*/
+    padding-top:2px;
+}
+.check-done {
+    padding-top:2px;
+    margin:0px;
+    height:12px;
+    width:12px;
+}
+.task-buttons input:hover {
+    margin:0px;
+    height:16px;
+    width:16px;
+    cursor:pointer;
+}
+.task-tools {
+    text-align:right;
+    height:36px;
+    float:right;
+    margin-right:2px;
+    padding-right:6px;
+}
+
+/* The editing box */
+#edit-view {
+    display:none;
+    margin:5px 20px;
+}
+#edit-view textarea {
+    font:14px verdana, helvetica,sans-serif;
+    width:100%;
+    height:500px;
+    border:1px solid #D7D5D4;
+    padding:3px;
+    margin-top:3px;
+    margin-bottom:3px;
+    line-height: 150%;
+    /*background:#FFFFAA;*/
+    background:#FFFFD3;
+}
+#edit-view .find-replace-bar {
+    float:right;
+    margin:3px 0;
+    padding:7px;
+    background:#FAFAFA;
+    border:1px #D7D5D4 solid;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+#edit-view .find-replace-bar input,
+#edit-view .find-replace-bar label {
+    float:right;
+    margin-left:6px;
+}
+#edit-view div .icon{
+    float:left;
+}
+.editable-box {
+    text-indent:0px;
+}
+.editable-box text, .editable-box textarea {
+    font: 14px "Segoe UI";
+    border:1px solid #D7D5D4;
+    background:#FFFFD3;
+    width:97%;
+    margin:0 0px 3px 7px;
+    padding:2px 0 2px 6px;
+    position:relative;
+    margin-left:5px;
+}
+.editable-box img {
+    position:absolute;
+    left:0;
+    margin-left:3px;
+}
+.editable-box img.top{
+    top:0px;
+}
+.editable-box img.bottom {
+    top:28px;
+}
+
+
+/* Sliding message banner at top */
+#message-banner {
+    opacity:0;
+    position:absolute;
+    top:-15px;
+    left:0;
+    z-index:10;
+    background:#FFFF88;
+    padding:7px;
+    border:1px solid #CCCCCC;
+    text-align:center;
+    font-weight:bold;
+    width:200px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+/* the syntax cheatsheet */
+#cheatsheet div {
+    float:right;
+    height:auto;
+}
+#cheatsheet table {
+    border:1px solid #D7D5D4;
+    margin-top:10px;
+    margin-bottom:10px;
+    border-collapse:collapse;
+    background:#E0E2EB;
+}
+#cheatsheet th, #cheatsheet td{
+    padding:0.4em;
+    border-color:#D7D5D4;
+    border-width:1px;
+    border-style:solid;
+    border-collapse:collapse;
+}
+#cheatsheet td {
+    padding-left:0.8em;
+}
+
+

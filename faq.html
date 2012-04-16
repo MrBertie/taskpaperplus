@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta content="text/html; charset=utf-8" http-equiv="content-type">
+  <title>Taskpaper.faq</title>
+  <link rel="stylesheet" type="text/css" href="css/help.css" media="screen">
+</head>
+
+<body>
+<div id="content">
+
+<h1><img src="icons/logo.png"></h1>
+
+<h1>FAQ: Frequently Asked Questions</h1>
+
+<ol>
+	<li><a href="#q1">Installing and Updating</a></li>
+	<li><a href="#q2">Editing</a></li>
+	<li><a href="#q3">Searching</a></li>
+	<li><a href="#q4">Navigating</a></li>
+    <li><a href="#q5">Managing</a></li>
+	<li><a href="#q6">User Interface</a></li>
+    <li><a href="#q7">Why can't...Why isn't?</a></li>
+</ol>
+<br>
+
+
+<a id="q1"><h2>1. Installing and Updating</h2></a>
+<h4>How do I update an existing installation?</h4>
+<p>As of taskpaper+ 0.7beta3 you can now just copy the new files over the top of the old ones.  Your data folder and configuration will not be affected.  Because I'm imperfect like this program, please, please backup up you precious tasks <strong>before</strong> you update!</p>
+
+<a id="q2"><h2>2. Editing</h2></a>
+<h4>How can I add a new task or project using the edit-in-place box?</h4>
+<p>Double-click any task to begin editing in place, then simply type above or below the existing task and add a new one using the usual <pre>- new task</pre> syntax.  New projects and notes can also be added this way.  In reality it's just a mini version of the big edit view.<p>
+
+<a id="q3"><h2>3. Searching</h2></a>
+<h4>Is it possible to adapt this list of filters in the right sidebar to your my preferences?</h4>
+<p>Yes, in the <em>conf/lang_en.php</em> file (look for your own language where this exists). &nbsp;Open the file in a real text editor (please do not use MS Word!)
+ &nbsp;Now look for the <em>$lang['filter_settings']</em>
+array; each line contains the parameters for a filter.&nbsp; <br>
+The first item
+is the filter expression, this can be any valid search expression,
+exactly as you would type into the search box. &nbsp;Second is the tooltip
+to be displayed, the third, the colour to use for the background.
+&nbsp; Fourth is whether to make the filter visible or not (invisible ones can still be used from the Search Box. &nbsp;It's actually very easy to create new filters.</p>
+
+<a id="q4"><h2>4. Navigating</h2></a>
+<h4>Why doesn't the back button work? (FIXED)</h4>
+<p>Simple answer: I'm not clever enough yet to make it work correctly</p>
+<p>Real problem: this is a so-called AJAX web application, the web page is only loaded once, the first time you start the app (or if you refresh the browser page).  All other information is updated in-place on the page as needed, tabs, tasks, tags, and so on. So the actual page address does not change, so there's nowhere to go "back" to!  I'm working on a solution but its slow in coming.</p>
+<p>**NEW**: as on version 0.8alpha the back button now works as expected (thanks to jQuery jAddress plugin and a wholelot of programming to make it work in taskpaper.<p>
+
+
+<a id="q5"><h2>5. Managing</h2></a>
+<h4>Where are my taskpaper files saved?</h4>
+<p>Find where you put your Taskpaper+ installation folder, open it up and navigate to {taskpaper+ folder}\www\taskpaper\data\ and there you should see all your busy little plain-text files that contain all your tasks.  You can edit these files directly with a text editor if you wish (please don't use Word! Download Notepad2 or Notepad++)</p>
+<p><em>Note: the text files are in UTF-8 encoding with Unix LF line-endings which standard Windows Notepad doesn't handle so well, so a decent text editor is recommended.  There's a plethora of really good free ones out there so no excuses! (e.g Notepad++, Notepad2, etc.. Google is your friend)</em></p>
+
+<h4>How do I sync, backup, import, or export my tasks?</h4>
+<p>Well, they're just plain-text files, so you can just save a copy of the entire data folder somewhere else, or use a good file sync or backup program to do it automatically (I recommend FreeFileSync, SyncToy or CobianBackup9 myself, but then YMMV). I personally use a version control system (Darcs) to keep revisions of my tasks.</p>
+<p>If you really want to get clever you could sync the data folder via Dropbox on the web, or a similar service, to have you tasks available at work and home, either way its easy to work with good ol' plain-text</p>
+
+<a id="q6"><h2>6. User Interface</h2></a>
+<h4>Q. I'm sick of the tooltips, I know all the functions by heart now, so can I turn them off?</h4>
+<p>A. You'll be glad to know the answer is yes.  Open the <em>conf/config.php</em> and change the <em>$config['hide_tips]</em> value to <strong>true</strong>.  That's it, all tooltips will disappear!</p>
+
+<h4>Q. Can I change the interface to my own language, instead of English?</h4>
+<p>A. yes, it is possible.  French is already provided, and if you are ready to translate the <em>conf/lang_en.php</em> into your own language you can easily use that too.  Please send any translated lang_nn.php files to me and I will willingly add them to the program.  The language selection can be made in the conf/config.ini file, by changing the <em>language=en</em> to the whatever language is available, e.g. french is <em>language=fra</em>.</p>
+
+<a id="q7"><h2>7. Why can't... why isn't?</h2></a>
+<h4>Why isn't the syntax exactly like Taskpaper from Hogbay?</h4>
+<p>I guess the best answer is 'personal preference.'  I wrote this app initially for my own use (and still use it daily), and I changed a few symbols because I think they are more obvious and easier to use.  A prime example is the use of 'X- closed task' rather than Hogbay's '- closed task @done</p>
+<p>Ask yourself which one is quicker to write, easier to see, and easier to internationalise?</p>
+
+<h4>Q. Why do I have to dig into text files to change settings, why don't you provide a nice settings page like other programs?</h4>
+<p>A. Just a question of time, I haven't had time to write a settings page yet.  It'll come one day!  Remember I don't get paid for writing taskpaper, I do it because it's useful to me, and I enjoy it.  Editing text files is not really that difficult though... ;-)</p>
+<!--
+<h4>Q. Question</h4>
+<p>A. Answer</p>
+-->
+<p>Symon Bent, South Africa. Revised: 26-Jun-2010 20:30</p>
+</div>
+</body>

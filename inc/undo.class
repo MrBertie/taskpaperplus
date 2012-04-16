@@ -1,0 +1,76 @@
+<?php
+
+class Undo {
+    private $_limit = 10;
+    private $_history = array();    // array(<history row>, <previous name>)
+    private $_prev_modified = array();
+    private $_history_path = '';
+    private $_files = null;
+
+    function __construct(File $files) {
+        $this->_history_path = config('history_path') . '/';
+        $this->_limit = config('undo_limit');
+        $this->_files = $files;
+    }
+
+    function undo($levels = null) {
+
+    }
+    /**
+     * Save an undo point
+     * NOTE: must be called AFTER file changes have been made
+     *
+     * @param Files $files      Files class: access to tp+ data files
+     * @param array $renamed    list of renamed tabs (files) previous name => current name
+     */
+    function save($renamed) {
+        $cur_modified = $this->_files->last_modified();
+        $prev_modified = $this->_prev_modified;
+        $cur_history = array();
+        $prev_history = end($this->_history);
+        $folder = date('U');   // just use a unix timestamp as folder name; simple and unique
+
+        // renamed files
+        foreach($renamed as $new => $old) {
+            $cur_history[$new] = $prev_history[$old];
+            unset($cur_modified[$new]);
+            unset($prev_modifed[$old]);
+        }
+
+        // new files
+        $new = array_diff_key($cur_modified, $prev_modified);
+        foreach($new as $name => $mtime) {
+            $this->_add_diff($folder, $name);
+            $cur_history[$name] = array($folder, $name);
+        }
+
+        // deleted files
+        $deleted = array_diff_key($prev_modified, $cur_modified);
+        foreach($deleted as $name => $mtime) {
+
+        }
+
+        // changed files
+        $changed = array_diff($cur_modified, $prev_modified);
+        if ( ! empty($diffs)) {
+            foreach($diffs as $name => $mtime) {
+
+
+
+            }
+
+            // reset history baseline
+        }
+    }
+
+    private function _add_diff($folder, $original) {
+        $folder = $this->_history_path . $folder;
+        if ( ! is_dir($folder)) {
+            mkdir($folder);
+        }
+        $copy = $folder . '/' . $filename;
+        copy($this->_files->fullpath($original), $copy);
+        return $copy;
+    }
+}
+?>

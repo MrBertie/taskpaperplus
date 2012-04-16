@@ -1,0 +1,147 @@
+/* basic reset */
+html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, pre, form, fieldset, table, th, td {
+    margin: 0; padding: 0;
+}
+
+/* basic font and sizes */
+body {
+    font:14px/18px "Verdana", helvetica, sans-serif;
+    background-color:white;
+}
+h1 {
+    font-size:120%;
+    margin:0.2em 0 0.4em 0;
+}
+a {
+    text-decoration:none;
+}
+
+/* Main content areas, 1-column layout */
+#frame {
+    width:100%;
+    margin-left:auto;
+    margin-right:auto;
+    border-top:0;
+    padding-bottom:0px;
+    text-align:left;
+    background:white;
+}
+
+#header, #footer, #tabs, #message-banner, .projects, .tags {
+    display:none;
+}
+
+/*** TASK LIST ***/
+.tasks h1 {
+    color:#6BBA1F;
+}
+.tasks h2 {
+    font-size:100%;
+    color:gray;
+    display:inline;
+}
+/* Project headers */
+.tasks h3 {
+    font-size:105%;
+    color:#D55A12;
+    display:block;
+    padding-left:0.3em;
+    margin-bottom:5px;
+    margin-top:13px;
+}
+/* Labels and misc headers */
+.tasks h4 {
+    font-size:100%;
+    color:gray;
+    margin-left:10px;
+    margin-top:5px;
+}
+.tasks li {
+    margin-left:12px;
+    margin-top:3px;
+    list-style:none;
+    line-height:150%;
+    text-indent:-30px;
+    padding-left:30px;
+}
+.tasks li div {
+    text-indent:0;
+    padding-left:0;
+    margin-left:0;
+    margin-top:1px;
+    background:#FBFBFB;
+    border:1px dotted gray;
+}
+.tasks li li {
+    display:none;
+}
+/* Task body text */
+.tasks p {
+    display:inline;
+    margin-left:1px;
+    padding:0px 3px 0px 3px;
+    line-height:110%;
+}
+.tasks li .project {
+    /*display:inline;*/
+    margin-left:7px;
+    padding:0px 3px 1px 3px;
+    color:#D3A07E;
+    border:1px #D3A07E;
+    border-top:0;
+    border-left:0;
+    background:#F5F5F5;
+    font-size:85%;
+}
+.tasks li {
+    cursor:pointer;
+    border-color:black;
+}
+.tasks li .tag {
+    margin-left:7px;
+}
+
+/* all the Task line settings */
+.tag {
+    color:#6F6FB9;
+    font-size:90%;
+    padding:0px 3px 1px 3px;
+    border:1px solid #EDEDFA;
+    border-top:0;
+    border-left:0;
+    background:#F6F7F9;
+    background:#F7F7F7;
+}
+.note, .hidden-note {
+    display:block;
+    margin-top:2px;
+    padding-left:20px;
+    color:#777;
+	font-style:italic;
+	font-size:85%;
+}
+.hidden-note {
+    display:block;
+}
+.reveal {
+    margin-left:20px;
+}
+.strike {
+    color:#777 !important;
+    text-decoration:line-through;
+}
+p.filter-yellow {
+    background:#ff9;
+    padding:0 4px 0 4px;
+    font-weight:bold;
+}
+.check-done {
+    /*height:20px;
+    width:20px;*/
+}
+
+/* Buttons and icons */
+.task-buttons, .task-tools, #edit-tasks{
+    display:none
+}
+
