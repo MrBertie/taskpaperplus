@@ -1,0 +1,24 @@
+==2:Main title==
+    Title note, indented
+Orphaned info line 1
+    With a note
+- orphaned task 1
+- orphaned task 2 #tag3 #20-Jan-2013 **
+
+First project:
+- First task #1-Jan-2012 #tag1
+
+Second project:
+- Second task #tag2 *
+
+- Third task with note ***
+..
+First note line
+Second note line
+..
+
+Third project:
+    Project notes, indented
+- Fourth task ***
+X- Fifth task (done) #tag4
+    Another note
