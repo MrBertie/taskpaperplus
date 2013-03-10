@@ -3,8 +3,8 @@ Taskpaper+
 
 Name:     Taskpaper+
 Author:   Symon Bent
-Version:  0.9.6.2 beta
-Dated:    21-Dec-2010
+Version:  1.0.0.0 beta
+Dated:    2013-02-10
 
 
 Description
@@ -15,12 +15,11 @@ It offers superb ways of filtering, grouping, searching for and managing your ta
 But ultimately 'all you tasks belong you', so everything is stored in a straight forward text file format.
 (Just like this file!)
 Tasks are created and edited directly in the text file, either in the application or in an editor of your choice.
-*NEW*: finally you can drag and drop tasks in default view to re-order them!
 
 There's plenty of help information in the help.html, faq.html, and search-help.html files;
 sometimes it's worth reading the manuals, they are not that long!
 
-All credit goes to the original Taskpaper application for the inspiration and ideas...but no code!
+All credit goes to the original Taskpaper application for the inspiration and ideas...but none of the code!
 
 
 Credits
@@ -35,20 +34,16 @@ Including but not restricted to:
   - Hogbay's Taskpaper (original idea)
   - Taskpaper.web (the motivation)
   - jQuery plus jEditable, jAddress, jHotKeys; and jQuery.ui (wonderful tools)
-  - the Perfect 3-column Layout
-  - the simple PHP Template engine (heavily customised)
-  - Crystal Clear icon set by Everaldo Coelho
+  - the a simple PHP template engine I came across on a forum...
 
 Plus some wonderful tools:
-  - PHP 5.3
-  - Fossil SCM version control---if you are a lonely little developer like me then this VCS is simply great!
-  - Console2 (to manage Fossil)
-  - Netbeans 7.0 beta IDE
-  - Firebug 1.7
-  - FullSync (a very simple build tool...)
+  - PHP 5.4, xdebug, webgrind, phpconsole
+  - Git version control
+  - GitHub for Windows
+  - Console2 (to manage Git)
+  - Netbeans 7.3 IDE
   - Notepad++ (testing php functions, and writing help files)
-  - oh, and Firefox 3.6 of course... where would we be without that! (thought I'm running it fine in FF4 for the forerunners out there)
-  - Chrome (yes, tp+ runs very well on Chrome too), and I believe Opera too...
+  - Chrome: great web dev tools and xdebug plugin
 
 
 

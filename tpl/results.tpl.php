@@ -1,27 +1,37 @@
 <!--
 The find results list template
 -->
-<?php include('tpl/tasktools.tpl.php'); ?>
-<h1><span class="just-info"><?php echo $result_header; ?></span><?php echo ' ' . $search_expression; ?></h1>
-<div id="tasks">
-<?php
-if(!empty($project_results)) {
-    echo '<h2>' . $project_header .'<span class="freq">(' . $project_count . ')</span></h2>';
-    foreach($project_results as $project) {
-        $markup = mark_up_task($project, false);
+<h1>
+    <span class="just-info"><?php echo $this->header; ?></span>
+    <?php echo ' ' . $this->search_expr; ?>
+</h1>
+
+<h2>
+    <?php echo \tpp\lang('project_header'); ?>
+    <span class="freq">(<?php echo $this->project_count; ?>)</span>
+</h2>
+
+<ul>
+    <?php
+    foreach($this->projects as $project) {
+        $markup = $this->mark_up_item($project, false);
         echo $markup;
     }
-    echo '<br />';
-}
-?>
-<h2><?php echo $task_header; ?><span class="freq">(<?php echo $task_count; ?>)</span></h2>
-<?php
-if(!empty($task_results)) {
-    foreach($task_results as $task) {
-        $markup = mark_up_task($task, true);
+    ?>
+</ul>
+
+<br />
+
+<h2>
+    <?php echo \tpp\lang('task_header'); ?>
+    <span class="freq">(<?php echo $this->task_count; ?>)</span>
+</h2>
+
+<ul>
+    <?php
+    foreach($this->tasks as $task) {
+        $markup = $this->mark_up_item($task, true);
         echo $markup;
     }
-}
-?>
-</div>
-<br>
+    ?>
+</ul>

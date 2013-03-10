@@ -1,11 +1,14 @@
 <?php
 
-function bug($message) {
-    logger(true, func_get_args());
+define('LOGGER_DEBUG', 0);
+define('LOGGER_LOG', 1);
+
+function bug() {
+    logger(LOGGER_DEBUG, func_get_args());
 }
 
-function msg($message) {
-    logger(false, func_get_args());
+function msg() {
+    logger(LOGGER_LOG, func_get_args());
 }
 /**
  * Simple, practical and fast logging function:
@@ -21,12 +24,20 @@ function msg($message) {
  *
  * @staticvar file $log_file => cached log file
  * @staticvar int $start => first time function was called during this request
- * @param bool $debug => true if debug
+ * @param enum $debug LOGGER_DEBUG or LOGGER_MSG
  * @param [multiple] $message => any number of variables|strings, to be displayed
  */
-function logger($debug, $message) {
-    static $log_file;
+function logger() {
+    global $config;
+
+    static $files = array();
     static $start = 0;
+    static $paths = array();
+
+
+    if (empty($paths)) {
+        $paths = array($config['debug_file'], $config['log_file']);
+    }
 
     $print_header = ($start == 0);
     if ($start == 0) {
@@ -36,24 +47,38 @@ function logger($debug, $message) {
         $time = microtime(true) - $start;
     }
     $time = sprintf('%0.06f ms', $time);
+
     $args = func_get_args();
+
     $debug = $args[0];
+    if ($debug == LOGGER_LOG) {
+        $line = str_repeat('.', 40) . "\n";
+        $indent = "\n\t\t\t\t";
+    } else {
+        $line = '';
+        $indent = "\n";
+    }
+
     array_shift($args);
 
-    if(!empty($args)) {
-        if(!$log_file) {
-            $file_path = APP_PATH . ($debug) ? config('debug_file') : config('log_file');
+    if( ! empty($args)) {
+
+        if( ! isset($files[$debug])) {
+            $file_path = \APP_PATH . $paths[$debug];
             $open_type = 'a';
-            $log_file = fopen($file_path, $open_type) or exit("Cannot open Log file: ".$file_path);
+            $files[$debug] = fopen($file_path, $open_type) or exit("Cannot open Log file: ".$file_path);
         }
+
         if ($print_header) {
-            fwrite($log_file, "\n\nLog File:  " . date('Y-m-d H:i:s') . "\n" .
-                    str_repeat('=', 30) . "\n");
+            fwrite($files[$debug], "\n\nLog File:  " . date('Y-m-d H:i:s') . "\n" .
+                    str_repeat('=', 40) . "\n");
         }
-        for ($i = 0; $i < count($args); $i++) {
-            $args[$i] = var_export($args[$i], true);
+
+        for ($i = 0; $i < count($args[0]); $i++) {
+            $items[] = var_export($args[0][$i], true);
         }
-        $message = ($args !== null && is_array($args)) ? implode("\t", $args) : $args;
-        fwrite($log_file, '[' . $time . ']' . "\t" . $message . "\n");
+
+        $text = (string) ($items !== null && is_array($items) ? implode($indent, $items) : $items);
+        fwrite($files[$debug], '[' . $time . ']' . "\t" . $text . "\n" . $line);
     }
 }

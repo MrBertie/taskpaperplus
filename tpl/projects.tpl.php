@@ -1,14 +1,12 @@
 <div id="projects">
     <ol>
     <?php
-    foreach ($projects as $key => $project) {
-        if ($key == 0) {
-            if ( ! empty($project)) {
-                echo '<ul><li id="0">' . $project . '</li></ul>';
-            }
-        } else {
-            echo '<li id="' . $key . '" title="' . lang('project_click_tip') . '">' . $project . '</li>';
-        }
+    foreach ($this->projects as $project) {
+        global $term;
+        $index = $project->index();
+        $text = $project->text();
+        if ($index > 0) $text = $index . $term['proj_sep']  . $text;
+        echo '<li id="' . $project->key() . '" data-index="' . $index . '" title="">' . $text . '</li>';
     }
     ?>
     </ol>

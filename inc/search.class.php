@@ -1,4 +1,6 @@
 <?php
+namespace tpp\model;
+use tpp;
 
 /**
  * Handles all search functions for current taskpaper, or
@@ -7,53 +9,65 @@
 class Search {
 
     private $_content;
+    private $_parent;
     private $_group_dates = false;
 
-    function __construct(Content $content) {
+    function __construct(Taskpaper $parent, Content $content) {
         $this->_content = $content;
+        $this->_parent = $parent;
     }
+
     function by_expression($expression) {
         $filter = new ExpressionFilter($this->_content);
-        $tasks = $filter->filter($this->_content->raw_tasks, $expression);
+        $tasks = $filter->filter($this->_content->raw_items, $expression);
         $title = $filter->parsed_term();
         return $this->_filter_and_sort_tasks($tasks, $title, $filter->sort_filters());
     }
-    function by_project($number) {
+
+    function by_project($index) {
         // returns a specific project
-        $with_number = ($number == 0) ? false : true;
-        $name = $this->_content->proj_name_by_num($number, $with_number);
+        $name = $this->_content->project_by_index($index)->text;
         // get a list of tasks (key only) in this project
-        $task_keys = array_keys($this->_content->task_project, $number);
+        $task_keys = array_keys($this->_content->task_project, $index);
         // now finally extract the right task lines
         $task_keys = array_flip($task_keys);
-        $tasks = array_intersect_key($this->_content->raw_tasks, $task_keys);
+        $tasks = array_intersect_key($this->_content->raw_items, $task_keys);
         return $this->_filter_and_sort_tasks($tasks, $name, array(), false);    // do not show projects
     }
+
     function by_tag($tag) {
+        global $term;
+
         // return tasks by specific tag (could be a date tag also)
-        $has_date = preg_match(config('date_rgx'), $tag, $matches);
+        $has_date = preg_match($term['date'], $tag, $matches);
         if ($has_date == 1) {
-            $date = config('date_prefix') . $matches[0];
+            $date = $term['date_prefix'] . $matches[0];
             $date_filter = new DateFilter($this->_content);
-            $tasks = $date_filter->filter($this->_content->raw_tasks, $date);
+            $tasks = $date_filter->filter($this->_content->raw_items, $date);
             return $this->_filter_and_sort_tasks($tasks, $date);
         } else {
-            $tag = config('tag_prefix') . $tag;    //search is for tags ONLY (not matching words)
+            $tag = $term['tag_prefix'] . $tag;    //search is for tags ONLY (not matching words)
             $word_filter = new WordFilter($this->_content);
-            $tasks = $word_filter->filter($this->_content->raw_tasks, $tag);
+            $tasks = $word_filter->filter($this->_content->raw_items, $tag);
             return $this->_filter_and_sort_tasks($tasks, $tag);
         }
     }
+
     // filter name WITHOUT the prefix (=)
     function by_named_filter($name) {
+        global $term;
+
         $named_filter = new NamedFilter($this->_content);
-        $tasks = $named_filter->filter($this->_content->raw_tasks, config('filter_prefix') . $name);
+        $tasks = $named_filter->filter($this->_content->raw_items, $term['filter_prefix'] . $name);
         $name = $named_filter->parsed_term();
         return $this->_filter_and_sort_tasks($tasks, $name, $named_filter->sort_filters());
     }
 
+
     // ********
-    private function _filter_and_sort_tasks($tasks, $title = '', array $sort_filters = array(), $show_projects = true) {
+    private function _filter_and_sort_tasks($tasks, $title = '', array $sort_filters = array()) {
+        global $term;
+
         list($tasks, $projects) = $this->_separate_projects($tasks);
         if (!empty($sort_filters)) {
             list($tasks, $dates) = $this->_sort_results($tasks, $sort_filters);
@@ -64,19 +78,21 @@ class Search {
             $prev_month = '';
             foreach ($tasks as $key => $task) {
                 $date = current($dates);
-                $month = ($date != 0) ? date(config('group_date'), $date) : lang('no_date_hdr');
+                $month = ($date != 0) ? date($term['group_date'], $date) : tpp\lang('no_date_hdr');
                 if ($prev_month != $month) {
-                    $grouped_tasks[$month] = $month . config('proj_suffix');
+                    $grouped_tasks[$month] = $month . $term['proj_suffix'];
                     $prev_month = $month;
                 }
-                $grouped_tasks[$key] = $due_task;
+                // TODO: this was $due_task, need to confirm why?
+                $grouped_tasks[$key] = $task;
                 next($dates);
             }
             $tasks = $grouped_tasks;
         }
         $project_hits = count($projects);
-        return new FilteredItems($this->_content, $tasks, $task_hits, $projects, $project_hits, $title);
+        return new FilteredItems($tasks, $task_hits, $projects, $project_hits, $title);
     }
+
     private function _separate_projects($items) {
         $tasks = array_diff_key($items, $this->_content->project_index);
         $tasks = ($tasks === null) ? array() : $tasks;
@@ -85,6 +101,7 @@ class Search {
         $projects = ($projects === null) ? array() : $projects;
         return array($tasks, $projects);
     }
+
     private function _sort_results(array $tasks, array $sort_filters) {
         $sort_args = array();
         foreach ($sort_filters as $sort_filter) {
@@ -123,6 +140,7 @@ class Search {
         }
         return array($tasks, $dates);
     }
+
     // sort by each sorting array, in order
     private function _multisort(&$tasks, &$sort_args) {
         if (!empty($sort_args)) {
@@ -157,6 +175,8 @@ class TokenFilter {
     }
     // returns true if this token matches (matching order is important!)
     function match($token) {
+        // TODO: check if assigning _token causes problems elsewhere
+        $this->_token = $token;
         $this->_matched = true;
         return true;
     }
@@ -198,6 +218,7 @@ class TokenFilter {
         }
         return $matched;
     }
+
     protected function _match_name($name, Array $items, $key_only = false) {
         // preg_grep allows for partial matches also, we use only first match
         // first try to match in the values (localised words)
@@ -217,13 +238,14 @@ class TokenFilter {
         return array(false, false);
     }
 }
+
 /**
  * Parses any complete search expression, calls necessary Filter classes
  * (some classes, e.g. NamedFilter will recursively call ExpressionParser as needed)
  */
 class ExpressionFilter extends TokenFilter {
 
-    function filter(array $tasks, $expression) {
+    function filter(array $tasks, $expression = '') {
         $this->type = 'expression';
         return $this->_filter($tasks, $expression);
     }
@@ -241,6 +263,7 @@ class ExpressionFilter extends TokenFilter {
         $tokens = preg_replace('~`(\d)`~e', '$matches[1]["$1"]', $tokens);
         return $tokens;
     }
+
     private function _filter($tasks, $expression) {
         // build a queue of expression tokens
         $tokens = $this->_tokenise($expression);
@@ -249,10 +272,12 @@ class ExpressionFilter extends TokenFilter {
         $sort_terms = '';
         $filter_classes = array('OrFilter', 'RangeFilter', 'DateFilter', 'IntervalFilter',
                                  'StateFilter', 'SortFilter', 'NamedFilter', 'WordFilter');
-        foreach ($tokens as $key => $token) {
+        $ns = '\\tpp\\model\\';
+        foreach ($tokens as $token) {
             // try to match token type (order matters)
             foreach ($filter_classes as $filter_class) {
-                $test_filter = new $filter_class($this->_content);
+                $class = $ns . $filter_class;
+                $test_filter = new $class($this->_content);
                 if ($test_filter->match($token) === true) {
                     if ($filter_class == 'SortFilter') {
                         $this->_sort_filters[] = $test_filter;
@@ -293,8 +318,12 @@ class DateTokenFilter extends TokenFilter {
 
     function filter_by_date(array $tasks, $start_date = 0, $end_date = 0, $operator = '') {
         // first make some sense out of the start and end dates provided
-        if (!is_int($start_date)) $start_date = strtotime(strtolower(trim($start_date)));
-        if (!is_int($end_date)) $end_date = strtotime(strtolower(trim($end_date)));
+        if (!is_int($start_date)) {
+            $start_date = strtotime(strtolower(trim($start_date)));
+        }
+        if (!is_int($end_date)) {
+            $end_date = strtotime(strtolower(trim($end_date)));
+        }
         if ($start_date !== false) {
             if ($end_date === false || empty($end_date)) {
                 switch (trim($operator)) {
@@ -330,15 +359,18 @@ class DateTokenFilter extends TokenFilter {
     }
 }
 
+
 class WordFilter extends TokenFilter {
     private $_word = '';
     private $_exclude = '';
 
     function match($token) {
+        global $term;
+
         $this->type = 'word';
         $this->_matched = false;
         $token = ($token == '') ? $this->_token : $token;
-        if ($this->_find_match($token, config('word_tok_rgx')) === true) {
+        if ($this->_find_match($token, $term['word_tok']) === true) {
             $parsed_term = $this->_matched_tokens[0];
             $this->_parsed_term = (strpos($parsed_term, ' ') > 0) ? '"' . $parsed_term . '"' : $parsed_term;
             $first = $this->_matched_tokens[1];
@@ -352,6 +384,7 @@ class WordFilter extends TokenFilter {
         }
         return $this->_matched;
     }
+
     function filter(array $tasks, $token = '', $wildcard = false) {
         if (!empty($token)) {
             $this->match($token);
@@ -368,6 +401,7 @@ class WordFilter extends TokenFilter {
         return $tasks;
     }
 }
+
 /**
  * Named filter class: any named filter from lang.php file
  */
@@ -376,16 +410,18 @@ class NamedFilter extends TokenFilter {
     private $_expression;
 
     function match($token) {
+        global $term;
+
         $this->type = 'named';
         $this->_matched = false;
         $token = ($token == '') ? $this->_token : $token;
-        if ($this->_find_match($token, config('filter_tok_rgx')) === true) {
+        if ($this->_find_match($token, $term['filter_tok']) === true) {
             $name = $this->_matched_tokens[1];
-            list($key, $name) = $this->_match_name($name, lang('filter_settings'), true);
+            list($key, $name) = $this->_match_name($name, tpp\lang('filter_settings'), true);
             if ($key !== false) {
                 $this->_index = $key;
-                $this->_parsed_term = config('filter_prefix') . no_underscores($name);
-                $filter_settings = lang('filter_settings');
+                $this->_parsed_term = $term['filter_prefix'] . tpp\no_underscores($name);
+                $filter_settings = tpp\lang('filter_settings');
                 $this->_expression = $filter_settings[$key][0];
                 $this->_matched = true;
             }
@@ -411,16 +447,18 @@ class NamedFilter extends TokenFilter {
 class StateFilter extends TokenFilter {
 
     function match($token) {
+        global $term;
+
         $this->type = 'state';
         $this->_matched = false;
         $token = ($token == '') ? $this->_token : $token;
-        if ($this->_find_match($token, config('state_tok_rgx')) === true) {
+        if ($this->_find_match($token, $term['state_tok']) === true) {
             $name = $this->_matched_tokens[1];
-            list($key, $name) = $this->_match_name($name, lang('state_names'));
+            list($key, $name) = $this->_match_name($name, tpp\lang('state_names'));
             if ($key !== false) {
                 // convert to a numeric index--for sorting purposes!
-                $this->_index = array_search($key, lang('state_order'));
-                $this->_parsed_term = config('state_prefix') . no_underscores($name);
+                $this->_index = array_search($key, tpp\lang('state_order'));
+                $this->_parsed_term = $term['state_prefix'] . tpp\no_underscores($name);
                 $this->_matched = true;
             }
         }
@@ -446,16 +484,18 @@ class SortFilter extends TokenFilter {
     public $dir;
 
     function match($token) {
+        global $term;
+
         $this->type = 'sort';
         $this->_matched = false;
         $token = ($token == '') ? $this->_token : $token;
-        if ($this->_find_match($token, config('sort_tok_rgx')) === true) {
+        if ($this->_find_match($token, $term['sort_tok']) === true) {
             $dir = $this->_matched_tokens[1];
             $sort_by = $this->_matched_tokens[2];
-            list($key, $sort_by) = $this->_match_name($sort_by, lang('sort_names'));
+            list($key, $sort_by) = $this->_match_name($sort_by, tpp\lang('sort_names'));
             if ($key !== false) {
                 $this->sort_by = $key;
-                if ($dir == config('sort_desc_prefix')) {
+                if ($dir == $term['sort_desc_prefix']) {
                     $this->dir = SORT_DESC;
                     $dir = '▲';
                 } else {
@@ -475,10 +515,12 @@ class SortFilter extends TokenFilter {
 class OrFilter extends TokenFilter {
 
     function match($token) {
+        global $term;
+
         $this->type = 'or';
         $this->_matched = false;
         $token = ($token == '') ? $this->_token : $token;
-        if ($token == config('or_operator') || $token == 'OR') {
+        if ($token == $term['or_operator'] || $token == 'OR') {
             $this->_parsed_term = '|';
             $this->_matched = true;
         }
@@ -491,10 +533,12 @@ class DateFilter extends DateTokenFilter {
     private $_date = '';
 
     function match($token) {
+        global $term;
+
         $this->type = 'date';
         $this->_matched = false;
         $token = ($token == '') ? $this->_token :$token;
-        if (parent::_find_match($token, config('date_tok_rgx')) === true) {
+        if (parent::_find_match($token, $term['date_tok']) === true) {
             $this->_operator = $this->_matched_tokens[1];
             $this->_date = $this->_matched_tokens[2];
             $this->_parsed_term = $this->_matched_tokens[0];
@@ -519,10 +563,12 @@ class RangeFilter extends DateTokenFilter {
     private $_end_date = 0;
 
     function match($token) {
+        global $term;
+
         $this->type = 'range';
         $this->_matched = false;
         $token = ($token == '') ? $this->_token :$token;
-        if ($this->_find_match($token, config('range_tok_rgx')) === true) {
+        if ($this->_find_match($token, $term['range_tok']) === true) {
             $this->_start_date = $this->_matched_tokens[1];
             $this->_end_date = $this->_matched_tokens[3];
             $this->_parsed_term = $this->_matched_tokens[0];
@@ -554,23 +600,25 @@ class IntervalFilter extends DateTokenFilter {
     private $_eq = '';  // equality: = > <
 
     function match($token) {
+        global $term;
+
         $this->type = 'interval';
         $this->_matched = false;
-        $token = ($token == '') ? $this->_token :$token;
-        if ($this->_find_match($token, config('interval_tok_rgx')) === true) {
+        $token = ($token == '') ? $this->_token : $token;
+        if ($this->_find_match($token, $term['interval_tok']) === true) {
             $interval = $this->_matched_tokens[3];
-            list($key, $interval) = $this->_match_name($interval, lang('interval_names'));
+            list($key, $interval) = $this->_match_name($interval, \tpp\lang('interval_names'));
             if ($key !== false) {
                 $eq = $this->_matched_tokens[1];
                 $count = $this->_matched_tokens[2];
                 if (strpos('day week month year', $key) !== false) {
-                    $interval .= ($count > 1) ?  's' : '' ;
-                    $next = ($eq == '<') ? lang('prev_lbl') : lang('next_lbl');
+                    $interval .= ($count > 1) ?  's' : '';
+                    $next = ($eq == '<') ? tpp\lang('prev_lbl') : \tpp\lang('next_lbl');
                     $next .=  ' ';
                     $count = ($count > 1) ? $count : 1;
                     $number = ($count > 1) ?  ' ' . $count . ' ' : '';
                 } elseif($key == 'today') {
-                    $next = ($eq == '<') ? lang('before_lbl') : lang('after_lbl');
+                    $next = ($eq == '<') ? \tpp\lang('before_lbl') : \tpp\lang('after_lbl');
                     $next .=  ' ';
                     $count = 0;
                     $number = '';
@@ -610,7 +658,6 @@ class IntervalFilter extends DateTokenFilter {
     }
     private function _convert_to_date($index, $count = 1, $eq = '=') {
         // replace with correct date
-        $swap = false;
         $count = ($eq == '<') ? -$count : $count;
         $start_date = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
         $end_date = 0;

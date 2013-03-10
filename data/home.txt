@@ -1,14 +1,12 @@
 To buy:
-X- magnesium chloride
-... what does it do?
-X- badge holders (good quality)
-X- look into a new rasor (Phillips)
-- Kindle for Anna
-- Bahnhof watch (one day)
+- badge holders (good quality)
+- magnesium chloride
+    what does it do?
 
 Vacation and Reassignment:
 
 Theocratic:
+- new task
 
 Bethel Assignments:
 
@@ -19,20 +17,19 @@ X- WT review: start again
 
 Organise personal documents:
 - full backup!
-... email, docs, knowledge, books, music, work, skype, firefox, server
+    email, docs, knowledge, books, music, work, skype, firefox, server
 - scrapbook data
-- taskpaper @27-Jul-2010
+- taskpaper #27-Jul-2010
 - all documents in C
 - email profile
-... @27-Jul-2010
 - backup firefox profile
-X- backup addressbook
-X- organise all books
-...pdb, prc, mobi, and others, rename properly
+- backup addressbook
+- organise all books
+    pdb, prc, mobi, and others, rename properly
 - sort out and sync dev reference folders
 - sort all movies, remove duplicates
 
 Organise photos:
-- create a "best of" set of pictures @23-Jul-2010
+- create a "best of" set of pictures #23-Jul-2010
 
 Organise portable Apps:

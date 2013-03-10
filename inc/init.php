@@ -1,11 +1,56 @@
 <?php
-/*
- * Basic initialisation, config
- */
+namespace tpp;
 
-define('de', true);            // if we want debug messages logged de&&bug(...)    (see logger.txt)
-define('log', false);           // show performance|sequence logs   log&&msg(...)   (see logger.txt)
-define('SHOW_ERRORS', false);   // to show all errors and notices (on page)
+
+//**************************************
+// Fundamental paths and session setup
+//**************************************
+//
+// globally used app path, for all includes, requires, and file access
+$path = realpath(dirname(__FILE__) . '/..');
+//$path = realpath('.');
+define('APP_PATH', $path . '/');
+define('APP_NAME', basename($path));
+
+
+// session start up
+session_name(APP_NAME);
+session_start();
+
+
+// better error reporting
+//require(APP_PATH . 'other/php_error.php' );
+//\php_error\reportErrors();
+
+
+// takes care of autoloading class files
+require_once(APP_PATH . 'inc/autoload.php');
+
+
+//***************************************
+// Basic initialisation, config setup
+//***************************************
+
+// load the global app config; including base paths
+$config = array();
+require_once(APP_PATH . 'conf/config.php');
+
+
+//------------------------------
+// Error reporting and logging.
+//------------------------------
+
+// variable pretty printer for debugging (to webpage)
+//require_once(APP_PATH . 'other/dbug.php');
+
+// require_once(APP_PATH . 'other/kint/Kint.class.php');
+
+// main logging and debug printer (to file)
+require_once(APP_PATH . 'inc/logger.php');
+define('de', true);    // if we want debug messages logged de&&bug(...)    (see logger.txt)
+define('log', false);    // show performance|sequence logs   log&&msg(...)   (see logger.txt)
+
+define('SHOW_ERRORS', true);   // to show all errors and notices (on page)
 
 if (SHOW_ERRORS) {
     // View all error and notices
@@ -13,46 +58,100 @@ if (SHOW_ERRORS) {
     ini_set("display_errors", 1);
 }
 
+
+log&&msg('Initialising basic app data in' . __FILE__);
+
+
+//-----------------------------------------------
+// Application constants, settings, and language data
+//-----------------------------------------------
+
 // default extension for all taskpaper files (txt is probably best)
 define('EXT', ".txt");
 
-// item types within a taskpaper list (only three currently)
-define('ITEM_TASK', 0);
-define('ITEM_PROJ', 1);
-define('ITEM_LABEL', 2);
+// default tab/page states (default tab is just the first)
+define('DEFAULT_EVENT', 'all');
+define('DEFAULT_VALUE', null);
 
-// task note types (used in taskpaper.class.php)
-define('SINGLE_NOTE', 0);
-define('BLOCK_NOTE', 1);
 
-// save_edits types (used in taskpaper.class.php)
-define('EDIT_STATE', 0);
-define('EDIT_CACHE', 1);
-define('EDIT_PLAINTEXT', 2);
+/**
+ * Update types (used in cache.class/taskpaper.class.php)
+ */
+define('UPDATE_NONE', 0);
+define('UPDATE_STATE', 1);
+define('UPDATE_PARSED', 2);
+define('UPDATE_RAWITEM', 3);
+define('UPDATE_RAW', 4);
+define('UPDATE_FILE', 5);
 
-// trash and archive tab names
+
+/**
+ * Trash and Archive tab/file names
+ */
 define('FILE_TRASH', '__trash__');
 define('FILE_ARCHIVE', '__archive__');
+define('FILE_TAB_CACHE', '__tabs__');
 
-// various request types
+
+/**
+ * Various Http request types used by dispatcher.
+ */
 define('REQ_INVALID', 0);   // invalid request
 define('REQ_INDEX', 1);     // initial index|start page
-define('REQ_AJAX', 2);      // via JS event call
-define('REQ_URL', 3);       // via browser url|refresh (jquery.address plugin)
+define('REQ_AJAX', 2);      // via JS event call through xhr
 
-// basic app functions, incl. debug and logging functions
+
+/**
+ * Specific Tab types.
+ */
+define ('TAB_NORMAL', 0);
+define ('TAB_TRASH', 1);
+define ('TAB_ARCHIVE', 2);
+define ('TAB_NEW', 3);
+
+
+/**
+ * Enum: Item types within a taskpaper list.
+ *
+ * @see Content
+ */
+define('ITEM_NONE', 0);
+define('ITEM_PAGE', 1);
+define('ITEM_PROJ', 2);
+define('ITEM_TASK', 3);
+define('ITEM_INFO', 4);
+define('ITEM_NOTE', 5); // not used currently
+
+
+/**
+ * Enum: Different insertion types used by the Content _insert function.
+ *
+ * @see Content
+ */
+define('INS_END', 0);
+define('INS_BEGIN', 1);
+define('INS_REPLACE', 2);
+define('INS_BEFORE', 3);
+define('INS_AFTER', 4); // not used currently
+
+
+/**
+ * Enum: Return result for Content _insert function.
+ *
+ * @see Content
+ */
+define('RES_SUCCESS', 0);
+define('RES_INVALID_TYPE', 1);
+define('RES_NO_SPACE', 2);
+define('RES_NO_SUCH_KEY', 3);
+
+
+// regex patterns, terms and symbols used globally in app
+require_once(APP_PATH . 'conf/term.php');
+
+// basic app functions: config() lang(), ini(), + general functions
 require_once(APP_PATH . 'inc/common.php');
-require_once(APP_PATH . 'inc/logger.php');
 
-// load the global app config array
-$config = array();
-require_once(APP_PATH . 'conf/config.php');
-
-
-// user editable config
-// recreated if missing (i.e. new installation)
-require_once(APP_PATH . 'inc/ini.class.php');
-$ini = new Ini(APP_PATH . 'conf/config.ini', APP_PATH . 'conf/config.new.ini');
 
 // load global language array
 // language defaults to en (English) if missing; set in ini file
@@ -60,25 +159,39 @@ $langs = glob('./conf/lang_*');
 foreach($langs as $lang) {
     $config['lang_list'][] = substr($lang, 12, -4);
 }
-$cur_lang = $ini->item('language');
+$cur_lang = ini('language');
 $lang_path = 'conf/lang_' . $cur_lang . '.php';
-if (!file_exists($lang_path)) {
+if ( ! file_exists($lang_path)) {
     $cur_lang = 'en';
     $lang_path = 'conf/lang_' . $cur_lang . '.php';
 }
-$lang = array();
 require_once(APP_PATH . $lang_path);
+
+
+//$location = setlocale(LC_ALL, $cur_lang);
+
 
 // used in TaskItem
 define('MAX_ACTION', count(lang('state_order')) - 2);
 
 // set correct locale settings (timezone must be set first)
-$timezone = $ini->item('timezone');
+$timezone = ini('timezone');
 // @ to avoid error NOTICE if timezone does not exist
 if (@date_default_timezone_set($timezone) === false) {
     // this will return a suitable default if user has not set the timezone in his server
     $timezone = date_default_timezone_get();
     date_default_timezone_set($timezone);
 }
-$location = setlocale(LC_ALL, $cur_lang);
+
+
+log&&msg('Compiling the lessCSS files');
+
+// compile LESS css sheets
+require_once(APP_PATH . 'lib/lessc.inc.php');
+
+try {
+    \lessc::ccompile('css/style.less', 'css/style.css');
+} catch (exception $ex) {
+    exit('lessc fatal error:<br />'.$ex->getMessage());
+}
 ?>

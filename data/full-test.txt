@@ -12,11 +12,11 @@ X- click on the filter various commands
 ... do you see the correct task header showing the search expression?
 
 Test: Tasks:
-X- do the task tool icons appear when you hover the mouse over a task?
 X- click on the project headers
 ... do you see correct filter?
-X- can you mark a task complete? incomplete again? [message?]
+X- do the task tool icons appear when you hover the mouse over a task?
 X- can you highlight a task (star)? [message]
+X- can you mark a task complete? incomplete again? [message?]
 X- can you delete a task?
 X- can you archive a task?
 X- can you archive all tasks?
@@ -38,8 +38,8 @@ X- filter (#),
 X- date (<>),
 X- date range,
 X- interval (=)
-X- words?
 X- tags (@)
+X- words?
 X- can you use -word to exclude words
 X- does "phrase search" work?
 X- multiple word searches?
@@ -63,13 +63,12 @@ X- what about multi-line notes?
 ... not possible yet!
 X- how about syntax formatting: **bold** //italic// __underline__
 
-Test: Edit-in-place:
 X- can you double-click to edit a task in place? @edit
 X- is the box big enough?
 X- can you cancel by pressing escape/cancel button? @edit
 X- can you add notes, tags, dates?
-X- does it save correctly?
 X- does it expand interval tags? (today, tommorrow, etc...) @10-Jul-2009
+X- does it save correctly?
 
 Test: Tabs:
 X- can you change taskpapers by using the tabs?

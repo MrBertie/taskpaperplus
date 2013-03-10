@@ -1,4 +1,5 @@
 <?php
+namespace tpp\storage;
 
 /**
  * Simple file to access config data from a standard INI file
@@ -10,7 +11,7 @@
  * @author sbent
  */
 
-class Ini implements Iterator {
+class Ini implements \Iterator {
     private $_ini_file = '';
     private $_ini_items = array();
     private $_changed_keys = array();

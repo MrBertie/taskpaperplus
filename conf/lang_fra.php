@@ -4,6 +4,8 @@
  * To change to this language change to 'language=fra' in conf/config.ini file
  */
 
+$lang = array();
+
  /**
  * These filters can be changes to suit your needs/whims!
  *
@@ -65,7 +67,7 @@ $lang['state_colours']      = array('none', 'yellow', 'cyan', 'violet', '');
 
 // main headers and titles
 $lang['projectless']        = '(Pas de sujet)';
-$lang['tagless']            = 'Pas de tag';
+$lang['no_tags']            = 'Pas de tag';
 $lang['task_header']        = 'Tâches';
 $lang['tag_header']         = 'Tags';
 $lang['project_header']     = 'Sujets';

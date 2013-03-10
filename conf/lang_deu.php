@@ -4,6 +4,8 @@
  * To change to this language use the memo bottom right
  */
 
+$lang = array();
+
 /**
  * These filters can be changes to suit your needs/whims!
  *
@@ -65,7 +67,7 @@ $lang['state_colours']      = array('none', 'yellow', 'cyan', 'violet', '');
 
 // main headers and titles
 $lang['projectless']        = '[Kein Projekt]';
-$lang['tagless']            = 'Keine Tags';
+$lang['no_tags']            = 'Keine Tags';
 $lang['task_header']        = 'Aufgaben';
 $lang['tag_header']         = 'Tags';
 $lang['project_header']     = 'Projekte';

@@ -32,11 +32,12 @@ html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, 
 /* basic font and sizes */
 body {
     font:14px/18px "Segoe UI", "Verdana", helvetica, sans-serif;
-    background-color:#FBFBFB;
+    background-color:#F4F0E3;
     /*background-color:#EAEAEA;*/
     width:100%;
     height:100%;
     min-width:50% !important;
+    z-index:0;
 }
 h1 {
     font-size:120%;
@@ -70,8 +71,9 @@ a:hover {
     position:relative;      /* This fixes the IE7 overflow hidden bug */
     clear:both;
     float:left;
-    width:100%;             /* width of whole page */
+    width:99.8%;             /* width of whole page */
     overflow:hidden;        /* This chops off any overhanging divs */
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.23);
 }
 /* common column settings */
 .colright,
@@ -92,18 +94,18 @@ a:hover {
 }
 /* 3 Column settings */
 .threecol {
-    background:#fff;        /* right column background colour */
+    background:#FAF8F3;        /* right column background colour */
     border:1px solid #D7D5D4;
     border-top:0;
 }
 .threecol .colmid {
     right:12%;              /* width of the right column */
-    background:#fff;        /* center column background colour */
+    background:#FAF8F3;        /* center column background colour */
     border-right:1px solid #D7D5D4;
 }
 .threecol .colleft {
     right:70%;              /* width of the middle column */
-    background:#fff;     /* left column background colour */
+    background:#FAF8F3;     /* left column background colour */
     border-right:1px solid #D7D5D4;
 }
 .threecol .tasks {
@@ -121,85 +123,109 @@ a:hover {
                             plus (left column left and right padding) plus (right column left padding) */
 }
 
+#header {
+    position:fixed;
+    width:100%;
+    z-index:99;
+    overflow:hidden;
+    top:0;
+    height:44px;
+    background-color:#FBFBFB;
+    background: -moz-linear-gradient(top, #fdf6e3, #cdc8b7);
+    background: -o-linear-gradient(top, #fdf6e3, #cdc8b7);
+    background: -webkit-linear-gradient(top, #fdf6e3, #cdc8b7);
+    background: linear-gradient(top, #fdf6e3 50%, #cdc8b7 100%);
+}
+#header .right a {
+    position:absolute;
+    top:-5px;
+    right:2em;
+    font-size:75%;
+}
+
+.right,
+.left {
+    float:left;
+    padding:1px 0 3px;
+    height: 40px;
+    line-height:40px;
+}
+.left {
+    float:left;
+    margin-left:2em;
+}
+.right {
+    float: right;
+    margin-right:4em;
+}
+.left a {
+    top:0;
+    right:0;
+    position:relative !important;
+    float:left;
+}
+.left p {
+    vertical-align: top;
+    text-shadow: 0 1px #eee8d5;
+    font-size:1.4em;
+    font-weight:bold;
+    float:left;
+}
+.left p.red {
+    color:#dc322f;
+}
+/* the Taskpaper name and logo */
+.left img {
+    height:32px;
+    padding:4px 4px;
+    border:0;
+    float:left;
+}
+.left img:hover {
+    height:36px;
+    padding:2px 2px;
+    cursor:pointer;
+}
+.right #search-box {
+    position:relative;
+    font:14px Verdana, helvetica, sans-serif;
+    width:540px;
+    padding:3px 6px;
+    margin-bottom:4px;
+    vertical-align:middle;
+    border-width:1px;
+    border-color:#B2B2B1;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    border-radius: 3px;
+}
+.right #search-box:active {
+    border-color:#F7BA00;
+}
+.right img {
+    display:none;
+    position:absolute;
+    top:14px;
+    right:4.4em;
+    height:16px;
+    opacity:0.2;
+}
+.right img:hover {
+    opacity:0.5;
+}
+
+
 #frame {
+    overflow:hidden;
+    padding-top:52px;
     width:90%;
     margin-left:auto;
     margin-right:auto;
     border-top:0;
     padding-bottom:0px;
     text-align:left;
-    background:white;
-}
-
-#header {
-    margin-top:7px;
-    overflow:auto;
-    background-color:#FBFBFB;
-}
-.left {
-    float:left;
-    padding:3px 10px 0;
-    margin:2px 0 0 20px;
-
-}
-/* the Taskpaper name and logo */
-.left img {
-    width:170px;
-    height:32px;
-    padding:4px 4px;
-    border:0;
-}
-.left img:hover {
-    width:174px;
-    height:36px;
-    padding:2px 2px;
-    cursor:pointer;
-}
-.right {
-    float:right;
-    padding:5px 3px 3px 3px;
-    position:relative;
-}
-.right #search-box {
-    font:16px Verdana, helvetica, sans-serif;
-    height:24px;
-    width:540px;
-    padding:3px 6px;
-    margin:7px;
-    margin-right:0;
-    vertical-align:top;
-    border-width:1px;
-    border-color:#B2B2B1;
-    -moz-border-radius:3px;
-    -webkit-border-radius:3px;
-}
-.right #search-box:active {
-    border-color:#F7BA00;
-}
-.right #placeholder {
-    position:absolute;
-    top:17px;
-    left:20px;
-    color:#B2B2B1;
-    font-size:130%;
-}
-.right img {
-    display:none;
-    position:absolute;
-    top:22px;
-    right:12px;
-    height:12px;
-    width:12px;
-    opacity:0.2;
-}
-.right img:hover {
-    opacity:0.5;
-}
-#header a {
-    position:absolute;
-    top:-5px;
-    right:3px;
-    font-size:75%;
+    background:#F4F0E3;
+    height:auto;
 }
 /* main content headers */
 .colmask h1 {
@@ -316,6 +342,7 @@ a:hover {
     font-size:85%;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 #tasks li input {
     vertical-align:1px;
@@ -331,13 +358,14 @@ a:hover {
     background:#F6F7F9;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 .tag:hover,
 .filters span:hover,
 #tasks li .project:hover {
     -moz-box-shadow: 0 0 3px #888;
     -webkit-box-shadow: 0 0 3px #888;
-    box-shadow: 0 0 3px #888;
+    box-shadow: 1px 1px 2px #888;
     cursor:pointer;
 }
 .note, .hidden-note, .reveal {
@@ -387,6 +415,7 @@ a:hover {
     padding:0 4px 0 4px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 /* sequence of CSS colours used for Filters */
 .filter-yellow, .starred {
@@ -441,15 +470,19 @@ a:hover {
 }
 
 #footer {
-    background:#FFF url(img/header.png) bottom left repeat-x;
+    background-image: -moz-linear-gradient(top, #faf8f3, #f4f0e3);
+    background-image: -o-linear-gradient(top, #faf8f3, #f4f0e3);
+    background-image: -webkit-linear-gradient(top, #faf8f3, #f4f0e3);
+    background-image: linear-gradient(top, #faf8f3, #f4f0e3);
     padding:5px;
     text-align:center;
     vertical-align:top;
     margin-top:10px;
-    margin-right:-2px;
     clear:both;
-    color:#003939;
+    color:#586e75;
     height:auto;
+    border: 1px solid #D7D5D4;
+    border-top:0;
 }
 #footer a {
     padding:0 5px 0 5px;
@@ -479,6 +512,7 @@ a:hover {
     border-color:#B2B2B1;
     -moz-border-radius:3px;
     -webkit-border-radius:3px;
+    border-radius: 3px;
 }
 
 /* Buttons and icons */
@@ -516,6 +550,7 @@ a:hover {
     visibility:hidden;
     margin:0px 2px;
     background:rgba(250, 250, 250, 0.75);
+    opacity:0.5;
 }
 .task-buttons input {
     margin:4px 2px 0px 2px;
@@ -529,6 +564,7 @@ a:hover {
     margin:0px;
     height:12px;
     width:12px;
+    opacity:0.5;
 }
 .task-buttons input:hover {
     margin:0px;
@@ -542,6 +578,7 @@ a:hover {
     float:right;
     margin-right:2px;
     padding-right:6px;
+    opacity:0.6;
 }
 
 /* The editing box */
@@ -569,6 +606,7 @@ a:hover {
     border:1px #D7D5D4 solid;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 #edit-view .find-replace-bar input,
 #edit-view .find-replace-bar label {
@@ -619,6 +657,7 @@ a:hover {
     width:200px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 
 /* the syntax cheatsheet */

@@ -1,12 +1,16 @@
 <?php
+namespace tpp;
+use tpp\storage;
 
 /**
- * All localised lang strings pass through here
+ * Convenience function to access all [localised] language strings.
+ *
+ * All localised lang strings pass through here.
  * Set ['hide_tips'] to make the pop up tips disappear
  *
- * @global array $config Configuration file
- * @global array $lang Localised language strings
- * @param string $item Requested $lang item
+ * @global array $config    Configuration file
+ * @global array $lang      Localised language strings
+ * @param string $item      Requested $lang item
  * @return string
  */
 function lang($item) {
@@ -16,12 +20,32 @@ function lang($item) {
     }
     return $lang[$item];
 }
+/**
+ * Convenience function to access all fixed/internal config values.
+ *
+ * @global array $config    Configuration file
+ * @param string $item
+ * @return string
+ */
 function config($item) {
     global $config;
     return $config[$item];
 }
+/**
+ * Convenience function to access user editable config values.
+ *  config, recreated if missing (e.g. new installation).
+ *
+ * @staticvar Ini $ini  Singleton ini instance
+ * @param string $item
+ * @param string $value
+ * @return string
+ */
+//
 function ini($item, $value = null) {
-    global $ini;
+    static $ini = null;
+    if (is_null($ini)) {
+        $ini = new storage\Ini(APP_PATH . 'conf/config.ini', APP_PATH . 'conf/config.new.ini');
+    }
     if (is_null($value)) {
         return $ini->item($item);
     } else {
@@ -29,12 +53,16 @@ function ini($item, $value = null) {
         $ini->save();
     }
 }
+
+function term($item) {
+    global $term;
+    return $term[$item];
+}
 /**
- * COMMON funtions used throughout taskpaper
+ * Useful for POST|GET variables.
  */
-// useful for POST|GET variables
 function isset_or(&$var, $alt) {
-    return (isset($var)) ? $var : $alt;
+    return (isset($var) ? $var : $alt);
 }
 /**
  * @return Long date, will be localised to current language

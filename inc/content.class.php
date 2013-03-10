@@ -1,424 +1,456 @@
 <?php
+namespace tpp\model;
+
 
 /**
- * Manages the raw parsed taskpaper content and the cache
- * Also handles parsing the text file to a cached representation (currently plain arrays)
- *
+ * Simple data structure: all data for one Taskpaper; easily serialised.
  */
 class Content {
-    public $file_path = '';             // full path (inc. name and ext)
-    public $file_name = '';             // file name of this taskpaper file (name only)
-    public $restricted = false;         // is this the archive|trash file? (needed to adapt view template)
 
-    // raw plain -text task list
-    public $plain_text = '';            // (string) plain text string of full task list (for edit box)
-    public $raw_tasks = array();        // task_key      => full plain-text task (all elements); tasks incl. notes
-    public $item_type = array();        // task_key      => item type for each line (task, project, label, etc...)
+    // Taken from file name and path
+    /**
+     * @var string  Full file path to this taskpaper (incl. name and extension).
+     */
+    public $file_path = '';
+    /**
+     * @var string  File name of this taskpaper file (name only).
+     */
+    public $name = '';
+    /**
+     * @var enum    Type of Tab that this taskpaper represents.
+     */
+    public $tab_type = TAB_NORMAL;
 
-    // parsed task elements
-    public $parsed_tasks = array();     // task_key      => the task parsed into its individual elements (array of ParsedTask objects)
 
-    // indices | sorting columns
-    public $project_index = array();    // task_key      => project_key (only projects)
-    public $task_project = array();     // task_key      => project_key (only tasks)
+    // Taken from ast only
+    /**
+     * @var string  The title of this taskpaper.
+     */
+    public $title = '';
+    /**
+     * @var string  Title and its Note as raw text
+     */
+    public $raw_title = '';
+    /**
+     * @var string  Note for this Taskpaper
+     */
+    public $note = '';
+    /**
+     * @var string  The tab position of this taskpaper.
+     */
+    public $index = -1;
+
+    /**
+     * @var string   Plain text string of full task list (for edit box).
+     */
+    public $raw = '';
+
+    /**
+     * @var array   item_key => full plain-text item.
+     *
+     * For all elements: Project, Task, Info; incl. respective notes.
+     * Used only for full-text searching
+     */
+    public $raw_items = array();
+    /**
+     * @var array   item_key => parsed version of ALL item types (as arrays).
+     */
+    public $parsed_items = array();
+    /**
+     * @var array tag_number => tag_name
+     */
+    public $tags = array();
+
+
+    /* indices | sorting columns */
+
+    /**
+     * @var array   item_key => type of each item_key (Project, Task, Label, etc...)
+     */
+    public $types = array();
+    /**
+     * @var array   project_index => item_key (only Projects)
+     */
+    public $projects = array();
+    /**
+     * @var array   item_key  => project_index (reverse lookup)
+     *
+     * I.e. which items are Projects?
+     */
+    public $project_index = array();
+
+
+    /**
+     * @var array   number => item_key (only tasks).
+     *
+     * I.e. which items are Tasks?
+     */
+    public $tasks = array();
+    /**
+     * @var array   item_key => item_key (only project items).
+     *
+     * Which project does this Task|Info belong to?
+     */
+    public $task_project = array();
+    /**
+     * @var array   item_key  => todo date (only Tasks)
+     */
     public $task_date = array();
+    /**
+     * @var array   item_key  => Task state (only Tasks).
+     *
+     * (None, Next, Pending, Maybe, Done)
+     */
     public $task_state = array();
 
-    public $all_tags = array();         // tag_number    => tag_name
-    public $all_projects = array();     // project_key   => project_name
 
-    // cached counts
+    /**
+     * @var integer cached Task count
+     */
     public $task_count = 0;
+    /**
+     * @var integer cached Project count
+     */
     public $project_count = 0;
+    /**
+     * @var integer cached Tag count
+     */
     public $tag_count = 0;
-
-    private $_cache = array();
-    private $_cache_path = '';
-
-    function __construct($file_path, $file_name, $restricted = false) {
-        $this->file_path = $file_path;
-        $this->file_name = $file_name;
-        $this->restricted = $restricted;
-        $this->_cache_path = config('cache_path') . $file_name;
-    }
     /**
-     * Update from cache to/from taskpaper file (newest only)
-     * both are from disk, however the cache is pre-built, hence much quicker
-     */
-    function update() {
-        $file_time = filemtime($this->file_path);
-        if (file_exists($this->_cache_path)) {
-            $cache_time = filemtime($this->_cache_path);
-        } else {
-            $cache_time = 0;
-        }
-        if ($cache_time >= $file_time) {
-            $this->_from_cache();
-        } else {
-            $this->plain_text = file_get_contents($this->file_path);
-            $this->_build_task_lists($this->plain_text);
-            $this->_to_cache();
-        }
-    }
-    /**
-     * Save any taskpaper edits, whether internal or external (i.e. user)
-     * Updates cache|file depending on $edit_type param
      *
-     * @param const  EDIT_CACHE|EDIT_STATE|EDIT_PLAINTEXT => type of update necessary
-     * @param string $edited_tasks plain text list of user edited tasks
+     * @var count of all items
      */
-    function save_edits($edit_type, $edited_tasks = null) {
-        if ($edit_type == EDIT_STATE) {
-            // no need to rebuild entire cache for simple state changes (done|highlighting) or sorting
-            $this->plain_text = $this->_build_plain_text($this->raw_tasks);
+    public $count = 0;
 
-        } elseif ($edit_type == EDIT_CACHE) {
-            // assume significant cache edit, i.e. tags, dates, added, position changes, etc...,
-            // => full-rebuild, as other helper arrays need to be updated too!
-            $plain_text = implode("\n", $this->raw_tasks);
-            $this->_build_task_lists($plain_text);
 
-        } elseif ($edit_type == EDIT_PLAINTEXT) {
-            // mainly user edited plain-text (plus a few other internal edits of text directly)
-            $this->_build_task_lists($edited_tasks);
-        }
-        file_put_contents($this->file_path, $this->plain_text);
-        $this->_to_cache();
-    }
+
     /**
-     * Convert any interval tags (=today, =tomorrow, etc...) to real dates
+     * Returns the project based on its item_key (not index number!).
      *
-     * @param string $plain_task => a user typed task
-     * @return string
+     * @param integer $key parsed_item item_key
+     * @return object parsed Project
      */
-    function expand_interval_tags($plain_task) {
-        // find any tags
-        preg_match_all(config('interval_tok_rgx'), $plain_task, $matches, PREG_SET_ORDER);
-        // do they match a time period?
-        $interval_filter = new IntervalFilter($this);
-        foreach ($matches as $match) {
-            $orig_tag = $match[0];
-            $date = $interval_filter->interval_as_date($orig_tag);
-            if ($date !== false) {
-                $plain_task = preg_replace('/' . $orig_tag . '/', "@" . date(config('date_format'), $date[1]), $plain_task);
-            }
-        }
-        return $plain_task;
-    }
-    /**
-     * Returns the project name based on task item key (not project number!)
-     *
-     * @param integer $key TaskItem index key
-     * @return string The project name
-     */
-    function proj_name_by_key($key, $with_number = false) {
-        $project = $this->all_projects[$this->project_index[$key]];
-        if ($with_number === true) {
-            $project = $this->project_index[$key] . '. ' . $project;
-        }
+    function project_by_key($key) {
+        $project = $this->parsed_items[$key];
         return $project;
     }
+
+
     /**
-     *  Returns the project name, based on its place in the list (number in sidebar)
+     * Returns the project based on its ordinal position in the list (= number in sidebar).
      *
-     * @param integer $key  The project key/number
-     * @param bool $with_number
-     * @param bool $with_suffix
-     * @return string   Project name with/without number and : suffix
+     * @param integer $index The project key
+     * @return object ParsedProject
      */
-    function proj_name_by_num($number, $with_number = false) {
-        $project = $this->all_projects[$number];
-        if ($with_number === true) {
-            $project = $number . '. ' . $project;
-        }
+    function project_by_index($index) {
+        $project = $this->parsed_items[$this->projects[$index]];
         return $project;
     }
-    function proj_name_by_task($key) {
-        $project = $this->all_projects[$this->task_project[$key]];
+
+
+    /**
+     * Return a project based on the key of a task that belongs to it.
+     *
+     * @param string $key A task index key
+     * @return object ParsedProject class
+     */
+    function project_by_task($key) {
+        $project_key = $this->projects[$this->task_project[$key]];
+        $project = $this->parsed_items[$project_key];
         return $project;
     }
+
+
     /**
-     * return project number based on its index key
+     * Re-order the *raw_task* list based on a jQuery Sortable list of IDs.
+     *
+     * Used when user does a drag n drop sort on the task list.
+     * Sorting is done in-place, nothing is returned.
+     *
+     * see: http://stackoverflow.com/questions/348410/sort-an-array-based-on-another-array
+     * for details of how this works
+     *
+     * @param array $order  New sorting order (array of IDs)
+     * @param string $project Specific Project that should be sorted
      */
-    function proj_num($key) {
-        $number = $this->project_index[$key];
-        return $number;
-    }
-    /**
-     * re-order the raw_task list based on a jquery 'sortable' list of IDs
-     */
-    function reorder($new_order, $project = null) {
-        // new task array: keys only
-        $new_raw_tasks = array_flip(explode(',', $new_order));
-        $raw_tasks = & $this->raw_tasks;
-        // match tasks to new key locations
-        foreach ($new_raw_tasks as $key => &$value) {
-            $value = $raw_tasks[$key];
-        }
+    function reorder($order, $project = null) {
+        $order = array_flip($order);
+        //$sorted_items = array_intersect_key($this->parsed_items, $order);
+        $sorted_items = array_merge($order, $this->parsed_items);
+        //$sorted_items = array_merge($this->parsed_items, $sorted_items);
+
         // deal with sorting one project by itself
         if ($project !== null) {
-            $pos= array_search($project, $this->project_index);
-            $raw_tasks = array_insert($raw_tasks, $pos, $new_raw_tasks, 1, true);
+            $pos = array_search($project, $this->project_index);
+            $this->parsed_items = array_insert($this->parsed_items, $pos, $sorted_items, 1, true);
         } else {
-            $raw_tasks = $new_raw_tasks;
+            $this->parsed_items = $sorted_items;
         }
     }
 
-    /******************************************
-     * Local function
-     */
-    private function _to_cache() {
-        $cache = & $this->_cache;
-        $cache['plain_text'] = $this->plain_text;
-        $cache['raw_tasks'] = $this->raw_tasks;
-        $cache['item_type'] = $this->item_type;
-        $cache['parsed_tasks'] = $this->parsed_tasks;
-        $cache['task_count'] = $this->task_count;
-        $cache['all_tags'] = $this->all_tags;
-        $cache['tag_count'] = $this->tag_count;
-        $cache['tag_freq'] = $this->tag_freq;
-        $cache['all_projects'] = $this->all_projects;
-        $cache['project_count'] = $this->project_count;
-        $cache['project_index'] = $this->project_index;
-        $cache['task_project'] = $this->task_project;
-        $cache['task_date'] = $this->task_date;
-        $cache['task_state'] = $this->task_state;
-        $cache['file_path'] = $this->file_path;
-        $cache['file_name'] = $this->file_name;
-        file_put_contents($this->_cache_path, serialize($cache));
-    }
-    private function _from_cache() {
-        $cache = unserialize(file_get_contents($this->_cache_path));
-        $this->plain_text = $cache['plain_text'];
-        $this->raw_tasks = $cache['raw_tasks'];
-        $this->item_type = $cache['item_type'];
-        $this->parsed_tasks = $cache['parsed_tasks'];
-        $this->task_count = $cache['task_count'];
-        $this->all_tags = $cache['all_tags'];
-        $this->tag_count = $cache['tag_count'];
-        $this->tag_freq = $cache['tag_freq'];
-        $this->all_projects = $cache['all_projects'];
-        $this->project_count = $cache['project_count'];
-        $this->project_index = $cache['project_index'];
-        $this->task_project = $cache['task_project'];
-        $this->task_date = $cache['task_date'];
-        $this->task_state = $cache['task_state'];
-        $this->file_path = $cache['file_path'];
-        $this->file_name = $cache['file_name'];
-    }
-    /**
-     * opposite of function below: builds plain text string (from raw_task cache)
-     * Used by save_edits(EDIT_STATE) mainly
-     */
-    private function _build_plain_text($raw_tasks) {
-        $plain_text = current($raw_tasks) . "\n";
-        while (next($raw_tasks)) {
-            $item_type = $this->item_type[key($raw_tasks)];
-            if ($item_type == ITEM_PROJ || $item_type == ITEM_LABEL) {
-                $plain_text .= "\n";
-            }
-            $plain_text .= current($raw_tasks) . "\n";
-        }
-        return $plain_text;
-    }
-    /**
-     * Build all the cached lists: tasks, tags, projects (from plain_text)
-     * plus: project_index => index locations of project header lines
-     * plus: task_project => which project this task belongs to
-     */
-    private function _build_task_lists($plain_text) {
-        // clear existing task data
-        $this->raw_tasks = array();     // line no. => raw plain text of task
-        $this->item_type = array();     // line no. => item type for line (task, project, label)
-        $this->parsed_tasks = array();  // line no. => parsed task object
 
-        $this->task_project = array();  // line no. => project idx no. for this task
-        $this->task_date = array();     // line no. => task date
-        $this->task_state = array();    // line no. => task's state
+// Currently unused, maybe added sometime to allow
+// entire projects to be removed
 
-        $this->project_index = array(); // line no.(project line no)  => project idx no.
-        $this->all_projects = array();  // project idx  => project name
-        $this->all_tags = array();      // tag idx      => tag name
-        $this->tag_freq = array();      // freq counts for tags
-
-        $this->all_projects[0] = lang('projectless');   // first project is for orphaned tasks...
-
-        $all_lines = explode("\n", $plain_text);
-        $plain_text = '';
-        $project_idx = 1;
-        $cur_project_idx = 0;
-        $line_idx = -1;
-        $task_idx = -1;
-        $in_block = false;
-        $block_note = '';
-        $done_state = MAX_ACTION + 1;
-        $cur_task = new ParsedTask();
-
-        // extra locals to avoid calling config on each loop! [optimisation based on Cachegrind results]
-        $note_prefix = config('note_prefix');
-        $note_rgx = config('note_rgx');
-        $task_rgx = config('task_rgx');
-        $project_rgx = config('project_rgx');
-        $label_prefix = config('label_prefix');
-
-        // NOTE: "numeric" STRING keys are used for the task list, easier for sorting, inserting and creating unique merges
-        $max = count($all_lines) - 1;
-        $cnt = 0;
-        $pre = $post = '';
-        foreach ($all_lines as $line) {
-            $line = trim($line);
-
-            // start|end of a block note
-            if ($task_idx >= 0 && $line == $note_prefix || $in_block && $cnt == $max) {
-                $in_block = !$in_block;
-                $this->raw_tasks['0' . $line_idx] .= "\n" . $line;
-                if (!$in_block) {
-                    $cur_task->notes[] = new Note($block_note, BLOCK_NOTE);
-                    $block_note = '';
-                }
-
-            // blocknotes: all other syntaxes are ignored inside, incl. blank lines
-			} elseif ($in_block) {
-                $this->raw_tasks['0' . $line_idx] .= "\n" . $line;
-                $block_note .= (empty($block_note)) ? $line : "\n" . $line;
-
-            // single line notes
-            } elseif ($task_idx >= 0 && preg_match($note_rgx, $line, $matches) > 0) {
-                // all notes belong to previous task (if there is one...)
-                $this->raw_tasks['0' . $line_idx] .= "\n" . $line;
-                $cur_task->notes[] = new Note($matches[1], SINGLE_NOTE);
-                $in_block = false;
-
-            } elseif (preg_match($task_rgx, $line) > 0) {
-                $line_idx++;
-                $task_idx++;
-                // collect the task, both raw and parsed
-                $line_key = '0' . $line_idx;
-                $this->raw_tasks[$line_key] = $line;
-                $this->item_type[$line_key] = ITEM_TASK;
-                $this->parsed_tasks[$line_key] = $this->_parse_task($line);
-                $cur_task = & $this->parsed_tasks[$line_key];
-
-                // also create searching|sorting arrays
-                $this->task_date[$line_key] = $cur_task->date;
-                $this->task_state[$line_key] = ($cur_task->done === true) ? $done_state : $cur_task->action;
-                $this->task_project[$line_key] = $cur_project_idx;
-
-                // keep adding all tags found (a unique list will be created later)
-                if ( ! empty($cur_task->tags)) {
-                    $this->all_tags = array_merge($this->all_tags, $cur_task->tags);
-                }
-                $in_block = false;
-
-            } elseif (preg_match($project_rgx, $line, $match) > 0) {
-                $line_idx++;
-                // If a topic was the first line then there were no 'topic-less' tasks
-                if ($task_idx == -1) {
-                    $this->all_projects[0] = '';
-                }
-                if ($line_idx > 0) {
-                    $pre= "\n";
-                }
-                $project_key = '0' . $line_idx;
-                $this->raw_tasks[$project_key] = $cur_project = $line;
-                $this->item_type[$project_key] = ITEM_PROJ;
-                $this->all_projects[$project_idx] = $match[1];
-                $this->project_index[$project_key] = $project_idx;
-                $cur_project_idx = $project_idx++;
-                $in_block = false;
-            // everything else is viewed as a descriptive "label"
-            } elseif ( ! empty($line)) {
-                $line_idx++;
-                $line_key = '0' . $line_idx;
-                $this->raw_tasks[$line_key] .= $line;
-                $this->item_type[$line_key] = ITEM_LABEL;
-                $in_block = false;
-                if ($line_idx > 0) $pre= "\n";
-                $post = "\n";
-            }
-            if ( ! empty($line)) $plain_text .= $pre . $line . "\n" . $post;
-            $cnt++;
-            $pre = $post = '';
-        }
-        $this->plain_text = str_replace("\n\n\n", "\n\n", $plain_text);
-
-        // get a list of all unique tags
-        $this->all_tags = preg_grep(config('date_rgx'), $this->all_tags, PREG_GREP_INVERT);
-        natcasesort($this->all_tags);
-        $this->all_tags = array_count_values($this->all_tags);
-        //$this->all_tags = array_unique($this->all_tags);    //without the @ prefix: for display only!
-
-        // cache the various list counts to avoid further lookup
-        $this->task_count = $task_idx + 1;
-        $this->project_count = $project_idx;
-        $this->tag_count = count($this->all_tags);
-    }
-
-    /**
-     * Parse a given task into its elements
-     * NOTE: when a task is displayed, the 'done' state will take priority,
-     *       although all state information is parsed and stored
-     * @param string $task  raw task
-     * @return array of task tokens by name (done, text, tags, state, date)
-     */
-    private function _parse_task($task) {
-        static $rgx = array();
-        // cache the regexes to save microseconds on each task build
-        if (empty($rgx)) {
-            $rgx['action_rgx'] = config('action_rgx');
-            $rgx['task_prefix'] = config('task_prefix');
-            $rgx['done_prefix'] = config('done_prefix');
-            $rgx['date_tag_rgx'] = config('date_tag_rgx');
-            $rgx['tag_rgx'] = config('tag_rgx');
-            $rgx['tag_prefix'] = config('tag_prefix');
-        }
-        // defaults for things that could be missing
-        $date = 0;
-        $tags = array();
-        $text = $task;
-
-        // get task action: 0. none, 1.next, 2.wait, 3.maybe (can be customised in config.php)
-        $done = false;
-        $action = 0;
-        if (preg_match($rgx['action_rgx'], $task, $matches) == 1) {
-            $action = mb_strlen($matches[1]);
-            $text = mb_substr($text, 0, -$action);
-            if ($action > MAX_ACTION) $action = MAX_ACTION;
-        }
-        $done_len = mb_strlen($rgx['task_prefix']);
-        if (mb_substr($text, 0, 1) == $rgx['done_prefix']) {
-            $done = true;
-            $text = mb_substr($text, $done_len + 1);
-        } else {
-            $text = mb_substr($text, 1);
-        }
-
-        // convert any =interval tags into real tasks
-        $text = $this->expand_interval_tags($text);
-
-        if (preg_match($rgx['date_tag_rgx'], $text, $matches) == 1) {
-            $date = strtotime($matches[1]);
-        }
-        if (preg_match_all($rgx['tag_rgx'], $text, $matches) >= 1) {
-            $tags = $matches[1];
-        }
-        $text = preg_replace($rgx['tag_rgx'], '', $text);   //remove the tags!
-        // NOTE: notes are added whilst building the cached task list (they are on following lines)
-        return new ParsedTask($text, $done, $tags, $action, $date);
-    }
+//    /**
+//     * Remove a Project and all its child Tasks and Info lines
+//     */
+//    private function remove_project($key) {
+//        if (array_key_exists($key, $this->raw_items)) {
+//            // remove all tasks in this project first
+//            $id = $this->project_index[$key];
+//            $to_remove = array_keys($this->task_project, $id);
+//            foreach (keys($to_remove) as $key) {
+//                $this->remove_task($key);
+//            }
+//            // now remove the project itself
+//            unset($this->raw_items[$key],
+//                  $this->projects[$id],
+//                  $this->project_index[$key]
+//                  );
+//            $this->project_count--;
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+//
+//
+//    /**
+//     * Remove either tasks or info lines.
+//     */
+//    private function remove_task($key) {
+//        if (array_key_exists($key, $this->raw_items)) {
+//            unset($this->raw_items[$key],
+//                  $this->tasks[$key]
+//                  );
+//            if ($this->types[$key] == ITEM_TASK) {
+//                unset($this->task_date[$key],
+//                      $this->task_state[$key],
+//                      $this->task_project[$key]
+//                      );
+//            }
+//            unset ($this->types[$key]);
+//            $this->task_count--;
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 }
 
-/**
- * A raw task parsed into its composite elements
- */
-class ParsedTask {
-    function __construct($text = '', $done = false, $tags = array(), $action = 0, $date = '', $notes = array()) {
-        $this->text = $text;
-        $this->done = $done;
-        $this->tags = $tags;
-        $this->action = $action;
-        $this->date = $date;
-        $this->notes = $notes;
+
+
+
+
+
+class ContentBuilder {
+
+    const OFFSET = 2;
+
+    private $_cont;
+    private $_offset;
+
+    const START = '00';
+
+
+    function build(\StdClass $ast, $name = null, $filepath = null) {
+        $this->_cont = new Content;
+        $this->reset_key();
+
+        $this->add_page($ast);
+        $this->set_up($name, $filepath);
+        $this->refresh();
+        $this->_cont->raw = $this->raw_items_to_raw($this->_cont);
+        return $this->_cont;
+    }
+
+
+    function rebuild(\StdClass $ast, Content $content) {
+        return $this->build($ast, $content->name, $content->file_path);
+    }
+
+
+    /**
+     * Rebuild raw_items & raw from parsed_items
+     * Mainly done after small state changes and sorting
+     */
+    function rebuild_from_parsed(Content &$content) {
+        $content->raw_items = $this->_rebuild_raw_items($content->parsed_items);
+        $content->raw = $this->_rebuild_raw($content->raw_items,
+                                            $content->raw_title);
+        return $content;
+    }
+
+
+    /**
+     * Used by the to
+     * @param \tpp\model\Content $content
+     * @return type
+     */
+    function parsed_items_to_raw(Content $content) {
+        $raw_items = $this->_rebuild_raw_items($content->parsed_items);
+        $raw_title = $content->raw_title;
+        return $this->_rebuild_raw($raw_items, $raw_title);
+    }
+
+
+    function raw_items_to_raw(Content $content) {
+        $raw_items = $content->raw_items;
+        $raw_title = $content->raw_title;
+        return $this->_rebuild_raw($raw_items, $raw_title);
+    }
+
+
+    private function _rebuild_raw_items(Array $parsed_items) {
+        $raw_items = array_map(array($this, '_get_raw'), $parsed_items);
+        return $raw_items;
+    }
+
+
+    /**
+     * Rebuilds the raw text file.
+     *
+     * Make raw presentation look better, adds extra blank lines before projects, and insesrts the title
+     * @param array $raw_items
+     * @param string $raw_title
+     * @return string
+     */
+    private function _rebuild_raw(Array $raw_items, $raw_title = '') {
+        $raw = ( ! empty($raw_title)) ? $raw_title . "\n\n" : '';
+        $raw .= implode("\n", $raw_items);
+        return $raw;
+    }
+
+
+    private function next_key() {
+        $key = '0' . $this->_offset;
+        $this->_offset += 10;
+        return $key;
+    }
+
+
+    private function reset_key() {
+        $this->_offset = self::START;
+    }
+
+
+    private function add_page(\StdClass $parsed) {
+        $this->_cont->title = $parsed->text;
+        $this->_cont->note = $parsed->note;
+        $this->_cont->index = ( ! empty($parsed->index) ? (int) $parsed->index + self::OFFSET : '');
+        $this->_cont->raw_title = $this->_get_raw($parsed);
+        $this->_cont->project_count = count($parsed->children);
+
+        foreach ($parsed->children as $project) {
+            $this->add_project($project);
+        }
+    }
+
+
+    private function add_project(\StdClass $parsed) {
+
+        $key = $this->_basic($parsed, $parsed->index > 0);
+
+        $this->_cont->projects[$parsed->index] = $key;
+        $this->_cont->project_index[$key] = $parsed->index;    // reverse lookup
+
+        foreach($parsed->children as $item) {
+            $add = 'add_' . $item->type;
+            $this->$add($item, $parsed);
+        }
+
+        // add a raw blank line below project for better raw display
+        if ( ! ($parsed->index == 0 && empty($parsed->children)))  {
+            $this->_cont->raw_items[] = '';
+        }
+    }
+
+
+    private function add_task(\StdClass $parsed, $proj) {
+        $key = $this->_basic($parsed);
+        $this->_basic_item($parsed, $proj, $key);
+
+        // Create searching|sorting arrays unique to tasks
+        $this->_cont->tasks[] = $key;  // only tasks
+        $this->_cont->task_date[$key] = $parsed->date;
+        $this->_cont->task_state[$key] = ($parsed->done) ? MAX_ACTION + 1 : $parsed->action;
+        $this->_cont->tags = array_merge($this->_cont->tags, $parsed->tags);
+        $this->_cont->task_count++;
+    }
+
+
+    /**
+     * DB items set by task, info types only
+     * @param \StdClass $parsed
+     * @param type $key
+     */
+    private function add_info(\StdClass $parsed, $proj) {
+        $key = $this->_basic($parsed);
+        $this->_basic_item($parsed, $proj, $key);
+    }
+
+
+    private function _basic_item(\StdClass $parsed, $proj, $key) {
+        $parsed->project_key = $proj->key;
+        $parsed->project_name = $proj->text;
+        $parsed->project_index = $proj->index;
+        $this->_cont->task_project[$key] = $proj->index;
+    }
+
+
+    /**
+     * DB items set by all item types.
+     *
+     * @param \StdClass $parsed
+     * @param type $key
+     * @param type $no_raw
+     */
+    private function _basic(\StdClass $parsed, $get_raw = true) {
+        $key = $this->next_key();
+        $parsed->key = $key;
+        $this->_cont->types[$key] = $parsed->type;
+        $this->_cont->parsed_items[$key] = $parsed;
+        if ($get_raw) $this->_cont->raw_items[$key] = $this->_get_raw($parsed);
+
+        return $key;
+    }
+
+
+    private function _get_raw(\StdClass $parsed) {
+        $raw = $parsed->raw . ($parsed->note->len > 0 ? "\n" . $parsed->note->raw : '');
+        return $raw;
+    }
+
+
+    /**
+     * Sets up the Content, including the correct tab names for Trash and Archive, tag index, task and item count.
+     */
+    private function set_up($name, $file_path) {
+        $this->_cont->name = $name;
+        $this->_cont->file_path = $file_path;
+
+        // Confirm the Tab type
+        if ($name == FILE_TRASH) {
+            $this->_cont->tab_type = TAB_TRASH;
+            $this->_cont->index = 1;
+            $this->_cont->title = \tpp\lang('trash_lbl');
+        } elseif ($name == FILE_ARCHIVE) {
+            $this->_cont->tab_type = TAB_ARCHIVE;
+            $this->_cont->index = 2;
+            $this->_cont->title = \tpp\lang('archive_lbl');
+        }
+    }
+
+
+    private function refresh() {
+        // Get a sorted list of all unique tags with frequency of use.
+        natcasesort($this->_cont->tags);
+        $this->_cont->tags = array_count_values($this->_cont->tags);
+        $this->_cont->tag_count = count($this->_cont->tags);
+
+        $this->_cont->task_count = count($this->_cont->tasks);
+        $this->_cont->count = count($this->_cont->raw_items);
     }
 }
 ?>
