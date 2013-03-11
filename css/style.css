@@ -69,6 +69,7 @@ a:hover {
   background:#f7f5ee;
   border:1px solid #c9c7c6;
   border-bottom:0;
+  font-size:bolder;
   padding-left:1px;
   z-index:100;
 }
@@ -204,9 +205,9 @@ a:hover {
   font-family:"Calibri";
   font-size:115%;
   margin-bottom:2px;
-  margin-left:1em;
-  padding-left:0.5em;
-  text-indent:-0.5em;
+  margin-left:0.6em;
+  padding-left:0.3em;
+  text-indent:-0.3em;
 }
 .projects ol li:hover {
   cursor:pointer;
@@ -218,7 +219,7 @@ a:hover {
   line-height:1.6em;
   list-style:none;
   margin-bottom:2px;
-  margin-left:10px;
+  margin-left:0.4em;
   padding-bottom:2px;
 }
 #view-tasks h1 { color:#073642; }
@@ -262,6 +263,7 @@ a:hover {
   display:block;
   font-size:105%;
   margin-bottom:3px;
+  margin-left:0.2em;
   margin-top:12px;
   padding-bottom:2px;
   padding-top:2px;

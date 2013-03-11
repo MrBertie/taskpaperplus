@@ -85,7 +85,7 @@ class TaskTemplate extends Template {
             $note = '<ul>';
             if ($multi) {
                 $full_text = str_replace("\n", '<br/>', $this->_h($text));
-                $title = strtok($this->_h($text), "\n") . ' …';
+                $title = strtok($this->_h($text), "\n") . '&nbsp; ▼';
                 $note .= '<li class="note reveal" title="">'  .
                           '<p>' . $title . '</p></li>' .
                           '<li class="hidden-note reveal" title="">' .

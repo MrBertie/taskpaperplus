@@ -302,6 +302,7 @@ class Dispatcher extends BasicDispatcher {
         $matched = preg_match($term['add_to_proj'], $task, $matches);
         if ($matched !== false && $matched > 0) {
             $project_index = $matches[1];
+            // TODO: this is rubbish--no check for symbol!  What if * at end?
             // remove the project number from end (everything after last space)
             $task = mb_substr($task, 0, strrpos($task, ' ', -1));
 
