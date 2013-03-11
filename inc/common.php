@@ -79,21 +79,21 @@ function no_underscores($text) {
 }
 
 /**
- * Inserts the $insert array into the $array at the given $key position (assoc|numeric key)
+ * Inserts the $insert array into the $array at the $key position (assoc|numeric key).
  *
- * @param array $array
- * @param numeric|string $key
- * @param array $insert
- * @param bool $overwrite   true => over write existing items (up to length of $insert array)
+ * @param array $array  The target array to insert into
+ * @param numeric|string $key   The location to insert (0-based like arrays)
+ * @param array $insert The array to be inserted.
+ * @param bool $overwrite   if true: over write existing items (up to length of $insert array only!)
  * @return array
  */
 function array_insert($array, $key, $insert, $offset = 0, $overwrite = false) {
   $index = array_search($key, array_keys($array));
-  if ($index === FALSE) $index = count($array); // insert at end of array if $key not found
+  if ($index === FALSE) {
+      $index = count($array); // insert at end of array if $key not found
+  }
   $skipped = ($overwrite) ? count($insert) : 0;
   $begin = array_slice($array, 0, $index + $offset);
   $end = array_slice($array, $index + $offset + $skipped);
   return array_merge($begin, $insert, $end);
 }
-
-?>

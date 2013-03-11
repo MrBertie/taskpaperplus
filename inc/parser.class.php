@@ -344,16 +344,19 @@ class Parser {
         // defaults for things that could be missing
         $date = 0;
         $tags = array();
+        // 0 = full match, 1 = done, 2 = text, 3 = action
+        $match = array('', '', '', '');
 
         // First convert any =interval tags into real tags
         $task = $this->expand_interval_tags($task);
 
         $done = (bool) (strtolower($task[0]) == strtolower($this->term['done_prefix']));
-        de&&bug($task);
+
         preg_match($this->term['split_task'], $task, $match);
         $action = strlen(trim($match[3]));
-        if ($action > MAX_ACTION) $action = MAX_ACTION;
-
+        if ($action > MAX_ACTION) {
+            $action = MAX_ACTION;
+        }
         $text = $match[2];
 
         if (preg_match($this->term['tag_date'], $text, $date_match) == 1) {

@@ -1,0 +1,5 @@
+﻿# ignore all files in this folder (personal data!)
+*
+
+# except this .gitignore of course
+!.gitignore

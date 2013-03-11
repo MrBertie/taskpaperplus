@@ -328,7 +328,7 @@ class Taskpaper extends TaskpaperPersist {
 
     function replace($key, $text) {
         $new_item = array('new' => $text);
-        self::$_content->raw_items = array_insert(self::$_content->raw_items, $key, $new_item);
+        self::$_content->raw_items = \tpp\array_insert(self::$_content->raw_items, $key, $new_item);
         self::update(UPDATE_PARSED);
     }
 

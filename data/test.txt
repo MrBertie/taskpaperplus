@@ -1,18 +1,22 @@
 New project:
-X- new task @tag @20-Aug-2010
-...
+X- new task #tag #20-Aug-2010
+..
 new line
-2nd line...
+2nd line
+..
 X- task
-...new note
-...
-...end note
+    new note
 - new task **
-- task with a single tag @1tag
+- task with a single tag #1tag
 
 Project 2:
 X- second task
 - new task @ home [http://www.google.com|Google] and [http://www.portableapps.com|PortableApps] *
-... note
+    note
 - simple task
-... some junk
+    some junk
+- another useless task
+    with a simple useless note
+
+Project 3:
+- with a task

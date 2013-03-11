@@ -31,7 +31,7 @@ require_once(APP_PATH . 'inc/autoload.php');
 // Basic initialisation, config setup
 //***************************************
 
-// load the global app config; including base paths
+// Load the global app config; including base paths
 $config = array();
 require_once(APP_PATH . 'conf/config.php');
 
@@ -146,14 +146,14 @@ define('RES_NO_SPACE', 2);
 define('RES_NO_SUCH_KEY', 3);
 
 
-// regex patterns, terms and symbols used globally in app
+// Regex patterns, terms and symbols used globally in app
 require_once(APP_PATH . 'conf/term.php');
 
-// basic app functions: config() lang(), ini(), + general functions
+// Basic app functions: config() lang(), ini(), + general functions
 require_once(APP_PATH . 'inc/common.php');
 
 
-// load global language array
+// Load global language array
 // language defaults to en (English) if missing; set in ini file
 $langs = glob('./conf/lang_*');
 foreach($langs as $lang) {
@@ -184,14 +184,13 @@ if (@date_default_timezone_set($timezone) === false) {
 }
 
 
-log&&msg('Compiling the lessCSS files');
-
 // compile LESS css sheets
 require_once(APP_PATH . 'lib/lessc.inc.php');
+
+log&&msg('Compiling the lessCSS files');
 
 try {
     \lessc::ccompile('css/style.less', 'css/style.css');
 } catch (exception $ex) {
     exit('lessc fatal error:<br />'.$ex->getMessage());
 }
-?>
