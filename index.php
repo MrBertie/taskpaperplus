@@ -14,4 +14,3 @@ $app->dispatcher->respond();
 $app->cache->cleanup();
 
 log&&msg(__METHOD__, 'shutting App down');
-?>

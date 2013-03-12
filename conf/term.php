@@ -62,4 +62,4 @@ $term['date_tok']         = '~([' . $term['date_prefix'] . ']|>|<)?(' . $date_on
 $term['range_tok']        = '~('. $date_only . ')\.\.(' . $date_only . ')~u';
 $term['interval_tok']     = '~([' . $term['date_prefix'] . ']|>|<)(\d{0,2})(\w+)~u';
 $term['state_tok']        = '/[' . $term['state_prefix'] . '](\w+)/u';
-$term['add_to_proj']      = '`((?<=\/)\d{1,2}$|\d{1,2}(?=:$))`';  // the add to project syntax in search box (/1 or 1:)
+$term['add_to_proj']      = '`(.+?)(\/\d{1,2}$|\d{1,2}:)$`';  // the add to project syntax in search box (/1 or 1:)

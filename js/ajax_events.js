@@ -247,14 +247,10 @@ var app = (function () {
 
         $("#home").on("click", reset);
 
-        var indent = function() {
-            return '    ';
-        };
 
         var save_edits = function () {
             request({event: 'save', value: $text_area.val()});
             $('#edit-view textarea')
-                .unbind('keypress', 'tab', indent)
                 .unbind('keydown', 'ctrl+return meta+return', save_edits)
                 .unbind('keydown', 'esc', reset);
         };
@@ -262,7 +258,6 @@ var app = (function () {
         $("#edit-button").on("click", function () {
             request({event: 'edit'}, function () {
                 $('#edit-tasks textarea')
-                    .bind('keypress', 'tab', indent)
                     .bind('keydown', 'ctrl+return meta+return', save_edits)
                     .bind('keydown', 'esc', reset);
             });
@@ -288,7 +283,35 @@ var app = (function () {
         });
 
 
+        var add_task = function (e) {
+            var expression = $search_box.val();
+            // if ctrl+enter add the task prefix
+            if (e.ctrlKey === true) {
+                expression = task_prefix + " " + expression;
+            }
+            request({event: 'add', value: expression}, function () {
+                show_message(lang.add_msg);
+                $search_box.val('');
+            });
+        };
+
+        var do_search = function () {
+            var expression = $search_box.val();
+            // check for create tasks first (must have a space following!)
+            if (expression.substr(0, 2) === (task_prefix + " ")) {
+                add_task(expression);
+            // then search expressions
+            } else if (expression !== "") {
+                request({event: 'search', value: expression});
+            // enter in a blank box == reset (common practice)
+            } else {
+                request({event: 'all'});
+            }
+        };
+
         $search_box
+            .bind('keydown', 'ctrl+return meta+return', add_task)
+            .bind('keydown', 'return', do_search)
             .on("click", function () {
                 reset_search();
             })
@@ -300,24 +323,6 @@ var app = (function () {
                     $("#reset-search").hide();
                     $search_box.data('can_reset', false);
                 }
-            })
-            .on("keyup", function (event) {
-                if (event.keyCode === 13) {
-                    var expression = $search_box.val();
-                    // check for create tasks first (must have a space following!)
-                    if (expression.substr(0, 2) === task_prefix + " ") {
-                        request({event: 'add', value: expression}, function () {
-                            show_message(lang.add_msg);
-                            $search_box.val('');
-                        });
-                    // then search expressions
-                    } else if (expression !== "") {
-                        request({event: 'search', value: expression});
-                    // enter in a blank box == reset (common practice)
-                    } else {
-                        request({event: 'all'});
-                    }
-                }
             });
 
 
@@ -327,12 +332,12 @@ var app = (function () {
         });
         $("#archive-done-button").on("click", function () {
             request({event: 'archive_done'}, function () {
-                show_message(lang.all_arch_msg);
+                show_message(lang.arch_done_msg);
             });
         });
         $("#trash-done-button").on("click", function () {
             request({event: 'trash_done'}, function () {
-                show_message(lang.all_trash_msg);
+                show_message(lang.trash_done_msg);
             });
         });
         $("#rename-button").on("click", function () {
@@ -428,8 +433,8 @@ var app = (function () {
                     show_message(lang.arch_msg);
                 });
             })
-            .on("click", "li .delete-button", function () {
-                request({event: 'erase', value: $(this).attr("id")}, function () {
+            .on("click", "li .trash-button", function () {
+                request({event: 'trash', value: $(this).attr("id")}, function () {
                     show_message(lang.trash_msg);
                 });
             })

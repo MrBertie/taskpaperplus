@@ -137,8 +137,8 @@ class Taskpapers {
      */
     function create($name, $text) {
         $name = $this->_files->create($name, $text);
+        // TODO: check for failure!
         $this->_cache->refresh();
-        // TODO: selected tab is not being reset
 
         \log&&msg(__METHOD__, "created a new taskpaper called: $name");
 
@@ -311,7 +311,7 @@ class Taskpaper extends TaskpaperPersist {
         $max = self::$_content->project_count - 1;
         $project_index = ($project_index > $max) ? $max : $project_index;
 
-        // insert at end of list if last project or only 1 project exist (edge case)
+        // insert at end of list if last project or only 1 project exists (edge case)
         if ($project_index == $max || $max == 0) {
             $raw = $this->raw() . "\n" . $new_task;
             self::update(UPDATE_RAW, $raw);
@@ -329,7 +329,7 @@ class Taskpaper extends TaskpaperPersist {
     function replace($key, $text) {
         $new_item = array('new' => $text);
         self::$_content->raw_items = \tpp\array_insert(self::$_content->raw_items, $key, $new_item);
-        self::update(UPDATE_PARSED);
+        self::update(UPDATE_RAWITEM);
     }
 
     function trash($key) {
@@ -428,9 +428,9 @@ class Taskpaper extends TaskpaperPersist {
      */
     private function _copy_to($keys, $target_path) {
         global $term;
-//        if ( ! is_array($keys)) {
-//            $keys = array($keys);
-//        }
+        if ( ! is_array($keys)) {
+            $keys = array($keys);
+        }
         $tasks = '';
         foreach ($keys as $key) {
             $task = self::$_content->parsed_items[$key];
@@ -631,6 +631,11 @@ class FilteredProjects extends ProjectItems {
     function __construct(Array $projects = array(), $project_count = 0) {
         $this->_items = $projects;
         $this->_count = $project_count;
+    }
+
+    function item($key) {
+        $index = self::$_content->project_by_key($key);
+        return new ProjectItem($index);
     }
 }
 

@@ -6,6 +6,8 @@ The find results list template
     <?php echo ' ' . $this->search_expr; ?>
 </h1>
 
+<?php if ($this->project_count > 0) { ?>
+
 <h2>
     <?php echo \tpp\lang('project_header'); ?>
     <span class="freq">(<?php echo $this->project_count; ?>)</span>
@@ -26,6 +28,8 @@ The find results list template
     <?php echo \tpp\lang('task_header'); ?>
     <span class="freq">(<?php echo $this->task_count; ?>)</span>
 </h2>
+
+<?php } ?>
 
 <ul>
     <?php

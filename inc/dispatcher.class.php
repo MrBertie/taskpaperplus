@@ -292,22 +292,16 @@ class Dispatcher extends BasicDispatcher {
     // *****************************************
 
     protected function action_add() {
-        global $term;
 
         // Where in task list to add the task?
         $project_index = 0;
         $task_added = false;
         $task = $this->request->value;
 
-        $matched = preg_match($term['add_to_proj'], $task, $matches);
-        if ($matched !== false && $matched > 0) {
-            $project_index = $matches[1];
-            // TODO: this is rubbish--no check for symbol!  What if * at end?
-            // remove the project number from end (everything after last space)
-            $task = mb_substr($task, 0, strrpos($task, ' ', -1));
-
-        } elseif ($this->state->event == 'project') {
+        if ($this->state->event == 'project') {
             $project_index = $this->state->value;
+        } else {
+            list($task, $project_index) = $this->_split_task_and_project($task);
         }
 
         if ($project_index >= 0) {
@@ -481,6 +475,21 @@ class Dispatcher extends BasicDispatcher {
         }
         return self::TAB_NONE;
     }
-}
 
-?>
+        /**
+     * grab project number from end of a user-inputed task
+     */
+    private function _split_task_and_project($task) {
+        global $term;
+        $match = array('', '', '');
+        $text = $task;
+        $project = '';
+
+        $matched = preg_match($term['add_to_proj'], $task, $match);
+        if ($matched !== false && $matched > 0) {
+            $text = trim($match[1]);
+            $project = (int) trim($match[2], ":/ ");
+        }
+        return array($text, $project);
+    }
+}

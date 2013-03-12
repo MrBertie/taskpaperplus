@@ -83,7 +83,7 @@ $lang['new_tab_content']    = "New project:\n- new task #tag\n    a simple note"
 // main toolbar buttons
 $lang['edit_all_tip']       = 'Click here to edit the tab as plain-text';
 $lang['archive_done_tip']   = 'Click to archive all completed tasks at once';
-$lang['trash_done_tip']     = 'Click to archive all completed tasks at once';
+$lang['trash_done_tip']     = 'Click to trash all completed tasks at once';
 $lang['remove_actions_tip'] = 'Click to remove action highlighting from all tasks at once';
 
 // task related tips and buttons
@@ -106,7 +106,7 @@ $lang['tag_click_tip']      = 'Click to filter by this tag';
 // sent with task-buttons
 $lang['action_button_tip']  = 'Click to toggle between the different actions: none » next » wait » maybe';
 $lang['archive_button_tip'] = 'Click to archive this task';
-$lang['delete_button_tip']  = 'Click to delete this task';
+$lang['trash_button_tip']   = 'Click to delete this task';
 
 // general control labels
 $lang['find_lbl']           = 'Find:';
@@ -168,4 +168,3 @@ $jslang['edit_in_place_tip']  = 'Double-click to edit this task in place';
 $jslang['mark_complete_tip']  = 'Click to toggle the task between done/todo';
 $jslang['reveal_tip']         = "Click to toggle the note";
 $jslang['sort_tip']           = '&#10; -OR- Click & drag to change order of item';
-?>
