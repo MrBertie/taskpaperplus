@@ -441,8 +441,10 @@ class Dispatcher extends BasicDispatcher {
 
                 // which default edit state?
                 $state->event = tpp\config('edit_new_tab') ? 'edit' : 'all';
-                if ($state->event == 'all') $state->value = ''; // edit event set the draft text as a value
-
+                if ($state->event == 'all') {
+                    // edit event set the draft text as a value
+                    $state->value = '';
+                }
                 log&&msg(__METHOD__, 'new tab: setting state to:', $state);
 
                 break;

@@ -6,6 +6,7 @@ namespace tpp\model;
 class Tabs implements \IteratorAggregate {
 
     protected $_tabs;
+    const last = '999';
 
     function __construct() {
         $this->clear();
@@ -40,12 +41,18 @@ class Tabs implements \IteratorAggregate {
 
 
     function sort() {
-        // by user-defined index
-        uasort($this->_tabs, function($a, $b) {
+        $last = '999';
+        // by user-defined index:
+        // a default 'last' index value is used to ensure
+        // that trash and archive tabs sort first even if you
+        // use numbers as tab names
+        uasort($this->_tabs, function($a, $b) use ($last) {
             $name1 = (empty($a->title)) ? $a->name : $a->title;
-            $name1 = $a->index . $name1;
+            $idx1 = (empty($a->index)) ? $last : $a->index;
+            $name1 = $idx1 . $name1;
             $name2 = (empty($b->title)) ? $b->name : $b->title;
-            $name2 = $b->index . $name2;
+            $idx2 = (empty($b->index)) ? $last : $b->index;
+            $name2 = $idx2 . $name2;
             return strcasecmp($name1, $name2);
         });
         return $this;   // chainable

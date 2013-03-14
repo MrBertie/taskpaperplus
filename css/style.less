@@ -185,7 +185,7 @@ a:hover {
     li {
         display: inline-block;
         line-height: 32px;
-        margin: 0 2px -1px 0px;
+        margin: 0 2px -1px 1px;
         position: relative;
     }
 
@@ -194,7 +194,7 @@ a:hover {
         border: 1px solid @tab-border;
         border-bottom: 0;
         font-size: bolder;
-        padding-left:1px;
+        margin-left: 0px;
         z-index: 100;
         a {
             color: @base02;
@@ -547,6 +547,11 @@ a:hover {
                 display: block !important;
                 line-height: 130%;
                 padding-bottom: 2px;
+            }
+            .more {
+                color: @border;
+                margin-left: 0.5em;
+                vertical-align: bottom;
             }
         }
 

@@ -76,7 +76,9 @@ class Taskpapers {
             $file = $this->_files->item($name);
 
             // if name was invalid then return the first [user] tab
-            if ( ! $file) $file = $this->_files->first();
+            if ( ! $file) {
+                $file = $this->_files->first();
+            }
             $this->_active_file = $file;
 
             // return a new instance of the active taskpaper
@@ -132,16 +134,17 @@ class Taskpapers {
      *
      * NOTE: does not reset the active one; call active($name) to active the new taskpaper
      *
-     * @param string    $name name of new taskpaper file; could be sanitised!
-     * @return string   new taskpaper name or false if it failed
+     * @param string    $name propposed name of new taskpaper file; could be sanitised (i.e. changed)!
+     * @return string|bool   approved taskpaper name or false on failure
      */
     function create($name, $text) {
         $name = $this->_files->create($name, $text);
-        // TODO: check for failure!
-        $this->_cache->refresh();
+        if ($name !== false) {
+            $this->_cache->refresh();
 
-        \log&&msg(__METHOD__, "created a new taskpaper called: $name");
+            \log&&msg(__METHOD__, "created a new taskpaper called: $name");
 
+        }
         return $name;
     }
 

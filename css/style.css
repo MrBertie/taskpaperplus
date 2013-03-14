@@ -62,7 +62,7 @@ a:hover {
 .tabs li {
   display:inline-block;
   line-height:32px;
-  margin:0 2px -1px 0px;
+  margin:0 2px -1px 1px;
   position:relative;
 }
 .tabs li.selected {
@@ -70,7 +70,7 @@ a:hover {
   border:1px solid #c9c7c6;
   border-bottom:0;
   font-size:bolder;
-  padding-left:1px;
+  margin-left:0px;
   z-index:100;
 }
 .tabs li.selected a { color:#073642; }
@@ -353,6 +353,11 @@ a:hover {
   line-height:130%;
   padding-bottom:2px;
 }
+#view-tasks li .note .more {
+  color:#d7d5d4;
+  margin-left:0.5em;
+  vertical-align:bottom;
+}
 #view-tasks li .hidden-note {
   border:0;
   color:#777777;
@@ -370,6 +375,11 @@ a:hover {
   display:block !important;
   line-height:130%;
   padding-bottom:2px;
+}
+#view-tasks li .hidden-note .more {
+  color:#d7d5d4;
+  margin-left:0.5em;
+  vertical-align:bottom;
 }
 #view-tasks li .reveal:hover { cursor:pointer; }
 #edit-tasks { margin:0 8px; }

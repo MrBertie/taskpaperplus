@@ -85,11 +85,12 @@ class TaskTemplate extends Template {
             $note = '<ul>';
             if ($multi) {
                 $full_text = str_replace("\n", '<br/>', $this->_h($text));
-                $title = strtok($this->_h($text), "\n") . '&nbsp; ▼';
+                $title = strtok($this->_h($text), "\n") .
+                         '<span class="more">' . '▼' . '</span>';
                 $note .= '<li class="note reveal" title="">'  .
-                          '<p>' . $title . '</p></li>' .
-                          '<li class="hidden-note reveal" title="">' .
-                          '<p>' . $full_text . '</p></li>';
+                         '<p>' . $title . '</p></li>' .
+                         '<li class="hidden-note reveal" title="">' .
+                         '<p>' . $full_text . '</p></li>';
             } else {
                 $note .= '<li class="note">' . $text . '</li>';
             }
@@ -123,4 +124,3 @@ class TaskTemplate extends Template {
         return htmlentities($text, ENT_COMPAT, 'UTF-8');
     }
 }
-?>

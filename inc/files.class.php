@@ -156,9 +156,8 @@ class FilesCommon {
      * @param type $name
      * @return type
      */
-    protected function _resolve_name($name) {
-        if (is_numeric($name)) {
-            $index = $name;
+    protected function _resolve_index($index) {
+        if (is_numeric($index)) {
             $count = count(self::$_names);
             if ($index < 0) {
                 $index = $count + $index;
@@ -200,8 +199,12 @@ class Files extends FilesCommon implements \IteratorAggregate {
     }
 
 
+    function index($index) {
+        $name = parent::_resolve_name($index);
+        return self::$_files[$name];
+    }
+
     function item($name) {
-        $name = parent::_resolve_name($name);
         if (in_array($name, self::$_names)) {
             return self::$_files[$name];
         } else {
@@ -296,5 +299,3 @@ class File extends FilesCommon {
         return $this;
     }
 }
-
-?>
