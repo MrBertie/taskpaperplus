@@ -1,4 +1,4 @@
-Taskpaper+
+Taskpaper+ :: More Do, Less Fluff!
 ==========
 
 * Author:   Symon Bent
