@@ -1,14 +1,18 @@
 Taskpaper+
 ==========
 
-* Name:     Taskpaper+
 * Author:   Symon Bent
 * Version:  1.0.0.0 beta
-* Dated:    2013-02-10
+* Dated:    2013-02-16
 
 WARNING!!
 ========
 **This is a completely rewritten version of Taskpaper and still has a few rough edges and bugs.  Do not use for daily use (download from the website above if you need reliability).**
+
+Screenshot
+==========
+
+![Taskpaper+ Screenshot](https://taskpaperplus.googlecode.com/files/tp%2B.png)
 
 Description
 ===========
