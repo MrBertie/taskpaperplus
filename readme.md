@@ -12,7 +12,7 @@ WARNING!!
 Screenshot
 ==========
 
-![Taskpaper+ Screenshot](https://taskpaperplus.googlecode.com/files/tp%2B.png)
+
 
 Description
 ===========
