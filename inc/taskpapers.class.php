@@ -803,6 +803,8 @@ class TaskItem extends BasicItem {
     function project_index() {
         return $this->_parsed->project_index;
     }
+
+
     /**
      * Set/get the plain text value of the task.  Can actually be multiple tasks, info, or project items.
      *
@@ -816,12 +818,17 @@ class TaskItem extends BasicItem {
         static $parser = null;
 
         if ( ! is_null($value)) {
-            if (is_null($parser)) $parser = new storage\Parser();
+            // only create th eparser once, to save time
+            if (is_null($parser)) {
+                $parser = new storage\Parser();
+            }
             // date/period tags will be expanded (usually what user wants!)
             $value = $parser->expand_interval_tags($value);
         }
         return parent::raw($value);
     }
+
+
     /**
      * If Taskpaper items can be deleted/archived.
      *
@@ -847,18 +854,64 @@ class TaskItem extends BasicItem {
         return array($state, $parsed->key);
     }
 
-    private function _rebuild_raw(\StdClass $parsed) {
+
+//    private function _rebuild_raw(\StdClass $parsed) {
+//        global $term;
+//        // TODO: could this be improved too
+//        $done = ($parsed->done) ? $term['done_prefix'] : '';
+//        $done .= $term['task_prefix'];
+//        $action = ' ' . str_repeat($term['action_suffix'], $parsed->action);
+//        $raw = $parsed->raw;
+//        $old_prefix = '/^' . $term['done_prefix'] . '?' . $term['task_prefix'] . '/';
+//        $raw = preg_replace($old_prefix, $done, $raw);
+//        $raw = preg_replace($term['action'], $action, $raw);
+//        return $raw;
+//    }
+
+
+    private function _rebuild_raw (\StdClass $parsed) {
         global $term;
-        // TODO: could this be improved too
-        $done = ($parsed->done) ? $term['done_prefix'] : '';
-        $done .= $term['task_prefix'];
-        $action = str_repeat($term['action_suffix'], $parsed->action);
-        $raw = $parsed->raw;
-        $old_prefix = '/^' . $term['done_prefix'] . '?' . $term['task_prefix'] . '/';
-        $raw = preg_replace($old_prefix, $done, $raw);
-        $raw = preg_replace($term['action'], $action, $raw);
+        $done = $action = $tags = $date = $note = '';
+
+        $pfx = $term['task_prefix'] . ' ';
+        $text = $parsed->text;
+
+        if ($parsed->done) {
+            $done = $term['done_prefix'];
+        }
+        if ( ! empty($parsed->tags)) {
+            $tags = ' ' . $this->_add_tag_symbol($parsed->tags);
+        }
+        if ( ! empty($parsed->date)) {
+            $date = strftime(\tpp\config('date_format'), $date);
+            $date = ' ' . $this->_add_tag_symbol($parsed->date);
+        }
+        if ($parsed->action > 0) {
+            $action = ' ' . str_repeat($term['action_suffix'], $parsed->action);
+        }
+        if ( ! empty($parsed->note->raw)) {
+            $note = "\n" . $parsed->note->raw;
+        }
+
+        $raw = $done . $pfx . $text . $tags . $date . $action . $note;
         return $raw;
     }
+
+
+    private function _add_tag_symbol($tags) {
+        global $term;
+
+        $pfx = $term['tag_prefix'];
+
+        if ( ! is_array($tags)) {
+            $tags = array($tags);
+        }
+        foreach ($tags as &$tag) {
+            $tag = $pfx . $tag;
+        }
+        return implode(' ' ,$tags);
+    }
+
 
     function _update($edit_type, $data = null) {
         $this->_parsed->raw = $this->_rebuild_raw($this->_parsed);

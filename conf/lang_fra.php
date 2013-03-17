@@ -1,10 +1,13 @@
-﻿<?php
+<?php
+namespace tpp;
+
 /**
- * French language
+ * FRENCH language
  * To change to this language change to 'language=fra' in conf/config.ini file
  */
 
 $lang = array();
+
 
  /**
  * These filters can be changes to suit your needs/whims!
@@ -29,6 +32,7 @@ $lang['filter_settings']    = array('suivante'  => array('*next | >week \\date',
                                      'dû'   => array('*todo =date \\gdate', "Toutes tâches à faire, avec date", 'green', true),
                                      'tard'  => array('*todo <today \\gdate', "Toutes tâches à faire, avec date dans le passé", 'red', true),
                                     );
+
 // search engine intervals and commands
 $lang['interval_names']     = array('date' => 'date',
                                      'future' => 'futur',
@@ -45,7 +49,7 @@ $lang['interval_names']     = array('date' => 'date',
 // names of the various sorting "columns" (English => Other Language)
 $lang['sort_names']         = array('task' => 'tâche',
                                      'date' => 'date',
-                                     'gdate' => 'gdate',    // grouped dates
+                                     'gdate' => 'gdate',  // grouped dates
                                      'topic' => 'sujet',
                                      'state' => 'état',
                                     );
@@ -66,47 +70,51 @@ $lang['state_colours']      = array('none', 'yellow', 'cyan', 'violet', '');
 
 
 // main headers and titles
-$lang['projectless']        = '(Pas de sujet)';
+$lang['orphaned']           = '(Pas de sujet)';
 $lang['no_tags']            = 'Pas de tag';
 $lang['task_header']        = 'Tâches';
 $lang['tag_header']         = 'Tags';
 $lang['project_header']     = 'Sujets';
 $lang['filter_header']      = 'Filtres';
 $lang['search_header']      = 'Recherche: ';
-$lang['can_sort']           = 'Déplaçable';
+$lang['sortable']           = 'Déplaçable';
+
 
 // new tab sample content
-$lang['new_tab_content']    = "Nouveau sujet:\n- nouvelle tâche";
+$lang['new_tab_content']    = "Nouveau sujet:\n- nouvelle tâche #tag\n    petit note";
+
 
 // main toolbar buttons
-$lang['edit_all_tip']       = "Cliquez ici pour éditer l'onglet en texte brut";
-$lang['archive_all_tip']    = 'Cliquez pour archiver toutes les tâches accomplies';
-$lang['remove_action_tip']  = "Cliquez pour supprimer l''etat des tâches";
+$lang['edit_all_tip']       = "Éditer l'onglet en texte brut";
+$lang['archive_done_tip']   = 'Archiver toutes les tâches accomplies';
+$lang['trash_done_tip']     = 'Supprimer toutes les tâches accomplies';
+$lang['remove_actions_tip'] = "Supprimer l'etat des tâches";
+
 
 // task related tips and buttons
-$lang['mark_complete_tip']  = 'Cliquez pour marquer cette tâche comme faite ou pas';
-$lang['action_toggle_tip']  = "Cliquez afin de changer l'êtat de cette tâche";
-$lang['archive_task_tip']   = 'Cliquez pour archiver cette tâche';
-$lang['delete_task_tip']    = 'Cliquez pour effacer cette tâche';
-$lang['edit_in_place_tip']  = 'Double-cliquez pour modifier cette tâche';
-$lang['project_click_tip']  = 'Afficher seulement ce sujet';
-$lang['tag_click_tip']      = 'Cliquez pour filtrer par ce tag';
-$lang['search_box_tip']     = "Tapez les mots-clés, les tags, les commandes ou les dates à rechercher, ou tapez une nouvelle tâche, puis appuyez sur ENTRÉE.";
-$lang['search_help_tip']    = "Need help searching? Click for a cheatsheet (Ctrl+click for a new page)";
+$lang['search_box_tip']     = "Saisissez les mots-clés, les tags, les commandes ou les dates à rechercher, ou tapez une nouvelle tâche, puis appuyez sur ENTRÉE.";
+$lang['search_help_tip']    = "Comment faire une recherche? Cliquez pour ouvrir un aide-mémoire (Ctrl+clique pour ouvrir une nouvelle page)";
 $lang['startpage_tip']      = 'Retournez à la vue tâche par défaut';
 $lang['save_changes_tip']   = 'Enregistrez vos modifications';
 $lang['cancel_changes_tip'] = 'Annulez vos modifications et retournez à la vue tâche';
-$lang['rename_tip']         = "Cliquez pour renommer l'onglet";
-$lang['remove_tip']         = "Cliquez pour supprimer l'onglet";
-$lang['add_tab_tip']        = 'Cliquez pour ajouter un nouvel onglet';
-$lang['change_tab_tip']     = 'Cliquez pour sélectionner cet onglet. Toutes les modifications non enregistrées seront conservées';
-$lang['reset_tab_tip']      = "Cliquez pour réinitialiser l'onglet à la vue par défaut";
-$lang['archive_tab_tip']    = 'Click to view archived tasks';
-$lang['trash_tab_tip']      = 'Click to view deleted tasks';
-$lang['reveal_tip']         = 'Cliquez pour afficher / cacher le bloc note';
-$lang['clear_box_tip']      = 'Click to clear the search box';
+$lang['rename_tip']         = "Renommer l'onglet";
+$lang['remove_tip']         = "Supprimer l'onglet";
+$lang['new_tab_tip']        = 'Ajouter un nouvel onglet';
+$lang['change_tab_tip']     = 'Sélectionner cet onglet. Toutes les modifications non enregistrées seront conservées';
+$lang['reset_tab_tip']      = "Réinitialiser l'onglet à la vue par défaut";
+$lang['archive_tab_tip']    = 'Toutes tâches accomplies ';
+$lang['trash_tab_tip']      = 'Toutes tâches supprimées';
+$lang['clear_box_tip']      = 'Réinitialiser le champ de recherche';
+$lang['tag_click_tip']      = 'Filtrer par ce tag';
 
-// labels
+
+// sent with task-buttons
+$lang['action_button_tip']  = "Changer l'êtat de cette tâche";
+$lang['archive_button_tip'] = "Archiver cette tâche";
+$lang['trash_button_tip']   = "Effacer cette tâche";
+
+
+// general control labels
 $lang['find_lbl']           = 'Trouver:';
 $lang['replace_lbl']        = 'Remplacer:';
 $lang['help_lbl']           = 'Aide';
@@ -116,7 +124,11 @@ $lang['website_lbl']        = 'Site Web';
 $lang['go_lbl']             = 'Aller';
 $lang['save_lbl']           = 'Enregistrer';
 $lang['cancel_lbl']         = 'Annuler';
-$lang['placeholder']        = 'Tapez une recherche ou ajouter une nouvelle tâche, puis ENTRÉE';
+$lang['trash_lbl']          = 'Poubelle';
+$lang['archive_lbl']        = 'Archive';
+$lang['placeholder']        = 'Saisissez une recherche ou ajouter une nouvelle tâche, puis ENTRÉE';
+$lang['language']           = 'Langue';
+
 
 // used before date intervals in result interface
 $lang['next_lbl']           = 'à venir';
@@ -125,9 +137,47 @@ $lang['before_lbl']         = 'avant';
 $lang['after_lbl']          = 'après';
 $lang['no_date_hdr']        = 'Pas de date';
 
+
+// miscellaneous
+$lang['deleted_lbl']        = 'Effacé:';
+
+
+
+// ******************************************
+
+
+
 // used by javascript side to display messages
-$lang['alert_messages']     = 'Tâche ajoutée|Tâche modifiée|Tâche effacée|Alterner suivi|Tâche archivée|Toutes les tâches accomplies ont été archivées|' .
-                              'Quel est le nouveau nom pour cet onglet?|Supprimer cet onglet|Quel est le nom du nouvel onglet?|' .
-                              'Faites vos modifications et cliquez sur Enregistrer ou Annuler|' .
-                              $lang['save_lbl'] . '|' . $lang['cancel_lbl'];
-?>
+$jslang['colours'] = array('yellow' => '#ff9',
+                           'orange' => '#CBB8B0',
+                           'red' => '#fcdbd6',
+                           'magenta' => '#D3BBC7',
+                           'violet' => '#F5D3FC',
+                           'blue' => '#BFD3ED',
+                           'cyan' => '#BFFFFF',
+                           'green' => '#DBFCB9'
+                           );
+
+$jslang['add_msg']            = array('Tâche ajoutée', $jslang['colours']['blue']);
+$jslang['edit_msg']           = array('Tâche modifiée', $jslang['colours']['yellow']);
+$jslang['trash_msg']          = array('Tâche effacée', $jslang['colours']['red']);
+$jslang['arch_msg']           = array('Tâche archivée', $jslang['colours']['orange']);
+$jslang['all_trash_msg']      = array('Toutes les tâches accomplies ont été effacées', $jslang['colours']['orange']);
+$jslang['all_arch_msg']       = array('Toutes les tâches accomplies ont été archivées', $jslang['colours']['orange']);
+
+$jslang['rename_msg']         = 'Quel est le nouveau nom pour cet onglet?';
+$jslang['remove_msg']         = 'Supprimer cet onglet';
+$jslang['create_msg']         = 'Quel est le nom du nouvel onglet?';
+$jslang['search_msg']         = '';   // currently unused
+$jslang['lang_change_msg']    = 'Langue changée; rechargement de la page...';
+
+$jslang['editable_tip']       = 'Faites vos modifications et cliquez sur Enregistrer ou Annuler';
+$jslang['save_tip']           = $lang['save_lbl'];
+$jslang['cancel_tip']         = $lang['cancel_lbl'];
+
+$jslang['tag_click_tip']      = $lang['tag_click_tip'];
+$jslang['project_click_tip']  = 'Afficher seulement ce sujet';
+$jslang['edit_in_place_tip']  = 'Double-cliquez pour modifier cette tâche sur place';
+$jslang['mark_complete_tip']  = 'Marquer cette tâche comme faite ou pas';
+$jslang['reveal_tip']         = "Afficher / Cacher le bloc notee";
+$jslang['sort_tip']           = "&#10; -ou- glisser et déplacer des tâches pour changer l'ordre";

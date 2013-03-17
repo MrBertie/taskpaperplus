@@ -403,7 +403,7 @@ class Dispatcher extends BasicDispatcher {
     }
 
     protected function action_lang() {
-        ini('language', $this->request->value);
+        \tpp\ini('language', $this->request->value);
         return self::ACTION;
     }
 

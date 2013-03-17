@@ -13,12 +13,16 @@ use tpp\storage;
  * @param string $item      Requested $lang item
  * @return string
  */
-function lang($item) {
+function lang($item, $html_entities = false) {
     global $config, $lang;
     if ($config['hide_tips'] === true && strpos($item, '_tip') > 0) {
         return '';
     }
-    return $lang[$item];
+    if ($html_entities) {
+        return htmlentities($lang[$item], ENT_QUOTES, 'UTF-8');
+    } else {
+        return $lang[$item];
+    }
 }
 /**
  * Convenience function to access all fixed/internal config values.

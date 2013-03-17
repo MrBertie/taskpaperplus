@@ -1,12 +1,13 @@
 <?php
 namespace tpp;
 
-$lang = array();
-
 /**
- * English language
+ * ENGLISH language
  * To change to this language change to 'language=en' in conf/config.ini file
  */
+
+$lang = array();
+
 
 /**
  * These filters can be changes to suit your needs/whims!
@@ -48,7 +49,7 @@ $lang['interval_names']     = array('date' => 'date',
 // names of the various sorting "columns" (English => Other Language)
 $lang['sort_names']         = array('task' => 'task',
                                      'date' => 'date',
-                                     'gdate' => 'gdate',    // grouped dates
+                                     'gdate' => 'gdate',  // grouped dates
                                      'topic' => 'topic',
                                      'state' => 'state',
                                     );
@@ -67,6 +68,7 @@ $lang['state_order']        = array('todo', 'next', 'wait', 'maybe', 'done');
 // currently: none, next, wait, maybe (done has no colour)
 $lang['state_colours']      = array('none', 'yellow', 'cyan', 'violet', '');
 
+
 // main headers and titles
 $lang['orphaned']           = '[No Topic]';
 $lang['no_tags']            = 'No Tags';
@@ -77,14 +79,17 @@ $lang['filter_header']      = 'Filters';
 $lang['search_header']      = 'Search: ';
 $lang['sortable']           = 'Sortable';
 
+
 // new tab sample content
 $lang['new_tab_content']    = "New project:\n- new task #tag\n    a simple note";
 
+
 // main toolbar buttons
-$lang['edit_all_tip']       = 'Click here to edit the tab as plain-text';
-$lang['archive_done_tip']   = 'Click to archive all completed tasks at once';
-$lang['trash_done_tip']     = 'Click to trash all completed tasks at once';
-$lang['remove_actions_tip'] = 'Click to remove action highlighting from all tasks at once';
+$lang['edit_all_tip']       = 'Edit the tab as plain-text';
+$lang['archive_done_tip']   = 'Archive all completed tasks at once';
+$lang['trash_done_tip']     = 'Trash all completed tasks at once';
+$lang['remove_actions_tip'] = 'Remove action highlighting from all tasks at once';
+
 
 // task related tips and buttons
 $lang['search_box_tip']     = "Type in words, tags, commands, or dates to search for, or type in a new task; then press ENTER";
@@ -92,21 +97,22 @@ $lang['search_help_tip']    = "Need help searching? Click for a cheatsheet (Ctrl
 $lang['startpage_tip']      = 'Back to default view';
 $lang['save_changes_tip']   = 'Save your changes';
 $lang['cancel_changes_tip'] = 'Cancel any changes and return to task view';
-$lang['rename_tip']         = 'Click to rename this tab';
-$lang['remove_tip']         = 'Click to delete this tab';
-$lang['new_tab_tip']        = 'Click to add a new tab';
-$lang['change_tab_tip']     = 'Click to change to this tab. Any unsaved edits will be kept';
-$lang['reset_tab_tip']      = 'Click to reset this tab back to default view';
+$lang['rename_tip']         = 'Rename this tab';
+$lang['remove_tip']         = 'Delete this tab';
+$lang['new_tab_tip']        = 'Add a new tab';
+$lang['change_tab_tip']     = 'Change to this tab. Any unsaved edits will be kept';
+$lang['reset_tab_tip']      = 'Reset this tab back to default view';
 $lang['archive_tab_tip']    = 'All archived tasks';
 $lang['trash_tab_tip']      = 'All deleted tasks';
-$lang['clear_box_tip']      = 'Click to clear the search box';
+$lang['clear_box_tip']      = 'Clear the search box';
+$lang['tag_click_tip']      = 'Filter by this tag';
 
-$lang['tag_click_tip']      = 'Click to filter by this tag';
 
 // sent with task-buttons
-$lang['action_button_tip']  = 'Click to toggle between the different actions: none » next » wait » maybe';
-$lang['archive_button_tip'] = 'Click to archive this task';
-$lang['trash_button_tip']   = 'Click to delete this task';
+$lang['action_button_tip']  = 'Toggle between the different actions: none » next » wait » maybe';
+$lang['archive_button_tip'] = 'Archive this task';
+$lang['trash_button_tip']   = 'Delete this task';
+
 
 // general control labels
 $lang['find_lbl']           = 'Find:';
@@ -123,6 +129,7 @@ $lang['archive_lbl']        = 'Archive';
 $lang['placeholder']        = 'Create a task -OR- Type a search [then press ENTER]';
 $lang['language']           = 'Language';
 
+
 // used before date intervals in result interface
 $lang['next_lbl']           = 'in next';
 $lang['prev_lbl']           = 'in previous';
@@ -130,10 +137,17 @@ $lang['before_lbl']         = 'before';
 $lang['after_lbl']          = 'after';
 $lang['no_date_hdr']        = 'No date';
 
+
 // miscellaneous
-$lang['deleted_lbl']            = 'Deleted:';
+$lang['deleted_lbl']        = 'Deleted:';
 
 
+
+// ******************************************
+
+
+
+// used by javascript side to display messages
 $jslang['colours'] = array('yellow' => '#ff9',
                            'orange' => '#CBB8B0',
                            'red' => '#fcdbd6',
@@ -144,7 +158,6 @@ $jslang['colours'] = array('yellow' => '#ff9',
                            'green' => '#DBFCB9'
                            );
 
-// used by javascript side to display messages
 $jslang['add_msg']            = array('Task added', $jslang['colours']['blue']);
 $jslang['edit_msg']           = array('Task edited', $jslang['colours']['yellow']);
 $jslang['trash_msg']          = array('Task deleted', $jslang['colours']['red']);

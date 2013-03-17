@@ -25,7 +25,6 @@ class Parser {
     function parse($raw) {
         $this->_lines = new Lines($raw);
         $this->_content = new model\Content;
-        $this->_filter = new model\IntervalFilter($this->_content);
         $this->_index = 0;
 
         // Abstract Syntax Tree
@@ -346,6 +345,10 @@ class Parser {
         $tags = array();
         // 0 = full match, 1 = done, 2 = text, 3 = action
         $match = array('', '', '', '');
+        $date_match = array('', '');
+        $tag_matches = array('', '');
+
+        $task = trim($task);
 
         // First convert any =interval tags into real tags
         $task = $this->expand_interval_tags($task);
@@ -386,13 +389,18 @@ class Parser {
      * @return string The expanded text
      */
     function expand_interval_tags($raw) {
+        static $filter = null;
+
+        if (is_null($filter)) {
+            $filter = new model\IntervalFilter($this->_content);
+        }
 
         // find any tags
         preg_match_all($this->term['interval_tok'], $raw, $matches, PREG_SET_ORDER);
         // do they match a time period?
         foreach ($matches as $match) {
             $orig_tag = $match[0];
-            $date = $this->_filter->interval_as_date($orig_tag);
+            $date = $filter->interval_as_date($orig_tag);
             if ($date !== false) {
                 $raw = preg_replace('/' . $orig_tag . '/', $this->term['tag_prefix'] . strftime(\tpp\config('date_format'), $date[1]), $raw);
             }

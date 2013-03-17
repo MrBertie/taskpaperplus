@@ -15,7 +15,11 @@ class StatePersist {
      *
      * @return chainable
      */
-    function save() {
+    function save(State $state = null) {
+        if ($state !== null) {
+            self::$_active = $state->tab;
+            self::$_states[$state->tab] = $state;
+        }
         $_SESSION['active_state'] = self::$_active;
         $_SESSION['states'] = serialize(self::$_states);
         return $this;
@@ -140,25 +144,23 @@ class States extends StatePersist implements \IteratorAggregate {
  */
 class State extends StatePersist {
 
-    private $_id = '';
     public $tab = '';
     public $event = '';
     public $value = '';
     public $draft = null;
 
     function __construct($tab, $event = DEFAULT_EVENT, $value = DEFAULT_VALUE) {
-        $this->_id = $this->tab = $tab;
+        $this->tab = $tab;
         $this->event = $event;
         $this->value = $value;
     }
 
     function activate() {
-        self::$_active = $this->_id;
-        return parent::save();
+        return parent::save($this);
     }
 
     function is_active() {
-        return self::$_active;
+        return (self::$_active == $this->tab);
     }
 
     function to_address() {

@@ -133,8 +133,8 @@ class Views {
         return array('tabs' => $this->tabs()->render(),
                      'tabtools' => $this->tabtools()->render(),
                      'projects' => $this->projects()->render(),
-                     'tags' => $this->tags()->render());
+                     'tags' => $this->tags()->render(),
+                     'restricted' => $this->_taskpapers->active()->restricted());
     }
 
 }
-?>

@@ -8,7 +8,9 @@
     <?php
     echo '<option selected>' . $this->cur_lang . '</option>';
     foreach ($this->langs as $lang) {
-        if ($lang != $this->cur_lang) echo '<option value="' . $lang . '">' . $lang . '</option>';
+        if ($lang != $this->cur_lang) {
+            echo '<option value="' . $lang . '">' . $lang . '</option>';
+        }
     }
     ?>
 </select>

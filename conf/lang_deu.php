@@ -1,10 +1,13 @@
 <?php
+namespace tpp;
+
 /**
- * German language (Deutsch)
+ * GERMAN language (Deutsch)
  * To change to this language use the memo bottom right
  */
 
 $lang = array();
+
 
 /**
  * These filters can be changes to suit your needs/whims!
@@ -65,8 +68,9 @@ $lang['state_order']        = array('todo', 'next', 'wait', 'maybe', 'done');
 // currently: none, next, wait, maybe (done has no colour)
 $lang['state_colours']      = array('none', 'yellow', 'cyan', 'violet', '');
 
+
 // main headers and titles
-$lang['projectless']        = '[Kein Projekt]';
+$lang['orpahed']            = '[Kein Projekt]';
 $lang['no_tags']            = 'Keine Tags';
 $lang['task_header']        = 'Aufgaben';
 $lang['tag_header']         = 'Tags';
@@ -75,13 +79,17 @@ $lang['filter_header']      = 'Filter';
 $lang['search_header']      = 'Suche: ';
 $lang['can_sort']           = 'Sortierbar';
 
+
 // new tab sample content
-$lang['new_tab_content']    = "Neues Projektt:\n- neue Aufgabe @tag\n... eine einfache Notiz";
+$lang['new_tab_content']    = "Neues Projektt:\n- neue Aufgabe #tag\n    eine einfache Notiz";
+
 
 // main toolbar buttons
 $lang['edit_all_tip']       = 'Klick hier um den Text zu editieren';
-$lang['archive_all_tip']    = 'Klick hier um alle abgeschlossenen Aufgaben zu archivieren';
-$lang['remove_action_tip']  = 'Klick hier um alle Highlights von den Aufgaben zu entfernen';
+$lang['archive_done_tip']   = 'Klick hier um alle abgeschlossenen Aufgaben zu archivieren';
+$lang['trash_done_tip']     = 'Trash all completed tasks at once';
+$lang['remove_actions_tip'] = 'Klick hier um alle Highlights von den Aufgaben zu entfernen';
+
 
 // task related tips and buttons
 $lang['mark_complete_tip']  = 'Klick um die Aufgabe als pendent/abgeschlossen zu markieren';

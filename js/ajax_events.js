@@ -220,6 +220,8 @@ var app = (function () {
 
     pub.add_events = function () {
 
+        $("#home").on("click", reset);
+
         $("#purge-session").on("click", function () {
             request({event: 'purgesession'}, function() {
                 show_message(['Session cleared! Reloading...', lang.green]);
@@ -236,39 +238,13 @@ var app = (function () {
 
         $('#footer select').on('change', function () {
             request({event: 'lang', value: this.value}, function () {
-                show_message(['Language changed! Reloading...', GREEN]);
+                show_message([lang.lang.changed_msg, lang.green]);
                 window.setTimeout("window.location.reload()", 1000);
             });
         });
 
-        var reset = function () {
-            request({event: 'all'});
-        };
 
-        $("#home").on("click", reset);
-
-
-        var save_edits = function () {
-            request({event: 'save', value: $text_area.val()});
-            $('#edit-view textarea')
-                .unbind('keydown', 'ctrl+return meta+return', save_edits)
-                .unbind('keydown', 'esc', reset);
-        };
-
-        $("#edit-button").on("click", function () {
-            request({event: 'edit'}, function () {
-                $('#edit-tasks textarea')
-                    .bind('keydown', 'ctrl+return meta+return', save_edits)
-                    .bind('keydown', 'esc', reset);
-            });
-        });
-
-        /* this is the 'Save' button, for editing area */
-        $("#edit-tasks input.save-button").on("click", save_edits);
-
-
-        $("#edit-tasks input.cancel-button").on("click", reset);
-
+        // Search Box
 
         var reset_search = function () {
             $search_box.data('can_reset', true);
@@ -327,6 +303,20 @@ var app = (function () {
 
 
         // Tab toolbar
+
+        var save_edits = function () {
+            request({event: 'save', value: $text_area.val()});
+            $('#edit-view textarea')
+                .unbind('keydown', 'ctrl+return meta+return', save_edits)
+                .unbind('keydown', 'esc', reset);
+        };
+        $("#edit-button").on("click", function () {
+            request({event: 'edit'}, function () {
+                $('#edit-tasks textarea')
+                    .bind('keydown', 'ctrl+return meta+return', save_edits)
+                    .bind('keydown', 'esc', reset);
+            });
+        });
         $("#remove-actions-button").on("click", function () {
             request({event: 'remove_actions'});
         });
@@ -354,7 +344,32 @@ var app = (function () {
         });
 
 
+        // Inside Text Edit box
+
+        var reset = function () {
+            request({event: 'all'});
+        };
+
+        $("#edit-tasks input.cancel-button").on("click", reset);
+
+        /* this is the 'Save' button, for editing area */
+        $("#edit-tasks input.save-button").on("click", save_edits);
+
+        // replace text in edited page
+        $("#edit-tasks").on("click", "#replace-button", function () {
+            var find_text = $("#find-word").val();
+            var replace_text = $("#replace-word").val();
+            if(find_text !== "" && replace_text !== "") {
+                find_text = new RegExp(find_text, "gi");
+                var edit_text = $text_area.val();
+                edit_text = edit_text.replace(find_text, replace_text);
+                $text_area.val(edit_text);
+            }
+        });
+
+
         // Tab switching
+
         $("#tabs").on("click", "li", function (e) {
             e.preventDefault();
             var draft = '',
@@ -501,8 +516,7 @@ var app = (function () {
                             onreset: function () {
                                 $body.data('editable', null);
                             }
-                        }
-                    );
+                        });
                 }
             });
 
@@ -516,19 +530,6 @@ var app = (function () {
                 var state = address[1] === undefined ? '' : address[1];
                 var value = address[2] === undefined ? '' : address[2];
                 request({event: 'show', tab: tab, state: state, value: value});
-            }
-        });
-
-
-        // replace text in edited page
-        $("#edit-tasks").on("click", "#replace-button", function () {
-            var find_text = $("#find-word").val();
-            var replace_text = $("#replace-word").val();
-            if(find_text !== "" && replace_text !== "") {
-                find_text = new RegExp(find_text, "gi");
-                var edit_text = $text_area.val();
-                edit_text = edit_text.replace(find_text, replace_text);
-                $text_area.val(edit_text);
             }
         });
 
@@ -551,4 +552,4 @@ var app = (function () {
     // return only public methods
     return pub;
 
-})();
+}());
