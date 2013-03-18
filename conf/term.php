@@ -30,7 +30,7 @@ $term['md_title_ul']      = '/={4,12}/';
 $term['doku_title']       = '/==' . $title . '==/';
 
 $term['project']          = '/(.+)' . $term['proj_suffix'] . '$/';
-$term['task']             = '/' . $is_task . '(.+?)/';
+$term['task']             = '/^' . $is_task . '(.+?)/';
 $term['split_task']       = '/^' . $is_task . '(.+?)' . $action . '(\n|$)/';
 $term['date']             = '~' . $date_only . '~';
 $term['tag']              = '/' . $term['tag_prefix'] . '(?!\d{1,2})(' . $i8n_word . '+)/';    // normal tag

@@ -70,14 +70,14 @@ $lang['state_colours']      = array('none', 'yellow', 'cyan', 'violet', '');
 
 
 // main headers and titles
-$lang['orpahed']            = '[Kein Projekt]';
+$lang['orphaned']           = '[Kein Projekt]';
 $lang['no_tags']            = 'Keine Tags';
 $lang['task_header']        = 'Aufgaben';
 $lang['tag_header']         = 'Tags';
 $lang['project_header']     = 'Projekte';
 $lang['filter_header']      = 'Filter';
 $lang['search_header']      = 'Suche: ';
-$lang['can_sort']           = 'Sortierbar';
+$lang['sortable']           = 'Sortierbar';
 
 
 // new tab sample content
@@ -85,35 +85,34 @@ $lang['new_tab_content']    = "Neues Projektt:\n- neue Aufgabe #tag\n    eine ei
 
 
 // main toolbar buttons
-$lang['edit_all_tip']       = 'Klick hier um den Text zu editieren';
-$lang['archive_done_tip']   = 'Klick hier um alle abgeschlossenen Aufgaben zu archivieren';
-$lang['trash_done_tip']     = 'Trash all completed tasks at once';
-$lang['remove_actions_tip'] = 'Klick hier um alle Highlights von den Aufgaben zu entfernen';
+$lang['edit_all_tip']       = 'Als Klartext editieren';
+$lang['archive_done_tip']   = 'Alle abgeschlossenen Aufgaben archivieren';
+$lang['trash_done_tip']     = 'Alle abgeschlossenen Aufgaben löschen';
+$lang['remove_actions_tip'] = 'Alle Highlights von den Aufgaben entfernen';
 
 
 // task related tips and buttons
-$lang['mark_complete_tip']  = 'Klick um die Aufgabe als pendent/abgeschlossen zu markieren';
-$lang['action_toggle_tip']  = 'Klick um zwischen den verschiedenen Aktionen zu wechseln: keine » pendent » wartend » eventuell';
-$lang['archive_task_tip']   = 'Klick um diese Aufgabe zu archivieren';
-$lang['delete_task_tip']    = 'Klick um diese Aufgabe zu löschen';
-$lang['edit_in_place_tip']  = 'Doppelklicken um diese Aufgabe direkt zu editieren';
-$lang['project_click_tip']  = 'Klick um nur dieses Projekt anzuzeigen';
-$lang['tag_click_tip']      = 'Klick um nach diesem Tag zu filtern';
 $lang['search_box_tip']     = "Gib Wörter, Tags, Kommandos oder Daten ein um danach zu suchen, oder gib eine neue Aufgabe ein; dann drück ENTER";
 $lang['search_help_tip']    = "Brauchst Du Hilfe beim Suchen? Klick um die Kurzübersicht zu öffnen (Ctrl+click für eine neue Seite)";
 $lang['startpage_tip']      = 'Zurück zur Standardansicht';
 $lang['save_changes_tip']   = 'Speichere deine Änderungen';
 $lang['cancel_changes_tip'] = 'Alle Änderungen verwerfen und zur Aufgabenansicht zurückkehren';
-$lang['rename_tip']         = 'Klick um dieses Tab umzubenennen';
-$lang['remove_tip']         = 'Klick um dieses Tab zu löschen';
-$lang['add_tab_tip']        = 'Klick um ein neues Tab hinzuzufügen';
-$lang['change_tab_tip']     = 'Klick um zu diesem Tab zu wechseln. Ungespeicherte Änderungen bleiben erhalten';
-$lang['reset_tab_tip']      = 'Klick um dieses Tab zur Standardansicht zurückzusetzen';
-$lang['archive_tab_tip']    = 'Klick um archivierte Aufgaben anzuzeigen';
-$lang['trash_tab_tip']      = 'Klick um gelöschte Aufgaben anzuzeigen';
-$lang['reveal_tip']         = "Klick um die Notiz anzuzeigen/zu verstecken";
-$lang['clear_box_tip']      = 'Klick um die Suchbox zurückzusetzen';
-$lang['sort_tip']           = '&#10; -ODER- Klick und ziehe um die Reihenfolge der Einträge zu ändern';
+$lang['rename_tip']         = 'Diese Tab umbenennen';
+$lang['remove_tip']         = 'Diese Tab löschen';
+$lang['new_tab_tip']        = 'Ein neues Tab hinzufügen';
+$lang['change_tab_tip']     = 'Zu diesem Tab wechseln. Ungespeicherte Änderungen bleiben erhalten';
+$lang['reset_tab_tip']      = 'Diese Tab zur Standardansicht zurücksetzen';
+$lang['archive_tab_tip']    = 'Archivierte Aufgaben anzeigen';
+$lang['trash_tab_tip']      = 'Gelöschte Aufgaben anzeigen';
+$lang['clear_box_tip']      = 'Die Suchbox zurücksetzen';
+$lang['tag_click_tip']      = 'Klick um nach diesem Tag zu filtern';
+
+
+// sent with task-buttons
+$lang['action_button_tip']  = 'Zwischen den verschiedenen Aktionen wechseln: keine » pendent » wartend » eventuell';
+$lang['archive_button_tip'] = 'Diese Aufgabe archivieren';
+$lang['trash_button_tip']   = 'Diese Aufgabe löschen';
+
 
 // general control labels
 $lang['find_lbl']           = 'Suchen:';
@@ -125,7 +124,11 @@ $lang['website_lbl']        = 'Webseite';
 $lang['go_lbl']             = 'Go';
 $lang['save_lbl']           = 'Speichern';
 $lang['cancel_lbl']         = 'Abbrechen';
+$lang['trash_lbl']          = 'Mülleimer';
+$lang['archive_lbl']        = 'Archiv';
 $lang['placeholder']        = 'Erstell eine Aufgabe -ODER- Gib eine Suchanfrage ein...';
+$lang['language']           = 'Sprache';
+
 
 // used before date intervals in result interface
 $lang['next_lbl']           = 'in den nächsten';
@@ -134,9 +137,47 @@ $lang['before_lbl']         = 'vor';
 $lang['after_lbl']          = 'nach';
 $lang['no_date_hdr']        = 'Kein Datum';
 
+
+// miscellaneous
+$lang['deleted_lbl']        = 'Erlöscht:';
+
+
+
+// ******************************************
+
+
+
 // used by javascript side to display messages
-$lang['alert_messages']     = 'Aufgabe hinzugefügt|Aufgabe geändert|Aufgabe gelöscht|Aufgabe archiviert|Alle abgeschlossenen Aufgaben archiviert|' .
-                              'Neuer Name für dieses Tab?|Dieses Tab löschen?|Name für das neue Tab?|' .
-                              'Applizier gewünschte Änderungen und klick Speichern oder Abbrechen|' .
-                              $lang['save_lbl'] . '|' . $lang['cancel_lbl'];
-?>
+$jslang['colours'] = array('yellow' => '#ff9',
+                           'orange' => '#CBB8B0',
+                           'red' => '#fcdbd6',
+                           'magenta' => '#D3BBC7',
+                           'violet' => '#F5D3FC',
+                           'blue' => '#BFD3ED',
+                           'cyan' => '#BFFFFF',
+                           'green' => '#DBFCB9'
+                           );
+
+$jslang['add_msg']            = array('Aufgabe hinzugefügt', $jslang['colours']['blue']);
+$jslang['edit_msg']           = array('Aufgabe geändert', $jslang['colours']['yellow']);
+$jslang['trash_msg']          = array('Aufgabe gelöscht', $jslang['colours']['red']);
+$jslang['arch_msg']           = array('Aufgabe archiviert', $jslang['colours']['orange']);
+$jslang['all_trash_msg']      = array('Alle abgeschlossenen Aufgaben gelöscht', $jslang['colours']['orange']);
+$jslang['all_arch_msg']       = array('Alle abgeschlossenen Aufgaben archiviert', $jslang['colours']['orange']);
+
+$jslang['rename_msg']         = 'Neuer Name für dieses Tab?';
+$jslang['remove_msg']         = 'Dieses Tab löschen?';
+$jslang['create_msg']         = 'Name für das neue Tab?';
+$jslang['search_msg']         = '';   // currently unused
+$jslang['lang_change_msg']    = 'Sprache wechsel! Seite neu laden...';
+
+$jslang['editable_tip']       = 'Applizier gewünschte Änderungen und klick Speichern oder Abbrechen';
+$jslang['save_tip']           = $lang['save_lbl'];
+$jslang['cancel_tip']         = $lang['cancel_lbl'];
+
+$jslang['tag_click_tip']      = $lang['tag_click_tip'];
+$jslang['edit_in_place_tip']  = 'Doppelklicken um diese Aufgabe direkt zu editieren';
+$jslang['project_click_tip']  = 'Nur diese Projekt anzeigen';
+$jslang['mark_complete_tip']  = 'Die Aufgabe als pendent/abgeschlossen markieren';
+$jslang['reveal_tip']         = "Die Notiz anzeigen oder verstecken";
+$jslang['sort_tip']           = '&#10; -ODER- Klick und ziehe um die Reihenfolge der Einträge zu ändern';

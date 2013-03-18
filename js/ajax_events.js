@@ -31,7 +31,8 @@ var app = (function () {
         lang            = {},   // language strings for app use
         task_button_tpl = '',   // template for task line buttons
         task_prefix     = '',
-        page_address    = '';   // current (deep link) page address
+        page_address    = '',   // current (deep link) page address
+        restricted      = false;    // restricd = trash or archive
 
 
     pub.init = function () {
@@ -124,6 +125,7 @@ var app = (function () {
                 response !== null &&
                 response !== '__failed__') {
 
+            restricted = response.restricted;
             update_view(response);
 
             if (response.address !== '' && $.address.value() !== response.address) {
@@ -184,6 +186,11 @@ var app = (function () {
         if (response.tabtools !== undefined) {
             $("#tabtools").html(response.tabtools);
         }
+        if (restricted === true) {
+            $(".restrict").prop("disabled", true);
+        } else {
+            $(".restrict").prop("disabled", false);
+        }
     };
 
 
@@ -238,7 +245,7 @@ var app = (function () {
 
         $('#footer select').on('change', function () {
             request({event: 'lang', value: this.value}, function () {
-                show_message([lang.lang.changed_msg, lang.green]);
+                show_message([lang.lang_change_msg, lang.green]);
                 window.setTimeout("window.location.reload()", 1000);
             });
         });

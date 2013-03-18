@@ -20,7 +20,7 @@ class App {
 
     function __construct() {
 
-        log&&msg(__METHOD__, 'Setting up the app API');
+        log&&msg('Setting up the app API');
 
         $this->user = new user\User(APP_PATH . config('user_file'));
         $this->files = new storage\Files(ini('taskpaper_folder'),
@@ -31,7 +31,7 @@ class App {
         $this->parser = new storage\Parser();
         $this->states = new user\States($this->files);
 
-        log&&msg(__METHOD__, 'building taskpapers');
+        log&&msg('building taskpapers');
 
         $this->taskpapers = new model\Taskpapers($this->states->active()->tab,
                                                  $this->files,
@@ -40,7 +40,7 @@ class App {
         $this->views = new view\Views($this->taskpapers);
         $this->dispatcher = new control\Dispatcher($this);
 
-        log&&msg(__METHOD__, 'Finished setting up the app API');
+        log&&msg('Finished setting up the app API');
     }
 }
 ?>

@@ -1,14 +1,26 @@
 <?php
 namespace tpp;
 
+//------------------------------
+// Error reporting and logging.  TURN OFF FOR RELEASE!
+//------------------------------
+
+// PHP errors
+define('SHOW_ERRORS', true);    // false
+// [PHP_ERROR] Error pretty printer for debugging (to webpage)
+define('PHP_ERROR', false);     // false
+// Show debug messages: de&&bug(...)
+define('de', true);             // false
+// Show performance|sequence logs:   log&&msg(...)
+define('log', false);           // false
+
 
 //**************************************
 // Fundamental paths and session setup
 //**************************************
-//
+
 // globally used app path, for all includes, requires, and file access
 $path = realpath(dirname(__FILE__) . '/..');
-//$path = realpath('.');
 define('APP_PATH', $path . '/');
 define('APP_NAME', basename($path));
 
@@ -17,10 +29,19 @@ define('APP_NAME', basename($path));
 session_name(APP_NAME);
 session_start();
 
+if (SHOW_ERRORS) {
+    // View all error and notices
+    error_reporting(E_ALL);
+    ini_set("display_errors", 1);
+}
 
-// better error reporting
-//require(APP_PATH . 'other/php_error.php' );
-//\php_error\reportErrors();
+if (PHP_ERROR) {
+    require_once(APP_PATH . 'other/php_error.php');
+    $opt = array(
+        'catch_class_not_found' => false,
+    );
+    \php_error\reportErrors($opt);
+}
 
 
 // takes care of autoloading class files
@@ -36,30 +57,13 @@ $config = array();
 require_once(APP_PATH . 'conf/config.php');
 
 
-//------------------------------
-// Error reporting and logging.
-//------------------------------
-
-// variable pretty printer for debugging (to webpage)
-//require_once(APP_PATH . 'other/dbug.php');
-
-// require_once(APP_PATH . 'other/kint/Kint.class.php');
-
-// main logging and debug printer (to file)
-require_once(APP_PATH . 'inc/logger.php');
-define('de', true);    // if we want debug messages logged de&&bug(...)    (see logger.txt)
-define('log', false);    // show performance|sequence logs   log&&msg(...)   (see logger.txt)
-
-define('SHOW_ERRORS', true);   // to show all errors and notices (on page)
-
-if (SHOW_ERRORS) {
-    // View all error and notices
-    error_reporting(E_ALL);
-    ini_set("display_errors", 1);
+// Main logging and debug printer (to file)
+if (de || log) {
+    require_once(APP_PATH . 'inc/logger.php');
 }
 
 
-log&&msg('Initialising basic app data in' . __FILE__);
+log&&msg('Initialising basic app data');
 
 
 //-----------------------------------------------
@@ -69,7 +73,8 @@ log&&msg('Initialising basic app data in' . __FILE__);
 // default extension for all taskpaper files (txt is probably best)
 define('EXT', ".txt");
 
-// default tab/page states (default tab is just the first)
+
+// default tab/page states (default tab will be the first one available)
 define('DEFAULT_EVENT', 'all');
 define('DEFAULT_VALUE', null);
 
@@ -149,18 +154,20 @@ define('RES_NO_SUCH_KEY', 3);
 // Regex patterns, terms and symbols used globally in app
 require_once(APP_PATH . 'conf/term.php');
 
+
 // Basic app functions: config() lang(), ini(), + general functions
 require_once(APP_PATH . 'inc/common.php');
 
 
-// Load global language array
-// language defaults to en (English) if missing; set in ini file
+// Load global language array from existing config file names
 $langs = glob('./conf/lang_*');
 foreach($langs as $lang) {
     $config['lang_list'][] = substr($lang, 12, -4);
 }
-$cur_lang = ini('language');
+$cur_lang = \tpp\ini('language');
 $lang_path = 'conf/lang_' . $cur_lang . '.php';
+
+// language defaults to en (English) if missing
 if ( ! file_exists($lang_path)) {
     $cur_lang = 'en';
     $lang_path = 'conf/lang_' . $cur_lang . '.php';
@@ -168,11 +175,14 @@ if ( ! file_exists($lang_path)) {
 require_once(APP_PATH . $lang_path);
 
 
-//$location = setlocale(LC_ALL, $cur_lang);
+// this ensures that dates will be localised also
+$location = setlocale(LC_ALL, $cur_lang);
+DEFINE('LOCATION', $location);
 
 
 // used in TaskItem
-define('MAX_ACTION', count(lang('state_order')) - 2);
+define('MAX_ACTION', count(\tpp\lang('state_order')) - 2);
+
 
 // set correct locale settings (timezone must be set first)
 $timezone = ini('timezone');
@@ -182,6 +192,7 @@ if (@date_default_timezone_set($timezone) === false) {
     $timezone = date_default_timezone_get();
     date_default_timezone_set($timezone);
 }
+DEFINE('TIMEZONE', $timezone);
 
 
 // compile LESS css sheets

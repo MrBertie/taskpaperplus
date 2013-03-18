@@ -176,8 +176,8 @@ $jslang['save_tip']           = $lang['save_lbl'];
 $jslang['cancel_tip']         = $lang['cancel_lbl'];
 
 $jslang['tag_click_tip']      = $lang['tag_click_tip'];
-$jslang['project_click_tip']  = 'Click to view this topic only';
 $jslang['edit_in_place_tip']  = 'Double-click to edit this task in place';
+$jslang['project_click_tip']  = 'Click to view this topic only';
 $jslang['mark_complete_tip']  = 'Click to toggle the task between done/todo';
 $jslang['reveal_tip']         = "Click to toggle the note";
 $jslang['sort_tip']           = '&#10; -OR- Click & drag to change order of item';

@@ -34,6 +34,9 @@ function logger() {
     static $start = 0;
     static $paths = array();
 
+    $t_hline = "\n" . str_repeat('=', 40) . "\n";
+    $hline = "\n" . str_repeat('-', 40) . "\n";
+    $s_hline = "\n\t....\n";
 
     if (empty($paths)) {
         $paths = array($config['debug_file'], $config['log_file']);
@@ -51,13 +54,6 @@ function logger() {
     $args = func_get_args();
 
     $debug = $args[0];
-    if ($debug == LOGGER_LOG) {
-        $line = str_repeat('.', 40) . "\n";
-        $indent = "\n\t\t\t\t";
-    } else {
-        $line = '';
-        $indent = "\n";
-    }
 
     array_shift($args);
 
@@ -69,16 +65,34 @@ function logger() {
             $files[$debug] = fopen($file_path, $open_type) or exit("Cannot open Log file: ".$file_path);
         }
 
+        $trace = debug_backtrace(false);
+        $file = @$trace[1]['file'];
+        $line = @$trace[1]['line'];
+        $class = @$trace[2]['class'];
+        $class = (empty($class)) ? '<none>' : $class;
+        $function = @$trace[2]['function'];
+
         if ($print_header) {
-            fwrite($files[$debug], "\n\nLog File:  " . date('Y-m-d H:i:s') . "\n" .
-                    str_repeat('=', 40) . "\n");
+            fwrite($files[$debug], "\n\n" .
+                    'Date:'. "\t\t" . date('Y-m-d H:i:s') . $t_hline);
         }
 
+        fwrite($files[$debug], '[' . $time . ']' . $hline .
+               'File:'. "\t" . $file .
+               ' @ '. $line . "\n" .
+               'Class:'. "\t" . $class .
+               ' -> ' . $function . $s_hline);
+
+        $result = $text = '';
         for ($i = 0; $i < count($args[0]); $i++) {
-            $items[] = var_export($args[0][$i], true);
+            $raw = $args[0][$i];
+            $type = '(' . \gettype($raw) . ')';
+            $item = var_export($raw, true);
+            $text =  (string) $item;
+            $text = $type . "  " . $text;
+            $result .= "" . $text . $s_hline;
         }
+        fwrite($files[$debug], $result . "\n\n");
 
-        $text = (string) ($items !== null && is_array($items) ? implode($indent, $items) : $items);
-        fwrite($files[$debug], '[' . $time . ']' . "\t" . $text . "\n" . $line);
     }
 }

@@ -78,7 +78,7 @@ class BasicDispatcher {
 
     private function _do_index(State $state) {
 
-        log&&msg(__METHOD__, 'found index EVENT, state: ', $state);
+        log&&msg('found index EVENT, state: ', $state);
 
         $response = $this->index($state);
         $state->activate();
@@ -100,7 +100,7 @@ class BasicDispatcher {
         if ($ajax && $has_action && $action_exists) {
             $response = call_user_func(array($this, self::PFX_ACTION . $request->event), $request);
 
-            log&&msg(__METHOD__, 'found ACTION from: ', $request);
+            log&&msg('found ACTION from: ', $request);
 
             // only content updated, return previous STATE
             if ($response == self::UPDATED) {
@@ -134,7 +134,7 @@ class BasicDispatcher {
 
         if (method_exists($this, self::PFX_STATE . $state->event)) {
 
-            log&&msg(__METHOD__, 'found state EVENT, setting state to: ', $state);
+            log&&msg('found state EVENT, setting state to: ', $state);
 
             $response = call_user_func(array($this, self::PFX_STATE . $state->event), $state);
 
@@ -145,7 +145,7 @@ class BasicDispatcher {
                 // this state becomes the new Active
                 $state->activate();
 
-                log&&msg(__METHOD__, 'called STATE:', $state, 'RESPONSE is: ', $response);
+                log&&msg('called STATE:', $state, 'RESPONSE is: ', $response);
                 return $response;
             }
         }
@@ -171,7 +171,7 @@ class Dispatcher extends BasicDispatcher {
 
     function __construct(tpp\App $app) {
 
-        log&&msg(__METHOD__, 'constructing Dispatcher');
+        log&&msg('constructing Dispatcher');
 
         $this->_states = $app->states;
         $this->_taskpapers = $app->taskpapers;
@@ -199,14 +199,14 @@ class Dispatcher extends BasicDispatcher {
         // first confirm that user is valid
         if ( ! $this->_check_login()) {
 
-            log&&msg(__METHOD__, 'login failed');
+            log&&msg('login failed');
 
             return;
         }
 
         $request = & $this->request;
 
-        log&&msg(__METHOD__, 'beginning the response; request is:', $request);
+        log&&msg('beginning the response; request is:', $request);
 
 
         // save any draft text...
@@ -220,7 +220,7 @@ class Dispatcher extends BasicDispatcher {
         }
         parent::respond();
 
-        log&&msg(__METHOD__, 'finished response, state saved as:', $this->_states->active());
+        log&&msg('finished response, state saved as:', $this->_states->active());
     }
 
 
@@ -425,14 +425,14 @@ class Dispatcher extends BasicDispatcher {
             case self::TAB_SAME:
                 $state = $this->request->to_state(true);
 
-                log&&msg(__METHOD__, 'refresh tab: leave state as:', $state);
+                log&&msg('refresh tab: leave state as:', $state);
 
                 break;
 
             case self::TAB_CHANGED:
                 $state = $this->_states->item($tab);
 
-                log&&msg(__METHOD__, 'change tab: setting state to:', $state);
+                log&&msg('change tab: setting state to:', $state);
 
                 break;
 
@@ -445,7 +445,7 @@ class Dispatcher extends BasicDispatcher {
                     // edit event set the draft text as a value
                     $state->value = '';
                 }
-                log&&msg(__METHOD__, 'new tab: setting state to:', $state);
+                log&&msg('new tab: setting state to:', $state);
 
                 break;
 

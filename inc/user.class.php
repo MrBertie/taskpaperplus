@@ -15,7 +15,7 @@ class User {
         $this->_encrypt = $encrypt;
         $this->_load_users();
 
-        log&&msg(__METHOD__, 'Loaded user authenication');
+        log&&msg('Loaded user authenication');
     }
 
     function login($username, $password) {

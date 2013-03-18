@@ -169,7 +169,7 @@ $jslang['rename_msg']         = 'Quel est le nouveau nom pour cet onglet?';
 $jslang['remove_msg']         = 'Supprimer cet onglet';
 $jslang['create_msg']         = 'Quel est le nom du nouvel onglet?';
 $jslang['search_msg']         = '';   // currently unused
-$jslang['lang_change_msg']    = 'Langue changée; rechargement de la page...';
+$jslang['lang_change_msg']    = 'Nouvelle langue sélectionnée! Rechargement de la page...';
 
 $jslang['editable_tip']       = 'Faites vos modifications et cliquez sur Enregistrer ou Annuler';
 $jslang['save_tip']           = $lang['save_lbl'];

@@ -65,7 +65,7 @@ class TaskTemplate extends Template {
             $markup = $li . $text . $note . '</li>';
         }
 
-        log&&msg(__METHOD__, 'building task:', $item->raw(), get_class($item), $markup);
+        log&&msg('building task:', $item->raw(), get_class($item), $markup);
 
         return $markup . "\n";
     }

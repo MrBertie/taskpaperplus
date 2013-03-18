@@ -65,7 +65,7 @@ class Taskpapers {
         // if the active is already set then get it
         if (is_null($name) && isset($this->_active)) {
 
-            \log&&msg(__METHOD__, 'getting the currently active taskpaper:', $this->_active_file);
+            \log&&msg('getting the currently active taskpaper:', $this->_active_file);
 
             return $this->_active;
 
@@ -84,7 +84,7 @@ class Taskpapers {
             // return a new instance of the active taskpaper
             $this->_active = $this->_get_taskpaper($file->name);
 
-            \log&&msg(__METHOD__, 'returning a new taskpaper instance');
+            \log&&msg('returning a new taskpaper instance');
 
             return $this->_active;
         }
@@ -142,7 +142,7 @@ class Taskpapers {
         if ($name !== false) {
             $this->_cache->refresh();
 
-            \log&&msg(__METHOD__, "created a new taskpaper called: $name");
+            \log&&msg("created a new taskpaper called: $name");
 
         }
         return $name;

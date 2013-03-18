@@ -110,4 +110,3 @@ class Ini implements \Iterator {
     }
 
 }
-?>
