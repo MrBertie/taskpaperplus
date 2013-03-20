@@ -374,7 +374,7 @@ class ContentBuilder {
         // Create searching|sorting arrays unique to tasks
         $this->_cont->tasks[] = $key;  // only tasks
         $this->_cont->task_date[$key] = $parsed->date;
-        $this->_cont->task_state[$key] = ($parsed->done) ? MAX_ACTION + 1 : $parsed->action;
+        $this->_cont->task_state[$key] = ($parsed->done) ? 0 : $parsed->action + 1;
         $this->_cont->tags = array_merge($this->_cont->tags, $parsed->tags);
         $this->_cont->task_count++;
     }
@@ -411,8 +411,9 @@ class ContentBuilder {
         $parsed->key = $key;
         $this->_cont->types[$key] = $parsed->type;
         $this->_cont->parsed_items[$key] = $parsed;
-        if ($get_raw) $this->_cont->raw_items[$key] = $this->_get_raw($parsed);
-
+        if ($get_raw) {
+            $this->_cont->raw_items[$key] = $this->_get_raw($parsed);
+        }
         return $key;
     }
 
@@ -453,4 +454,3 @@ class ContentBuilder {
         $this->_cont->count = count($this->_cont->raw_items);
     }
 }
-?>

@@ -73,25 +73,23 @@ class Search {
             list($tasks, $dates) = $this->_sort_results($tasks, $sort_filters);
         }
         $task_hits = count($tasks);
+        $groups = array();
         if ($this->_group_dates) {
-            $grouped_tasks = array();
             $prev_month = '';
             foreach ($tasks as $key => $task) {
                 $date = current($dates);
                 $month = ($date != 0) ? date($term['group_date'], $date) : tpp\lang('no_date_hdr');
                 if ($prev_month != $month) {
-                    $grouped_tasks[$month] = $month . $term['proj_suffix'];
+                    $groups[$key] = $month . $term['proj_suffix'];
                     $prev_month = $month;
                 }
-                // TODO: this was $due_task, need to confirm why?
-                $grouped_tasks[$key] = $task;
                 next($dates);
             }
-            $tasks = $grouped_tasks;
         }
         $project_hits = count($projects);
-        return new FilteredItems($tasks, $task_hits, $projects, $project_hits, $title);
+        return new FilteredItems($tasks, $task_hits, $projects, $project_hits, $title, $groups);
     }
+
 
     private function _separate_projects($items) {
         $tasks = array_diff_key($items, $this->_content->project_index);
@@ -104,6 +102,8 @@ class Search {
 
     private function _sort_results(array $tasks, array $sort_filters) {
         $sort_args = array();
+        $dates = array();
+
         foreach ($sort_filters as $sort_filter) {
             $dir = $sort_filter->dir;
             $sort_by = $sort_filter->sort_by;
@@ -132,7 +132,7 @@ class Search {
         }
         $this->_multisort($tasks, $sort_args);
 
-        // grouping by month if last sort was by date
+        // grouping by month if last sort was by gdate
         if ($sort_by == 'gdate') {
             $this->_group_dates = true;
             // get the sorted date array also
@@ -141,9 +141,10 @@ class Search {
         return array($tasks, $dates);
     }
 
+
     // sort by each sorting array, in order
     private function _multisort(&$tasks, &$sort_args) {
-        if (!empty($sort_args)) {
+        if ( ! empty($sort_args)) {
             $args = array();
             foreach ($sort_args as &$sort_arg) {
                 $args[] = &$sort_arg[0];
@@ -239,6 +240,8 @@ class TokenFilter {
     }
 }
 
+
+
 /**
  * Parses any complete search expression, calls necessary Filter classes
  * (some classes, e.g. NamedFilter will recursively call ExpressionParser as needed)
@@ -249,6 +252,7 @@ class ExpressionFilter extends TokenFilter {
         $this->type = 'expression';
         return $this->_filter($tasks, $expression);
     }
+
 
     private function _tokenise($expression) {
         // quoted phrases are replaced by a marker token `n` and later replaced in token array
@@ -313,6 +317,8 @@ class ExpressionFilter extends TokenFilter {
         return $filt_tasks;
     }
 }
+
+
 
 class DateTokenFilter extends TokenFilter {
 
@@ -466,13 +472,22 @@ class StateFilter extends TokenFilter {
     }
 
     function filter(array $tasks, $token = '') {
-        if (!empty($token)) {
+        if ( ! empty($token)) {
             $this->match($token);
         }
         if ($this->matched() === true) {
+            $idx = $this->_index;
             $states = $this->_content->task_state;
             // here we filter purely by state index number (0-4 currently)
-            $states = preg_grep('/' . $this->_index . '/', $states);
+            if ($idx == 1) {
+                $states = array_filter($states, function($state) {
+                    return $state > 0;
+                });
+            } else {
+                $states = array_filter($states, function($state) use($idx) {
+                    return $state == $idx;
+                });
+            }
             $tasks = array_intersect_key($tasks, $states);
         }
         return $tasks;
@@ -597,7 +612,7 @@ class IntervalFilter extends DateTokenFilter {
     private $_interval = '';
     private $_count = 0;
     private $_index = false;
-    private $_eq = '';  // equality: = > <
+    private $_op = '';  // operator: = > <
 
     function match($token) {
         global $term;
@@ -609,16 +624,16 @@ class IntervalFilter extends DateTokenFilter {
             $interval = $this->_matched_tokens[3];
             list($key, $interval) = $this->_match_name($interval, \tpp\lang('interval_names'));
             if ($key !== false) {
-                $eq = $this->_matched_tokens[1];
+                $op = $this->_matched_tokens[1];
                 $count = $this->_matched_tokens[2];
                 if (strpos('day week month year', $key) !== false) {
                     $interval .= ($count > 1) ?  's' : '';
-                    $next = ($eq == '<') ? tpp\lang('prev_lbl') : \tpp\lang('next_lbl');
+                    $next = ($op == '<') ? tpp\lang('prev_lbl') : \tpp\lang('next_lbl');
                     $next .=  ' ';
                     $count = ($count > 1) ? $count : 1;
                     $number = ($count > 1) ?  ' ' . $count . ' ' : '';
                 } elseif($key == 'today') {
-                    $next = ($eq == '<') ? \tpp\lang('before_lbl') : \tpp\lang('after_lbl');
+                    $next = ($op == '<') ? \tpp\lang('before_lbl') : \tpp\lang('after_lbl');
                     $next .=  ' ';
                     $count = 0;
                     $number = '';
@@ -627,8 +642,8 @@ class IntervalFilter extends DateTokenFilter {
                     $count = 0;
                     $number = '';
                 }
-                $this->_eq = $eq;
-                $this->_parsed_term = $next . $number . $interval;
+                $this->_op = $op;
+                $this->_parsed_term = $op . $next . $number . $interval;
                 $this->_index = $key;
                 $this->_count = $count;
                 $this->_interval = $interval;
@@ -642,7 +657,7 @@ class IntervalFilter extends DateTokenFilter {
             $this->match($token);
         }
         if ($this->matched() === true) {
-            list($start_date, $end_date, $eq) = $this->_convert_to_date($this->_index, $this->_count, $this->_eq);
+            list($start_date, $end_date, $eq) = $this->_convert_to_date($this->_index, $this->_count, $this->_op);
             return $this->filter_by_date($tasks, $start_date, $end_date, $eq);
         } else {
             return $tasks;
@@ -705,10 +720,10 @@ class IntervalFilter extends DateTokenFilter {
             $end_date = mktime(0, 0, 0, date("m"), date("d"), date("Y") + $count);
             break;
         default:
-            return false;;
+            return false;
         }
+
         // note: date class will swap start and end dates based on eq
         return array($start_date, $end_date, $eq);
     }
 }
-?>

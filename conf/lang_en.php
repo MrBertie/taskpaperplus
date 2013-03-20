@@ -23,50 +23,55 @@ $lang = array();
  * visible:    should this filter be added to Filter sidebar (true),
  *             or just be available from the search box, or used in other filters (false)
  */
-$lang['filter_settings']    = array('next'  => array('*next | >week \\date', 'Next action plus next week', 'yellow', true),
-                                     'soon'  => array('*todo >month \\date', 'Due in next month', 'green', true),
-                                     'wait'  => array('*wait', 'Tasks waiting on someone/something', 'cyan', true),
-                                     'maybe' => array('*maybe', 'Tasks to be done sometime, perhaps', 'violet', true),
-                                     'todo'  => array('*todo', 'All incomplete tasks', 'blue', true),
-                                     'done'  => array('*done', 'Completed tasks only', 'gray', true),
-                                     'due'   => array('*todo =date \\gdate', 'Incomplete tasks with a date', 'green', true),
-                                     'late'  => array('*todo <today \\gdate', 'Incomplete tasks with expired date', 'red', true),
+$lang['filter_settings']    = array(
+                                    'next'  => array('*next | >week /date', 'Next action plus next week', 'yellow', true),
+                                    'soon'  => array('*todo >month /date', 'Due in next month', 'green', true),
+                                    'wait'  => array('*wait', 'Tasks waiting on someone/something', 'cyan', true),
+                                    'maybe' => array('*maybe', 'Tasks to be done sometime, perhaps', 'violet', true),
+                                    'todo'  => array('*todo', 'All incomplete tasks', 'blue', true),
+                                    'done'  => array('*done', 'Completed tasks only', 'gray', true),
+                                    'due'   => array('*todo =date /date', 'Incomplete tasks with a date', 'green', true),
+                                    'late'  => array('*todo <today /date', 'Incomplete tasks with expired date', 'red', true),
                                     );
 
 // search engine intervals and commands (English => Other Language)
-$lang['interval_names']     = array('date' => 'date',
-                                     'future' => 'future',
-                                     'past' => 'past',
-                                     'yesterday' => 'yesterday',
-                                     'today' => 'today',
-                                     'tomorrow' =>'tomorrow',
-                                     'day' => 'day',
-                                     'week' => 'week',
-                                     'month' => 'month',
-                                     'year' => 'year',
+$lang['interval_names']     = array(
+                                    'date' => 'date',
+                                    'future' => 'future',
+                                    'past' => 'past',
+                                    'yesterday' => 'yesterday',
+                                    'today' => 'today',
+                                    'tomorrow' =>'tomorrow',
+                                    'day' => 'day',
+                                    'week' => 'week',
+                                    'month' => 'month',
+                                    'year' => 'year',
                                     );
 
 // names of the various sorting "columns" (English => Other Language)
-$lang['sort_names']         = array('task' => 'task',
-                                     'date' => 'date',
-                                     'gdate' => 'gdate',  // grouped dates
-                                     'topic' => 'topic',
-                                     'state' => 'state',
+$lang['sort_names']         = array(
+                                    'task' => 'task',
+                                    'date' => 'date',
+                                    'gdate' => 'gdate',  // grouped dates
+                                    'topic' => 'topic',
+                                    'state' => 'state',
                                     );
 
-// different states (todo, done should not be changed) (English => Other Language)
-$lang['state_names']        = array('todo' => 'todo',
-                                     'next' => 'next',
-                                     'wait' => 'wait',
-                                     'maybe' => 'maybe',
-                                     'done' => 'done',
+// different states (English => Other Language)
+$lang['state_names']        = array(
+                                    'done' => 'done',
+                                    'todo' => 'todo',
+                                    'next' => 'next',
+                                    'wait' => 'wait',
+                                    'maybe' => 'maybe',
                                     );
 
-// 0=todo, 1=next, etc.. done should always be last!
-$lang['state_order']        = array('todo', 'next', 'wait', 'maybe', 'done');
-// colours used for various states (in order of use)
+// 0=done, 1=todo, etc.. done should always be first!
+$lang['state_order']        = array('done', 'todo', 'next', 'wait', 'maybe');
+
+// colours used for various actions (in order of use)
 // currently: none, next, wait, maybe (done has no colour)
-$lang['state_colours']      = array('none', 'yellow', 'cyan', 'violet', '');
+$lang['state_colours']      = array('none', 'yellow', 'cyan', 'violet');
 
 
 // main headers and titles

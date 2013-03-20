@@ -88,6 +88,7 @@ a:hover {
   right:-28px;
   top:-12px;
 }
+.tabs p.today:hover { color:#6c71c4; }
 #header {
   background-color:#f7f5ee;
   border-bottom:1px solid #d7d5d4;

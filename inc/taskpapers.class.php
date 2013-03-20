@@ -594,6 +594,7 @@ class FilteredItems extends Items {
     private $_projects = array();
     private $_count = 0;
     private $_title = '';
+    private $_groups = array();
 
     /**
      * @param array $items
@@ -606,13 +607,15 @@ class FilteredItems extends Items {
                          $count = 0,
                          Array $projects = array(),
                          $project_count = 0,
-                         $title = ''
+                         $title = '',
+                         Array $groups = array()
                          ) {
         // filtered raw_items array: only the $keys are actually used
         $this->_items = $items;
         $this->_projects = new FilteredProjects($projects, $project_count);
         $this->_count = $count;
         $this->_title = $title;
+        $this->_groups = $groups;
     }
 
     function projects() {
@@ -626,19 +629,26 @@ class FilteredItems extends Items {
     function title() {
         return $this->_title;
     }
+
+    private function _info($text) {
+        $info = (object) array('type' => 'info', 'text' => $text, 'raw' => $text, 'note' => array('text' => "", 'len' => 0, 'raw' => ""));
+        return $info;
+    }
 }
 
 
 class FilteredProjects extends ProjectItems {
 
-    function __construct(Array $projects = array(), $project_count = 0) {
+    function __construct(
+        Array $projects = array(),
+        $project_count = 0) {
         $this->_items = $projects;
         $this->_count = $project_count;
     }
 
     function item($key) {
-        $index = self::$_content->project_by_key($key);
-        return new ProjectItem($index);
+        $project = self::$_content->project_by_key($key);
+        return new ProjectItem($project);
     }
 }
 
@@ -762,7 +772,7 @@ class TaskItem extends BasicItem {
     }
 
     /**
-     * Set/get the state "Action" , i.e. highlighting: next, wait, maybe, etc...
+     * Set/get the action , i.e. highlighting: next, wait, maybe, etc...
      *
      * @param integer $value Constant ACTION_* (states)
      * @return boolean
@@ -771,9 +781,10 @@ class TaskItem extends BasicItem {
         if (is_null($value)) {
             return $this->_parsed->action;
         } else {
-            $value = ($value <= MAX_ACTION) ? (int) $value : 0;
+            $value = ($value > MAX_ACTION) ? 0 : (int) $value;
             $this->_parsed->action = $value;
-            $updates = $this->_new_state($this->_parsed);
+
+            $updates = $this->_to_state($this->_parsed);
             $this->_update(UPDATE_STATE, $updates);
         }
     }
@@ -843,30 +854,16 @@ class TaskItem extends BasicItem {
      * First few states correspond with actions, followed by no-state, then done tasks
      * this produces a more logical sorting order for states
      */
-    private function _new_state(\StdClass $parsed) {
+    private function _to_state(\StdClass $parsed) {
         if ($parsed->done) {
-            $state = MAX_ACTION + 1;
-        } elseif ($parsed->action <= MAX_ACTION) {
-            $state = $parsed->action;
-        } else {
             $state = 0;
+        } elseif ($parsed->action <= MAX_ACTION) {
+            $state = $parsed->action + 1;
+        } else {
+            $state = 1;
         }
         return array($state, $parsed->key);
     }
-
-
-//    private function _rebuild_raw(\StdClass $parsed) {
-//        global $term;
-//        // TODO: could this be improved too
-//        $done = ($parsed->done) ? $term['done_prefix'] : '';
-//        $done .= $term['task_prefix'];
-//        $action = ' ' . str_repeat($term['action_suffix'], $parsed->action);
-//        $raw = $parsed->raw;
-//        $old_prefix = '/^' . $term['done_prefix'] . '?' . $term['task_prefix'] . '/';
-//        $raw = preg_replace($old_prefix, $done, $raw);
-//        $raw = preg_replace($term['action'], $action, $raw);
-//        return $raw;
-//    }
 
 
     private function _rebuild_raw (\StdClass $parsed) {
