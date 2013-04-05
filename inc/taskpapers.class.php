@@ -753,7 +753,7 @@ class TaskItem extends BasicItem {
     /**
      * Set/get task "Done" state.
      *
-     * Usually signified by the presence|absence of the X at beginning of the task.
+     * Signified by the presence|absence of the X at beginning of the task.
      * (see config.php to change the syntax)
      *
      * Current state highlighting will be restored should the task be "undone".
@@ -766,7 +766,7 @@ class TaskItem extends BasicItem {
             return $this->_parsed->done;
         } else {
             $this->_parsed->done = (bool) $value;
-            $updates = $this->_new_state($this->_parsed);
+            $updates = $this->_to_state($this->_parsed);
             $this->_update(UPDATE_STATE, $updates);
         }
     }
@@ -880,8 +880,8 @@ class TaskItem extends BasicItem {
             $tags = ' ' . $this->_add_tag_symbol($parsed->tags);
         }
         if ( ! empty($parsed->date)) {
-            $date = strftime(\tpp\config('date_format'), $date);
-            $date = ' ' . $this->_add_tag_symbol($parsed->date);
+            $date = strftime(\tpp\config('date_format'), $parsed->date);
+            $date = ' ' . $this->_add_tag_symbol($date);
         }
         if ($parsed->action > 0) {
             $action = ' ' . str_repeat($term['action_suffix'], $parsed->action);

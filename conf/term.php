@@ -24,20 +24,20 @@ $action                    = '(\s[' . $term['action_suffix'] . ']{1,5})?';
 $is_task                   = '((?i)' . $term['done_prefix'] . '?(?-i))' . $term['task_prefix'];
 
 // main task parsing regexs
-$title                    = '\s*((\d+):)?(.*)\s*';
-$term['md_title']         = '/' . $title . '/';
-$term['md_title_ul']      = '/={4,12}/';
-$term['doku_title']       = '/==' . $title . '==/';
+$title                    = '\s*((\d+):)?(.*)\s*';                                  // title text
+$term['md_title']         = '/' . $title . '/';                                     // Markdown style title
+$term['md_title_ul']      = '/={4,12}/';                                            // Markdown style title underline
+$term['doku_title']       = '/==' . $title . '==/';                                 // Dokuwiki style
 
-$term['project']          = '/(.+)' . $term['proj_suffix'] . '$/';
-$term['task']             = '/^' . $is_task . '(.+?)/';
-$term['split_task']       = '/^' . $is_task . '(.+?)' . $action . '(\n|$)/';
-$term['date']             = '~' . $date_only . '~';
-$term['tag']              = '/' . $term['tag_prefix'] . '(?!\d{1,2})(' . $i8n_word . '+)/';    // normal tag
-$term['tag_date']         = '~' . $term['tag_prefix'] . '(' . $date_only . ')~';   // date tag
-$term['action']           = '/' . $action . '(\n|$)/';
+$term['project']          = '/(.+)' . $term['proj_suffix'] . '$/';                  // a topic/project
+$term['task']             = '/^' . $is_task . '(.+?)/';                             // a full task
+$term['split_task']       = '/^' . $is_task . '(.+?)' . $action . '(\n|$)/';        // separating the task text and action
+$term['date']             = '~' . $date_only . '~';                                 // general dates
+$term['tag']              = '/' . $term['tag_prefix'] . '(' . $i8n_word . '+)/';    // normal tag
+$term['tag_date']         = '~' . $term['tag_prefix'] . '(' . $date_only . ')~';    // date tag
+$term['action']           = '/' . $action . '(\n|$)/';                              // action on the end
 $term['info']             = '/^(?!' . $term['done_prefix'] . '?' . $term['task_prefix'] . ').+(?<!' . $term['proj_suffix'] . ')$/';
-$term['indent_note']      = '/^\s{2,4}(.+)/';
+$term['indent_note']      = '/^\s{2,4}(.+)/';                                       // indented style note
 
 // basic task text formatting (used in task.tpl.php)
 $term['hyperlink']        = '/\[([^|]+?)(\|(.+?))?\]/';

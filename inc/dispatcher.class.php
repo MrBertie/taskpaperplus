@@ -6,7 +6,7 @@ use tpp, tpp\User\State as State;
 /**
  * Basic router/dispatcher, based on calling correct function by naming convention.
  *
- * @author syanna
+ * @author Symon Bent
  */
 class BasicDispatcher {
 
@@ -207,7 +207,6 @@ class Dispatcher extends BasicDispatcher {
         $request = & $this->request;
 
         log&&msg('beginning the response; request is:', $request);
-
 
         // save any draft text...
         if ($this->state->event == 'edit' && ! empty($this->request->draft)) {
