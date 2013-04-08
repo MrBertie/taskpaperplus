@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<title>Search Taskpaper+</title>
+
+<xmp theme="spacelab" style="display:none;">
+Search Cheatsheet
+======
+All of following syntax can be used in searches, in any order.
+You only need to type as much of the word as necessary for it to be recognised:
+
+E.g. "=tom" is enough to search for "=tomorrow"
+    
+
+Simple
+------
+- Word            `harry`
+- Multiple words  `harry roof fall`
+- Exclude words   `harry -roof`
+- Phrases         `"harry fell off roof"`
+- Or search       `harry | roof`
+- Simple date     `=24-Jul-2009`
+- Before/after    `<24-jul-2010 >24-Jul-2010`
+- Date range      `24-jul-2009..24-aug-2009`
+- Tags            `#harry`
+
+Intervals `=`
+------
+- Yesterday   `=yesterday`
+- Today       `=today >today <today`
+- Tomorrow    `=tomorrow`
+- Day         `=day =2day =10day`
+- Week        `=week =2week`
+- Month       `=month =6month`
+- Year        `=year >year <year`
+- Past        `=past`
+- Future      `=future`
+
+*NOTE: Day, week, month, year, all accept a number before the word (no spaces!), meaning the number of intervals*
+
+States `*`
+------
+- Todo    `*todo`
+- Next    `*next`
+- Wait    `*wait`
+- Maybe   `*maybe`
+- Done    `*done`
+
+Filters `#`
+------
+- Next    `#next`
+- Soon    `#soon`
+- Wait    `#wait`
+- Maybe   `#maybe`
+- Todo    `#todo`
+- Done    `#done`
+- Due     `#due`
+
+Sorting `/ \`
+------
+- Task        `/task \task`
+- Late        `#late`
+- State       `/state \state`
+- Date        `/date \date`
+- Project     `/project \project`
+- Multiple    `#harry \date`
+- Multiple    `=week | *next \date`
+
+*NOTE:*
+
+- `/` means search "ascending (a-z, or dates going up)
+- `\` means "descending" (z-a, dates going down)
+
+**Happy searching!**
+</xmp>
+
+<script src="http://strapdownjs.com/v/0.2/strapdown.js"></script>
+</html>

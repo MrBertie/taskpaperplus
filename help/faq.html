@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<title>FAQ Taskpaper+</title>
+
+<xmp theme="united" style="display:none;">
+FAQ: Frequently Asked Questions
+======
+1. [Installing and Updating](#install)
+1. [Editing](#editing)
+1. [Searching](#searching)
+1. [Navigating](#navigating)
+1. [Managing](#managing)
+1. [User Interface](#gui)
+1. [Why can't...Why isn't?](#why)
+
+<a id="install"></a>
+
+1. Installing and Updating
+------
+Q. How do I update an existing installation?
+
+As of taskpaper+ 0.7beta3 you can now just copy the new files over the top of the old ones. Your data folder and configuration will not be affected. Because I'm imperfect like this program, please, please backup up you precious tasks before you update!
+
+
+<a id="editing"></a>
+
+2. Editing
+------
+Q. How can I add a new task or project using the edit-in-place box?
+
+Double-click any task to begin editing in place, then simply type above or below the existing task and add a new one using the usual
+
+    - new task
+    
+syntax. New projects and notes can also be added this way. In reality it's just a mini version of the big edit view.
+
+
+<a id="searching"></a>
+
+3. Searching
+------
+Q. Is it possible to adapt this list of filters in the right sidebar to your my preferences?
+
+Yes, in the conf/lang_en.php file (look for your own language where this exists).  Open the file in a real text editor (please do not use MS Word!)  Now look for the $lang['filter_settings'] array; each line contains the parameters for a filter.  
+The first item is the filter expression, this can be any valid search expression, exactly as you would type into the search box.  Second is the tooltip to be displayed, the third, the colour to use for the background.   Fourth is whether to make the filter visible or not (invisible ones can still be used from the Search Box.  It's actually very easy to create new filters.
+
+
+<a id="navigating"></a>
+
+4. Navigating
+------
+Q. Why doesn't the back button work? (FIXED)
+
+Simple answer: I'm not clever enough yet to make it work correctly
+
+Real problem: this is a so-called AJAX web application, the web page is only loaded once, the first time you start the app (or if you refresh the browser page). All other information is updated in-place on the page as needed, tabs, tasks, tags, and so on. So the actual page address does not change, so there's nowhere to go "back" to! I'm working on a solution but its slow in coming.
+
+**NEW**: as on version 0.8alpha the back button now works as expected (thanks to jQuery jAddress plugin and a whole lot of programming to make it work in taskpaper.)
+
+
+<a id="managing"></a>
+
+5. Managing
+------
+Q. Where are my taskpaper files saved?
+
+Find where you put your Taskpaper+ installation folder, open it up and navigate to {taskpaper+ folder}\www\taskpaper\data\ and there you should see all your busy little plain-text files that contain all your tasks. You can edit these files directly with a text editor if you wish (please don't use Word! Download Notepad2 or Notepad++)
+
+Note: the text files are in UTF-8 encoding with Unix LF line-endings which standard Windows Notepad doesn't handle so well, so a decent text editor is recommended. There's a plethora of really good free ones out there so no excuses! (e.g Notepad++, Notepad2, etc.. Google is your friend)
+
+Q. How do I sync, backup, import, or export my tasks?
+
+Well, they're just plain-text files, so you can just save a copy of the entire data folder somewhere else, or use a good file sync or backup program to do it automatically (I recommend FreeFileSync, SyncToy or CobianBackup9 myself, but then YMMV). I personally use a version control system (Darcs) to keep revisions of my tasks.
+
+If you really want to get clever you could sync the data folder via Dropbox on the web, or a similar service, to have you tasks available at work and home, either way its easy to work with good ol' plain-text
+
+
+<a id="gui"></a>
+
+6. User Interface
+------
+Q. I'm sick of the tooltips, I know all the functions by heart now, so can I turn them off?
+
+A. You'll be glad to know the answer is yes. Open the conf/config.php and change the $config['hide_tips] value to true. That's it, all tooltips will disappear!
+
+Q. Can I change the interface to my own language, instead of English?
+
+A. yes, it is possible. French is already provided, and if you are ready to translate the conf/lang_en.php into your own language you can easily use that too. Please send any translated lang_nn.php files to me and I will willingly add them to the program. The language selection can be made in the conf/config.ini file, by changing the language=en to the whatever language is available, e.g. french is language=fra.
+
+
+<a id="why"></a>
+
+7. Why can't... why isn't?
+------
+Q. Why isn't the syntax exactly like Taskpaper from Hogbay?
+
+I guess the best answer is 'personal preference.' I wrote this app initially for my own use (and still use it daily), and I changed a few symbols because I think they are more obvious and easier to use. A prime example is the use of 'X- closed task' rather than Hogbay's '- closed task @done
+
+Ask yourself which one is quicker to write, easier to see, and easier to internationalise?
+
+Q. Why do I have to dig into text files to change settings, why don't you provide a nice settings page like other programs?
+
+A. Just a question of time, I haven't had time to write a settings page yet. It'll come one day! Remember I don't get paid for writing taskpaper, I do it because it's useful to me, and I enjoy it. Editing text files is not really that difficult though... ;-)
+
+------
+
+*Symon Bent, Madagascar. Revised: 2013-Apr-09 19:00*
+</xmp>
+
+<script src="http://strapdownjs.com/v/0.2/strapdown.js"></script>
+</html>

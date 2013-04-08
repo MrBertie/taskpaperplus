@@ -1,7 +1,7 @@
 <p class="version-number">Version: <?php echo \tpp\config('version_number'); ?></p>
-<a href="help.html"><?php echo \tpp\lang('help_lbl'); ?></a>
-<a href="readme.txt"><?php echo \tpp\lang('about_lbl'); ?></a>
-<a href="faq.html"><?php echo \tpp\lang('faq_lbl'); ?></a>
+<a href="help/help.html"><?php echo \tpp\lang('help_lbl'); ?></a>
+<a href="readme.md"><?php echo \tpp\lang('about_lbl'); ?></a>
+<a href="help/faq.html"><?php echo \tpp\lang('faq_lbl'); ?></a>
 <a href="<?php echo tpp\config('website_url'); ?>"><?php echo \tpp\lang('website_lbl'); ?></a>
 
 <select name="lang-list">

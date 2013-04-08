@@ -1,0 +1,445 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<title>Help Taskpaper+  ::  "More stuff, less fluff!"</title>
+
+<xmp theme="united" style="display:none;">
+
+Table of Contents
+======
+* [An Overview of Taskpaper+](#overview)
+* [Getting started](#getting_started)
+* [Understanding the Task Syntax](#syntax)
+* [Adding and Editing Tasks](#adding_tasks)
+* [Archiving and Deleting](#deleting_tasks)
+* [Moving Between Taskpapers](#navigating)
+* [Adding and Removing Tabs](#adding_tabs)
+* [Filter and Search](#searching)
+* [Printing a Task List](#printing)
+* [Frequently Asked Questions (FAQ)](#faq)
+
+
+What is Taskpaper+ anyway?
+======
+Do you like pencil and paper...well Taskpaper+ was written to work the same way--to make task management on your computer as quick, easy, and intuitive as possible! This is a program that tries its best to keep out of your way, and lets you focus on the important thing: getting stuff finished.
+
+![An Overview](images/taskpaper_window_small.png)
+
+However don't let the light, uncluttered, understated, interface fool you... Taskpaper+ goes way beyond paper: it allows you to search, filter, group, and manage your tasks to your heart's content, without bundles of buttons, dialog boxes, menus, zing, bling, pazzazz and fluff. After all, if its not quicker than paper then why bother!
+
+----
+
+It's a portable browser-based todo program *(i.e. it runs in a web browser; however it doesn't need an internet connection--it has its own local webserver)*. Under the skin your precious tasks are just plain text files written in a clear, logical way. It'll take you just a few minutes to feel comfortable; just in case you forget the syntax there's a compact cheatsheet at the bottom of the edting page. (If you've ever used a wiki then think of it as a wiki-for-tasks.)
+
+----
+
+Behind the scenes the task lists are stored as plain text files, so your data is not locked up in some mysterious, invisible, database or human (un)readable XML format.  Because after all: **all your tasks belong you**, its just standard plain text: readable, openable, viewable, useable...anywhere!
+
+
+<a id="overview"></a>
+
+Some highlights of Taskpaper+
+------
+
+Add tabs, tasks, topics, tags and notes to quickly create a simple, clear, easy-on-the-eye list of things to do. It feels just like paper!
+
+![Tasks only](images/basic_task_view.png)
+
+----
+
+Everything you need to manage your tasks is here on this one compact page, no other dialogs, buttons and distractions. No excuses for not get things accomplished!
+
+![Taskpaper Window](images/taskpaper_window.png)
+
+----
+
+Make use of the colourful "GTD" style filters at the top of the right sidebar to quickly group your tasks by their urgency or importance.
+
+![Filters](images/filters.png)
+
+----
+
+Easily add tags to any task to help you find and group your task list according to your needs... need to group by person assigned, or by urgency, or by area, no problem, just tag it! Taskpaper+ is very freeform; mold it to your personal needs and make it work for you like any good tool.
+
+![Tags](images/tags.png)
+
+----
+
+Divide your tasks up into managable topics, that automatically show up in the left sidebar giving you an effortless overview of your task list. Click any subheading to quickly focus on that topic.
+
+![Topics](images/topics.png)
+
+----
+
+Powerful Search box, with familiar Google-like syntax. Simply type the words, tags, or dates you are looking for, or use any of the special filter commands. For example, type '=late' to see tasks that are overdue, or '=2week' to see all tasks due in the next two weeks.
+
+![Search Box](images/command_box.png)
+
+----
+
+Here's an example of a search result. Multiple words and commands can be used to narrow down what you are looking for; matching topics are also included in the result list
+
+![Search results](images/text_search.png)
+
+----
+
+Each task can be ticked off as done; highlighted to stress its importance; saved to the "archive" taskpaper; or just plain ol' deleted.
+
+![Task toolbar](images/task_toolbar.png)
+
+----
+
+Click the Edit button to modify the entire task list...underneath its shiny skin it's just a humble text file!
+
+![Editing the taskpaper](images/edit_view.png)
+
+----
+
+Quickly navigate between the various taskpapers using the tabs at the top of the window.
+
+![Tabs](images/tabs.png)
+
+----
+
+<a id="getting_started"></a>
+
+Getting started!
+======
+Undoubtedly the most important step: getting the program started. I hope that I can safely assume that you've downloaded the latest version from the website, and have unzipped it to a sensible place on your hard drive.
+
+Open the newly unzipped folder and double-click `start-server.bat`. If all goes well you should see a new window in your taskbar *(called `...mapache.exe`; the one with the feather)*, which means that the server is up and running. Don't close this little window--or the server will stop and nothing will work until restarted!
+
+Now open Firefox (or Chrome or Opera) and type `http://localhost:8081/taskpaper` into the address bar. A new Taskpaper+ page should open and off you go. Time to getting clicking, ticking, typing, and doing!
+
+*Caveat: Internet Explorer just doesn't work properly, and I doubt I'll ever get round to making it work due to lack of interest...on my part, not yours!*
+
+
+<a id="syntax"></a>
+
+Understanding the Task Syntax
+======
+Taskpaper+ uses a simple wiki-like syntax to represent the different aspects of a task: e.g. tasks themselves begin with a dash `-`, notes begin a tab or with 2 dots `..`, highlighting is done by putting asterisks at the end of the task `*`. Believe me, it doesn't take long to get used to it. 
+
+![The editing window](images/edit_view.png)
+
+Full details of the syntax for writing tasks are given below:
+
+Topics
+------
+Topic subheadings are created by writing the topic name on a line followed by a colon `:`
+
+    This is a topic:
+    
+Information
+------
+Non-task lines which just contain additional information and ideas.  Any line that doesn't begin with a `-` like tasks, or end with `:` like topics.
+
+    This is a simple information line
+
+Tasks
+------
+You make a task by beginning the line with a dash `-`
+
+    - this is a task
+
+Tags
+------
+No task management is complete without ubiquitious 'tags', an excellent way of grouping and filtering your tasks. A tag is added by putting the `#` symbol before the tag word
+
+    - this is a task #tag #another_tag
+
+Note: sorry, no spaces allowed in tags...but if you use the underscore `_` it will get changed to a space on display
+
+Dated Tags
+------
+You an also make a dated tag (e.g. a due date): `#` followed by the date
+
+    - a dated task #15-dec-2009
+    
+Note: the default date format is dd-mmm-yyyy (but this can be changed in the config.php file for those who really need to...)
+
+Time-period Tags
+------
+You can also create dated tags from time-periods: e.g. today, tomorrow, in 2 weeks, etc... Uses the same syntax as time-period searches mentioned later in this file. Use `=` followed by the time-period, e.g. `=today`, `=tomorrow` `=2week` (in 2 weeks), etc...
+
+    - a task with date time-period =tomorrow
+    
+Once you hit Save the interval will be converted into a real date.
+
+Note: as with search time-periods you only need type as much of the word as needed to make it unique, =tom would mean =tomorrow (=to could mean =today or =tomorrow)
+
+Notes
+------
+
+![Notes](images/task_with_note.png)
+
+Any line beginning with a tab, 2-4 spaces, or `..` is considered as a note. Simple as that. Notes belong to the topic, task, or info line directly above them. You can have more than line per note.
+    
+    - task above the note
+        a note all by itself
+        
+You can also add multiline "block" notes instead. As before they belong to the task above. The syntax is slightly different:
+
+    ..
+    Line one
+    Line two
+    Line three
+    ..
+    
+All other syntax is ignored inside block notes, allowing you to paste in anything you like. Handy!
+
+*NOTE*: You can use either syntax but not both at the same time (the second one will be ignored).  Multiple lines are hidden by default, just click the note text to reveal the note. 
+
+Complete/Done
+------
+To show that a task is done, just put an `X` at the start of the line. Simple, visible, memorable!
+
+    X- this task is done|complete
+    
+Action Highlighting
+------
+To highlight the action state of a task you can simply put a [space] followed by `*` (asterisks) at the end of the line. One `*` means 'next', `**` means 'wait', `***` means 'maybe'. For the adventurous this can be customised in the lang.php and config.php files, but the default should be useful enough!
+
+    - this task will be highlighted yellow *
+    - this task will be highlighted blue **
+    
+NOTE: The space is important to avoid confusion with the `**bold**` formatting syntax
+
+Basic text formatting
+------
+There are a few little 'wiki-style' extras (based on Dokuwiki) that allow you to add additional formatting to your text:
+
+Bold writing, use 2 asterisks on either side, e.g.
+
+    **this text will be bold**
+    
+Italic writing, use 2 back-slashes on each side, e.g.
+
+    //this text will be in italic//
+    
+Underlined writing, use 2 underscores on each side, e.g.
+
+    __this sentence will be underlined__
+    
+Hyperlink: to create a hyperlink use square brackets, and separate the address and the display text parts with a `|` (vertical bar), e.g.
+
+    [www.google.com|Google]
+
+**Other points worth noting:**
+
+It's usually best to leave a blank line between topics, it makes it easier to distinguish between them; however you can put blank lines wherever it makes sense to you--they will not affect the normal taskpaper Topic/Task layout. The top of the list is a good place to put any new (orphaned) tasks that you haven't had time to organise yet. As you'll see below, tasks entered in the Search Box are also inserted at the top by default.
+
+Behind the scenes the task lists are stored as plain text files (the `*.txt` files inside the taskpaper/data folder). You could of course write a task list using any text editor (or even your smartphone or tablet) and then copy it into this folder, and it will show up as a taskpaper once you refresh the page. You can also click the edit button and paste in tasks from another editor too. This means that it is straight-forward to sync your task files using Dropbox or a similar cloud file sync service!
+
+
+<a id="adding_tasks"></a>
+
+Adding and Editing Tasks
+======
+You can edit the whole taskpaper document at once by clicking the `Edit` button (first button in this toolbar at the top):
+
+![Toolbar](images/toolbar.png)
+
+Make any edits you want, then click the Save button when you're finished, or Cancel if you do not want to save changes.
+
+You can also edit tasks in-place too! Just double-click the text of any task and go right ahead and edit the text, tags and notes right there, without using the full edit box. Click the Save button when you're done.
+
+![Editing in place](images/edit_in_place.png)
+
+TIP: One really handy feature is adding new tasks using the 'Search Box' at the top right. Just type a task as you normally would (i.e. start with `-` followed by a space [necessary here!]) and press enter when you're done. You can also add tags, or even choose the topic by typing `/` followed by the topic number at the end of the new task (e.g. `/1` would mean the topic no. 1; refer to the topic numbers in list in the left sidebar) or by selecting a topic before you enter a new task. By default all new tasks added this way will be put at the top if no topic is given.
+
+In this case the space after the `-` is vital to avoid confusion with the search syntax for excluding words, which is explained a few lines further down. Without it your "task" will be treated as a "search"!
+
+In addition, you can use time-periods when adding tasks through the Search Box or edit-in-place box, or even the main editing window; for example if you type `=today` this will be changed into a tag corresponding to today's date when the task is added (e.g. #10-Aug-2010 if that were today's date!). The following time periods are recognised:
+
+    =today, =tomorrow, =day, =week, =month, =year
+    
+Before the last 4 time-periods you can also add a number, e.g:
+
+    =2day, =3week (i.e. 2 days from now, 3 weeks from today)
+    
+NOTE: spaces and plurals are not recognised; however you do not need to type the whole word, just enough to make it unique.
+
+----
+
+Here's an example of entering a new task using the Search Box...definitely the quickest method!
+
+![Adding Task from Search](images/new_task_in_search_box.png)
+
+The task would have been put into the first topic in the task list (/2 => 2nd Topic)
+
+ 
+Some Examples
+------
+So, to put it all together here's a complete example:
+
+    The first topic:
+    - get to work early #remind #important *
+    - get to bed early #maybe
+    X- buy flowers for your wife #remind #30-dec-2009
+
+    Second topic:
+    - wake up early #soon
+    - eat wholemeal porridge #food #today **
+    ..
+    try Tiger Oats?
+    or perhaps another brand
+    ..
+
+Sorting the task list by drag and drop
+------
+In the default or project views it is now possible to sort your tasks using drag and drop. You will notice a subtle "Sortable" notice at the top of the task list if this is possible.
+
+Using the mouse left-click and hold on any task or project, then drag it to the new location and then release the mouse button to drop it in the new location. That's really all there is to it!
+
+You can use the keyboard to save the edits: use `Ctrl + Enter` in either edit box to save your changes without needing to use the mouse.
+
+<a id="deleting_tasks"></a>
+
+Archiving and Deleting
+======
+There are 3 buttons that pop up at the end of the task when you hover over it,  allowing you to highlight, archive and delete that task. Archived tasks will be moved to the "archive" taskpaper file, deleted tasks to the 'trash' taskpaper!
+
+At the top of the task list there is also a button for archiving all completed tasks in one action; handy on Friday when you've had a successful week!
+
+<a id="navigating"></a>
+
+Moving Between Taskpapers
+======
+
+![Tabs](images/tabs.png)
+
+Couldn't be easier...use the tabs at the top to jump between the different taskpaper tabs. That's it. Your current state will be kept, even if you are in the middle of editing a taskpaper!
+
+<a id="adding_tabs"></a>
+
+Adding, Removing and Renaming Taskpaper Tabs
+======
+It is always good to remember that each Taskpaper tab corresponds to a real text file on your computer. There are three toolbar buttons that allow you to add new tabs (files); rename tabs, or delete a tab (i.e. file) completely:
+
+Where to find the buttons to add, remove and rename Taskpaper tabs
+
+![Toolbar](images/toolbar.png)
+
+TIP: Taskpaper tabs (files) are not actual deleted, rather moved to a separate folder inside the taskpaper/_deleted folder.
+
+<a id="searching"></a>
+
+Filter and Search
+======
+Now this is where Taskpaper starts to differentiate itself from plain paper: there are so many ways of searching for and grouping the tasks that are relevant to you
+
+![A simple text search](images/text_search.png)
+
+Here's a few ideas:
+
+- simple text search, using one or more words
+- phrases, e.g. "simple phrase"
+- by tag
+- by date, or date range
+- by date intervals, e.g today, month, year
+- by project
+- by state
+- by filter
+- And of course you can sort by all the different options at the same time too: task, date, project, state...
+
+TIP: There's a nice cheatsheet covering all the search options, available from the `Help` link just beside the Search Box
+
+Clickable Filters
+------
+Click on any tag, either in a Task or in the Tag sidebar, to filter/group by that tag.
+
+Same thing for Topics: click on the topic heading to see tasks belonging to that topic only.
+
+Use the special "Filters": `todo`, `done`, `next`, `due`, `late`, etc... in the right sidebar to filter by these special search categories.
+
+![Filters](images/filters.png)
+
+It is possible to adapt this list of filters to your own preferences, see the FAQ for details
+
+Search Box
+======
+
+![Search Box](images/command_box.png)
+
+Using the search box at the top you to do a full-text search in the current tab: multiple words, phrases, dates, tags, states, and filters are all accepted. 
+
+**By words and phrases**
+
+To search for specific phrases enclose them in quotes `"..."`:
+
+    "specific phrase"
+    
+Words can be specifically excluded by putting `-` before them:
+
+    yes -no
+    
+You can also search by date `= > <`
+
+    >12-feb-2009 => all tasks AFTER this date
+    <12-jan-2008 => all tasks BEFORE this date
+    12-feb-2009..30-may-2009 => all tasks BETWEEN these dates (inclusive)
+    "12-jan-2009 12-feb-2009" => (alternative way of doing date ranges)
+
+Or by time interval using `=`. Any of the following are accepted and understood:
+
+    =date, =yesterday, =today, =tomorrow, =day, =week, =month, =year, =past, =future
+
+NOTE: "=date" means all items with a date tag.
+
+Before the last 4 time-periods you can also state the number of days/weeks/months/years:
+
+    =2day, =3week, =5month => i.e. in next 2 days, in next 3 weeks, in next 5 months
+
+The `<` and `>` can also be used, as follows:
+
+    >month => same as =month, i.e. in coming month  <month  => in past month
+    >today  => same as future tasks <today => same as past tasks
+    
+You only need to type as much of the expression as necessary to make it unique. E.g. `=tom` is enough to search for `=tomorrow` (i.e. all tasks due by tomorrow).
+
+**By filter `#`**
+
+![Search by filter](images/filter_search.png)
+
+All the filters in the sidebar can also be used in the Search Box by typing `#` in front of the filter name. For example:
+
+    #todo #due, #late, #next, #done
+    
+**Combining the search options**:  All the above can be combined in one search as well, e.g.:
+
+    #due order "door hinges"
+    
+**Sorting `\ /`**
+
+Finally you can sort the list of results too. Again the syntax is quite straight-forward: e.g. `/task` means sort by task name ascending (A-Z); `\task` means sort descending (Z-A). The following sort options are available:
+
+    \task /task => by task name
+    \state /state => by state (todo, next, wait, etc...)
+    \date /date =>by date
+    \project /project => by project
+    
+Of course, as mentioned above you can use multiple sorts together, and you don't have to type the whole word, just enough for Taskpaper+ to recognise it.
+
+
+<a id="printing"></a>
+
+Printing a Task List
+======
+You can of course print a list of your tasks. Select the tab you want to print, filter/search the list according to your needs, then go to `File -> Print` (in the browser menu) or if you want to check the result before you print use `File -> Print Preview...`
+
+The print layout is deliberately much simpler than the screen version; it only displays the task list, without sidebars and menus, and uses bold instead of highlighting to ensure clarity on black and white printouts. 
+
+TIP: If you have a long list, I personally find it useful to change the printer settings to landscape, 2 pages per sheet, i.e. booklet format; this looks quite good and is handy as an in-the-pocket daily todo-list.
+
+<a id="faq"></a>
+
+Other resources
+======
+For further information and questions you can check out the FAQ link at the bottom of the Taskpaper page, or look at the Issues page on the website, where you can also request help, report bugs, and better still offer suggestions and advice.
+</xmp>
+
+<script src="strapdown.js"></script>
+</html>
