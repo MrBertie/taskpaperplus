@@ -1,6 +1,6 @@
 <div>
-    <input type="image" src="icons/save.png" class="icon save-button" value="Save" title="<?php echo tpp\lang('save_changes_tip'); ?>">
-    <input type="image" src="icons/repeat.png" class="icon cancel-button" value="Cancel" title="<?php echo tpp\lang('cancel_changes_tip'); ?>">
+    <input type="image" src="images/save.png" class="icon save-button" value="Save" title="<?php echo tpp\lang('save_changes_tip'); ?>">
+    <input type="image" src="images/repeat.png" class="icon cancel-button" value="Cancel" title="<?php echo tpp\lang('cancel_changes_tip'); ?>">
 </div>
 
 <div class="find-replace-bar">
@@ -12,6 +12,6 @@
 <textarea></textarea>
 
 <div>
-    <input type="image" src="icons/save.png" class="icon save-button" value="Save" title="<?php echo tpp\lang('save_changes_tip'); ?>">
-    <input type="image" src="icons/repeat.png" class="icon cancel-button" value="Cancel" title="<?php echo tpp\lang('cancel_changes_tip'); ?>">
+    <input type="image" src="images/save.png" class="icon save-button" value="Save" title="<?php echo tpp\lang('save_changes_tip'); ?>">
+    <input type="image" src="images/repeat.png" class="icon cancel-button" value="Cancel" title="<?php echo tpp\lang('cancel_changes_tip'); ?>">
 </div>

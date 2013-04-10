@@ -48,7 +48,7 @@ class TaskTemplate extends Template {
                            $name . '</span>';
             }
 
-            $src = ($item->done()) ? 'icons/done.png' : 'icons/todo.png';
+            $src = ($item->done()) ? 'images/done.png' : 'images/todo.png';
             $check = '<input type="image" class="check-done" src="' . $src . '" id="'. $item->key() . '" title="">';
             //$check = '<input type="checkbox" name="'. $item->key() . '" ' . $checked . '>';
 

@@ -508,8 +508,8 @@ var app = (function () {
                             cssclass: 'editable-box',
                             cols: 40,
                             rows: rows + 1,
-                            submit: '<img class="top" src="icons/save.png" title="' + lang.save_tip + '">',
-                            cancel: '<img class="bottom" src="icons/repeat.png" title="' + lang.cancel_tip + '">',
+                            submit: '<img class="top" src="images/save.png" title="' + lang.save_tip + '">',
+                            cancel: '<img class="bottom" src="images/repeat.png" title="' + lang.cancel_tip + '">',
                             data: function () {
                                 hide_task_button_tpl(that);
                                 $body.data('editable', that);

@@ -28,7 +28,7 @@
 
     // the 'ADD NEW' tab at the end of the row
     $markup .= '<li name="__new__" title="' . \tpp\lang('new_tab_tip') .
-           '"><a href="#" class="fixed"><img src="icons/add.png"></a></li>' . PHP_EOL;
+           '"><a href="#" class="fixed"><img src="images/add.png"></a></li>' . PHP_EOL;
     $markup .= '<p class="today" title="">' . \tpp\long_date() . '</p>' . PHP_EOL;
     echo $markup;
     ?>
