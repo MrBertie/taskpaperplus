@@ -1,17 +1,6 @@
 Taskpaper+ :: More Do, Less Fluff!
 ==========
 
-* Author:   Symon Bent
-* Version:  1.0.0.0 beta
-* Dated:    2013-02-16
-
-WARNING!!
-========
-**This is a completely rewritten version of Taskpaper and still has a few rough edges and bugs.  Do not use for daily use (download from the website above if you need reliability).**
-
-Screenshot
-==========
-
 ![Taskpaper+ Screenshot](https://taskpaperplus.googlecode.com/files/tp%2B.png)
 
 Description
@@ -23,7 +12,7 @@ But ultimately 'all you tasks belong you', so everything is stored in a straight
 (Just like this file!)
 Tasks are created and edited directly in the text file, either in the application or in an editor of your choice.
 
-There's plenty of help information in the help.html, faq.html, and search-help.html files;
+There's plenty of help information in the help.html, faq.html, and search.html files;
 sometimes it's worth reading the manuals, they are not that long!
 
 All credit goes to the original Taskpaper application for the inspiration and ideas...but none of the code!
@@ -41,7 +30,7 @@ Including but not restricted to:
   - Hogbay's Taskpaper (original idea)
   - Taskpaper.web (the motivation)
   - jQuery plus jEditable, jAddress, jHotKeys; and jQuery.ui (wonderful tools)
-  - the a simple PHP template engine I came across on a forum...
+  - a simple PHP template engine I came across on a forum...
 
 Plus some wonderful tools:
   - PHP 5.4, xdebug, webgrind, phpconsole
