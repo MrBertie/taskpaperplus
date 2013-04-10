@@ -1,4 +1,4 @@
-Taskpaper+ :: More Do, Less Fluff!
+Taskpaper+ :: More Stuff, Less Fluff!
 ==========
 
 ![Taskpaper+ Screenshot](https://taskpaperplus.googlecode.com/files/tp%2B.png)
