@@ -42,8 +42,7 @@
 @date-tag:   #EFE8CF;
 
 // sizes
-@content-width:     90%;
-@searchbox-width: 540px;
+@content-width:     95%;
 @project-col:       18%;
 @tag-col:           12%;
 
@@ -167,7 +166,7 @@ a:hover {
     font-family: "Segoe UI";
     font-size: 14px;
     list-style: none;
-    margin: 6px 0px 0px;
+    margin: 0;
     position: relative;
     text-align: left;
     z-index: 1;
@@ -216,8 +215,8 @@ a:hover {
         color: @base1;
         font-size: 90%;
         position: absolute;
-        right: -28px;
-        top: -12px;
+        right: -10px;
+        top: -6px;
         &:hover {
             color: @violet;
         }
@@ -275,7 +274,7 @@ a:hover {
     }
 
     .search {
-        margin: 3px 3em 0 2em;
+        margin: 3px 3em 0 2.5em;
         position: relative;
         //width: 100%;
 
@@ -286,7 +285,7 @@ a:hover {
             top: -4px;
         }
         #search-box {
-            border: 1px solid @border;
+            border: 1px solid @base2;
             font: 14px Verdana, helvetica, sans-serif;
             margin-bottom: 4px;
             padding: 3px 6px;
@@ -485,7 +484,7 @@ a:hover {
         }
 
         &.task {
-            margin-bottom: 0.15em;
+            //margin-bottom: 0.15em;
             margin-left: 1em;
 
             // body text with a task

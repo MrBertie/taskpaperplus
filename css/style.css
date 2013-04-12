@@ -40,14 +40,14 @@ a:hover {
   margin-left:auto;
   margin-right:auto;
   padding-top:10px;
-  width:90%;
+  width:95%;
 }
 .tabs {
   border-bottom:1px solid #c9c7c6;
   font-family:"Segoe UI";
   font-size:14px;
   list-style:none;
-  margin:6px 0px 0px;
+  margin:0;
   position:relative;
   text-align:left;
   z-index:1;
@@ -85,8 +85,8 @@ a:hover {
   color:#93a1a1;
   font-size:90%;
   position:absolute;
-  right:-28px;
-  top:-12px;
+  right:-10px;
+  top:-6px;
 }
 .tabs p.today:hover { color:#6c71c4; }
 #header {
@@ -124,7 +124,7 @@ a:hover {
   text-shadow:none;
 }
 #header .search {
-  margin:3px 3em 0 2em;
+  margin:3px 3em 0 2.5em;
   position:relative;
 }
 #header .search a {
@@ -134,7 +134,7 @@ a:hover {
   top:-4px;
 }
 #header .search #search-box {
-  border:1px solid #d7d5d4;
+  border:1px solid #eee8d5;
   font:14px Verdana, helvetica, sans-serif;
   margin-bottom:4px;
   padding:3px 6px;
@@ -279,10 +279,7 @@ a:hover {
   cursor:pointer;
   text-shadow:0 0 1px #dc322f;
 }
-#view-tasks li.task {
-  margin-bottom:0.15em;
-  margin-left:1em;
-}
+#view-tasks li.task { margin-left:1em; }
 #view-tasks li.task p {
   display:inline;
   margin-left:1px;
