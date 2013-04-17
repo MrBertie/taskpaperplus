@@ -2,6 +2,7 @@
  * Main starting point
  */
 $(document).ready(function () {
+
     "use strict";
 
     app.init();
@@ -253,38 +254,43 @@ var app = (function () {
 
         // Search Box
 
-        var reset_search = function () {
+        var show_reset_search = function () {
             $search_box.data('can_reset', true);
             $("#reset-search").show();
         };
 
-        $("#reset-search").on("click", function () {
+        var reset_search = function () {
             if ($search_box.data('can_reset') === true) {
                 $search_box.val('');
                 $search_box.trigger('blur');
             }
+        };
+
+        $("#reset-search").on("click", function () {
+            reset_search();
         });
 
 
-        var add_task = function (e) {
+        var add_task = function () {
             var expression = $search_box.val();
-            // if ctrl+enter add the task prefix
-            if (e.ctrlKey === true) {
-                expression = task_prefix + " " + expression;
+            if (expression !== '') {
+                // add the task prefix if missing
+                if (expression.charAt(0) !== task_prefix) {
+                    expression = task_prefix + " " + expression;
+                }
+                // new task to be added
+                request({event: 'add', value: expression}, function () {
+                    show_message(lang.add_msg);
+                    $search_box.val('').attr('rows', '1');
+                });
+            } else {
+                reset_search();
             }
-            request({event: 'add', value: expression}, function () {
-                show_message(lang.add_msg);
-                $search_box.val('');
-            });
         };
 
         var do_search = function () {
             var expression = $search_box.val();
-            // check for create tasks first (must have a space following!)
-            if (expression.substr(0, 2) === (task_prefix + " ")) {
-                add_task(expression);
-            // then search expressions
-            } else if (expression !== "") {
+            if (expression !== "") {
                 request({event: 'search', value: expression});
             // enter in a blank box == reset (common practice)
             } else {
@@ -294,18 +300,36 @@ var app = (function () {
 
         $search_box
             .bind('keydown', 'ctrl+return meta+return', add_task)
-            .bind('keydown', 'return', do_search)
+            .bind('keydown', 'return', function () {
+                var val = $(this).val();
+                // check for a task entry (always "- " at beginning) and allow returns
+                if (val.substr(0, 2) === (task_prefix + " ")) {
+                    return;
+                // ignore empty returns
+                } else if (val === '') {
+                    reset_search();
+                } else {
+                    do_search();
+                }
+            })
+            // increase box size if this is a task entry
+            .on("keyup", function () {
+                if ($(this).val() === task_prefix) {
+                    this.rows = 3;
+                }
+            })
             .on("click", function () {
-                reset_search();
+                show_reset_search();
             })
             .on("focus", function () {
-                reset_search();
+                show_reset_search();
             })
             .on("blur", function () {
                 if ($(this).val() === '') {
                     $("#reset-search").hide();
                     $search_box.data('can_reset', false);
                 }
+                this.rows = 1;
             });
 
 
@@ -516,9 +540,11 @@ var app = (function () {
                                 return text;
                             },
                             onedit: function () {
-                                that.find('form textarea').bind('keydown', 'ctrl+return meta+return', function () {
+                                var edit_area = that.find('form textarea');
+                                edit_area.bind('keydown', 'ctrl+return meta+return', function () {
                                     that.find('form').trigger('submit');
                                 });
+                                edit_area[0].selectionStart = edit_area[0].selectionEnd = edit_area[0].value.length;
                             },
                             onreset: function () {
                                 $body.data('editable', null);

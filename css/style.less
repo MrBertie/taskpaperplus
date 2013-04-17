@@ -237,7 +237,7 @@ a:hover {
     position: relative;
 
     // header sections
-    .search, .logo, .tab-tools {
+    .search, .logo, .tabtools {
         //height: 40px;
         //line-height: 40px;
     }
@@ -289,10 +289,17 @@ a:hover {
             font: 14px Verdana, helvetica, sans-serif;
             margin-bottom: 4px;
             padding: 3px 6px;
+            resize: none;
             vertical-align: middle;
             width: 100%;
             &:active {
                 border-color: @base1;
+            }
+            &::-webkit-input-placeholder {
+                color: @border !important;
+            }
+            &:-moz-placeholder {
+                color: @border !important;
             }
         }
         // the little reset search symbol
@@ -311,7 +318,7 @@ a:hover {
     .tabtools {
         height: 36px;
         margin-top: 5px;
-        opacity: 0.6;
+        opacity: 0.4;
         padding: 4px;
         position: absolute;
         right: 0px;
@@ -319,6 +326,7 @@ a:hover {
         width: 192px;
         &:hover {
             cursor: pointer;
+            opacity: 0.6;
         }
     }
 }
@@ -518,6 +526,14 @@ a:hover {
                 vertical-align: 1px;
             }
 
+            .check-done {
+                height: 11px;
+                margin: 0px;
+                opacity: 0.4;
+                padding-top: 2px;
+                width: 11px;
+            }
+
             span.task-buttons {
                 .task-buttons();
             }
@@ -549,7 +565,8 @@ a:hover {
             p {
                 display: block !important;
                 line-height: 130%;
-                padding-bottom: 2px;
+                margin-left: 0;
+                padding: 0 0 2px 0;
             }
             .more {
                 color: @border;
@@ -791,7 +808,7 @@ a:hover {
 // floating toolbar for each task item
 .task-buttons() {
     background: rgba(255, 255, 255, 0.30);
-    left: -82px;
+    left: -80px;
     padding: 3px 7px;
     position: absolute;
     text-align: right;
@@ -815,16 +832,6 @@ a:hover {
 input:disabled {
     opacity: 0.2;
 }
-
-
-.check-done {
-    height: 12px;
-    margin: 0px;
-    opacity: 0.80;
-    padding-top: 2px;
-    width: 12px;
-}
-
 
 .editable-box {
     margin-left: 6px;

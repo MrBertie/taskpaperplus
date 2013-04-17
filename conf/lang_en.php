@@ -131,7 +131,7 @@ $lang['save_lbl']           = 'Save';
 $lang['cancel_lbl']         = 'Cancel';
 $lang['trash_lbl']          = 'Trash';
 $lang['archive_lbl']        = 'Archive';
-$lang['placeholder']        = 'Create a task -OR- Type a search [then press ENTER]';
+$lang['placeholder']        = 'Add a task [CTRL+ENTER] or Search the list [ENTER]';
 $lang['language']           = 'Language';
 
 
