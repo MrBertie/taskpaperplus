@@ -519,8 +519,6 @@ a:hover {
   cursor:pointer;
 }
 #footer select {
-  border-color:#b2b2b1;
-  border-width:1px;
   float:right;
   margin:0 15px 0 5px;
   vertical-align:top;
