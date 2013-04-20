@@ -192,11 +192,10 @@ a:hover {
         background: @background;
         border: 1px solid @tab-border;
         border-bottom: 0;
-        font-size: bolder;
         margin-left: 0px;
         z-index: 100;
         a {
-            color: @base02;
+            color: @base03;
         }
     }
 
@@ -529,7 +528,7 @@ a:hover {
             .check-done {
                 height: 11px;
                 margin: 0px;
-                opacity: 0.4;
+                opacity: 0.3;
                 padding-top: 2px;
                 width: 11px;
             }
@@ -635,7 +634,7 @@ a:hover {
 .tag {
     color: @blue;
     background: @tag;
-    border: 1px solid @bk-gray;
+    border: 1px dotted @bk-gray;
     font-size: 90%;
     padding: 2px 4px;
     .hover();
@@ -755,6 +754,7 @@ a:hover {
         cursor: pointer;
     }
     select {
+        border-color: @border;
         float: right;
         margin: 0 15px 0 5px;
         vertical-align: top;

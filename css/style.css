@@ -69,11 +69,10 @@ a:hover {
   background:#f7f5ee;
   border:1px solid #c9c7c6;
   border-bottom:0;
-  font-size:bolder;
   margin-left:0px;
   z-index:100;
 }
-.tabs li.selected a { color:#073642; }
+.tabs li.selected a { color:#002b36; }
 .tabs li:hover { background:#eaeaea; }
 .tabs a img {
   height:16px;
@@ -315,7 +314,7 @@ a:hover {
 #view-tasks li.task .check-done {
   height:11px;
   margin:0px;
-  opacity:0.4;
+  opacity:0.3;
   padding-top:2px;
   width:11px;
 }
@@ -428,7 +427,7 @@ a:hover {
 .tag {
   color:#268bd2;
   background:#eaeff7;
-  border:1px solid #eaeaea;
+  border:1px dotted #eaeaea;
   font-size:90%;
   padding:2px 4px;
 }
@@ -439,7 +438,7 @@ a:hover {
 .date-tag {
   color:#268bd2;
   background:#eaeff7;
-  border:1px solid #eaeaea;
+  border:1px dotted #eaeaea;
   font-size:90%;
   padding:2px 4px;
   color:#93a1a1;
@@ -519,6 +518,7 @@ a:hover {
   cursor:pointer;
 }
 #footer select {
+  border-color:#d7d5d4;
   float:right;
   margin:0 15px 0 5px;
   vertical-align:top;
