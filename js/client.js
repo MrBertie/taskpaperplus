@@ -18,7 +18,6 @@ var app = (function () {
 
     "use strict";
 
-
     var pub = {};               // all public methods
 
 
@@ -281,7 +280,7 @@ var app = (function () {
                 // new task to be added
                 request({event: 'add', value: expression}, function () {
                     show_message(lang.add_msg);
-                    $search_box.val('').attr('rows', '1');
+                    $search_box.removeClass("big");
                 });
             } else {
                 reset_search();
@@ -300,6 +299,7 @@ var app = (function () {
 
         $search_box
             .bind('keydown', 'ctrl+return meta+return', add_task)
+            .bind('keydown', 'esc', reset_search)
             .bind('keydown', 'return', function () {
                 var val = $(this).val();
                 // check for a task entry (always "- " at beginning) and allow returns
@@ -315,7 +315,7 @@ var app = (function () {
             // increase box size if this is a task entry
             .on("keyup", function () {
                 if ($(this).val() === task_prefix) {
-                    this.rows = 3;
+                    $(this).addClass("big");
                 }
             })
             .on("click", function () {
@@ -329,7 +329,7 @@ var app = (function () {
                     $("#reset-search").hide();
                     $search_box.data('can_reset', false);
                 }
-                this.rows = 1;
+                $(this).removeClass("big");
             });
 
 
