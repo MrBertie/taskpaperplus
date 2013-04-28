@@ -592,15 +592,15 @@ input:disabled { opacity:0.2; }
 .editable-box img.top { top:1px; }
 .editable-box img.bottom { top:33px; }
 #message-banner {
-  background:#ffff88;
+  background:#eee8d5;
+  color:#586e75;
   height:20px;
   left:0;
   opacity:0;
-  padding:3px;
+  padding:6px 10px;
   position:absolute;
   text-align:center;
   top:-20px;
-  width:200px;
   z-index:10;
 }
 #cheatsheet {

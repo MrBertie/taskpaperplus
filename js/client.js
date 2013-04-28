@@ -199,11 +199,11 @@ var app = (function () {
         var text = message[0],
             colour = message[1],
             new_top = ($(window).scrollTop() - 20) + "px",
-            left = $(window).width() / 2 - 100 + 'px',
             $message_banner = $("#message-banner");
 
         $("#message-banner span").text(text);
-
+        var left = ($(window).width() - $message_banner.width()) / 2;
+        
         $message_banner
             .css({"background" : colour, "top" : new_top, "left" : left})
             .animate({top: "+=20px", opacity: 200}, {duration: 900})
@@ -231,7 +231,7 @@ var app = (function () {
 
         $("#purge-session").on("click", function () {
             request({event: 'purgesession'}, function() {
-                show_message(['Session cleared! Reloading...', lang.green]);
+                show_message(['Session cleared! Reloading...', lang.colours.green]);
                 window.setTimeout("window.location.reload()", 1500);
                 $index_load.val('false');
             });
@@ -239,13 +239,13 @@ var app = (function () {
 
         $("#purge-cache").on("click", function () {
             request({event: 'purgecache'}, function() {
-                show_message(['Cache cleared!', lang.yellow]);
+                show_message(['Cache cleared!', lang.colours.yellow]);
             });
         });
 
         $('#footer select').on('change', function () {
             request({event: 'lang', value: this.value}, function () {
-                show_message([lang.lang_change_msg, lang.green]);
+                show_message([lang.lang_change_msg, lang.colours.green]);
                 window.setTimeout("window.location.reload()", 1000);
             });
         });

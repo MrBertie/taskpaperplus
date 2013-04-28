@@ -4,15 +4,17 @@
     foreach($this->tabs as $tab) {
         $tab_class = '';
         $text_class = 'fixed';
-        $display = $tab->title;
         $name = $tab->name;
         if ($tab->type == TAB_ARCHIVE) {
             $tip = \tpp\lang('archive_tab_tip');
+            $display = \tpp\lang('archive_lbl'); 
         } elseif ($tab->type == TAB_TRASH) {
             $tip = \tpp\lang('trash_tab_tip');
+            $display = \tpp\lang('trash_lbl'); 
         } else {
             $text_class = '';
             $tip = $tab->note->text;
+            $display = $tab->title;
         }
         $tip .= ( ! empty($tip)) ? "\n" : '';
 

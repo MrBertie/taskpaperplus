@@ -435,7 +435,6 @@ class ContentBuilder {
         if ($name == FILE_TRASH) {
             $this->_cont->tab_type = TAB_TRASH;
             $this->_cont->index = 1;
-            //TODO: move this from here to renderer!
             $this->_cont->title = \tpp\lang('trash_lbl');   
         } elseif ($name == FILE_ARCHIVE) {
             $this->_cont->tab_type = TAB_ARCHIVE;
