@@ -40,6 +40,7 @@
 @aside:      #E6EAEF;
 @tag:        #EAEFF7;
 @date-tag:   #EFE8CF;
+@strike:     #BCBCBC;
 
 // sizes
 @content-width:     95%;
@@ -351,7 +352,7 @@ a:hover {
     }
     // main content headers
     h1 {
-        border-bottom: 1px solid #D7D5D4;
+        border-bottom: 1px solid @border;
         display: block;
         font-size: 18px;
         margin-bottom: 12px;
@@ -412,7 +413,7 @@ a:hover {
         color: @base02;
 
         .sortable {
-        color: #C6C6C6;
+        color: @tab-border;
         display: inline;
         font-size: 60%;
         font-weight: normal;
@@ -626,7 +627,7 @@ a:hover {
 
 
 .strike {
-    color: #BCBCBC;
+    color: @strike;
     text-decoration: line-through;
 }
 
