@@ -262,6 +262,7 @@ var app = (function () {
             if ($search_box.data('can_reset') === true) {
                 $search_box.val('');
                 $search_box.trigger('blur');
+                $search_box.focus();
             }
         };
 
@@ -281,6 +282,7 @@ var app = (function () {
                 request({event: 'add', value: expression}, function () {
                     show_message(lang.add_msg);
                     $search_box.removeClass("big");
+                    reset_search();
                 });
             } else {
                 reset_search();
@@ -300,7 +302,7 @@ var app = (function () {
         $search_box
             .bind('keydown', 'ctrl+return meta+return', add_task)
             .bind('keydown', 'esc', reset_search)
-            .bind('keydown', 'return', function () {
+            .bind('keydown', 'return', function (e) {
                 var val = $(this).val();
                 // check for a task entry (always "- " at beginning) and allow returns
                 if (val.substr(0, 2) === (task_prefix + " ")) {
@@ -309,6 +311,7 @@ var app = (function () {
                 } else if (val === '') {
                     reset_search();
                 } else {
+                    e.preventDefault();
                     do_search();
                 }
             })

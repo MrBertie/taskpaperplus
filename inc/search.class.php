@@ -677,50 +677,50 @@ class IntervalFilter extends DateTokenFilter {
         $start_date = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
         $end_date = 0;
         switch ($index) {
-        case 'date': // all dated items (eq is ignored here)
-            $start_date = 0;    // => any start date
-            $eq = '=';
-            break;
-        case 'future':
-            // just use defaults above
-            $eq = '>';
-            break;
-        case 'past':
-            $eq = '<';
-            break;
-        case 'today':
-            switch ($eq) {
-            case '=':   // today only
+            case 'day':
+                $end_date = mktime(0, 0, 0, date("m"), date("d") + $count, date("Y"));
+                break;
+            case 'week':
+                $end_date = mktime(0, 0, 0, date("m"), date("d") + (7 * $count), date("Y"));
+                break;
+            case 'month':
+                $end_date = mktime(0, 0, 0, date("m") + $count, date("d") - 1, date("Y"));
+                break;
+            case 'year':
+                $end_date = mktime(0, 0, 0, date("m"), date("d"), date("Y") + $count);
+                break;
+            case 'today':
+                switch ($eq) {
+                case '=':   // today only
+                    $end_date = $start_date;
+                    break;
+                case '<':   // same as past
+                case '>':   //same as future
+                    // once again use defaults
+                    break;
+                }
+                break;
+            case 'tomorrow':
+                $end_date = mktime(0, 0, 0, date("m"), date("d") + 1, date("Y"));
+                $eq = '=';
+                break;
+            case 'yesterday':
                 $end_date = $start_date;
+                $start_date = mktime(0, 0, 0, date("m"), date("d") - 1, date("Y"));
+                $eq = '=';
+            case 'date': // all dated items (eq is ignored here)
+                $start_date = 0;    // => any start date
+                $eq = '=';
                 break;
-            case '<':   // same as past
-            case '>':   //same as future
-                // once again use defaults
+            case 'future':
+                // just use defaults above
+                $eq = '>';
                 break;
-            }
-            break;
-        case 'yesterday':
-            $end_date = $start_date;
-            $start_date = mktime(0, 0, 0, date("m"), date("d") - 1, date("Y"));
-            $eq = '=';
-        case 'tomorrow':
-            $end_date = mktime(0, 0, 0, date("m"), date("d") + 1, date("Y"));
-            $eq = '=';
-            break;
-        case 'day':
-            $end_date = mktime(0, 0, 0, date("m"), date("d") + $count, date("Y"));
-            break;
-        case 'week':
-            $end_date = mktime(0, 0, 0, date("m"), date("d") + (7 * $count), date("Y"));
-            break;
-        case 'month':
-            $end_date = mktime(0, 0, 0, date("m") + $count, date("d") - 1, date("Y"));
-            break;
-        case 'year':
-            $end_date = mktime(0, 0, 0, date("m"), date("d"), date("Y") + $count);
-            break;
-        default:
-            return false;
+            case 'past':
+                $eq = '<';
+                break;
+            default:
+                return false;
         }
 
         // note: date class will swap start and end dates based on eq

@@ -17,13 +17,13 @@
 @green:      #859900;
 
 // tag and filter highlighting
-@bk-yellow:  #ff9;
+@bk-yellow:  #FFFFC3;
 @bk-orange:  #CBB8B0;
-@bk-red:     #fcdbd6;
+@bk-red:     #FFE6E6;
 @bk-magenta: #D3BBC7;
-@bk-violet:  #F5D3FC;
-@bk-blue:    #BFD3ED;
-@bk-cyan:    #BFFFFF;
+@bk-violet:  #FAE2FF;
+@bk-blue:    #E1EFFF;
+@bk-cyan:    #D5E9FF;
 @bk-green:   #DBFCB9;
 @bk-hilite:  #FF9;
 @bk-edit:    #FFFFAA;
@@ -45,31 +45,6 @@
 @content-width:     95%;
 @project-col:       18%;
 @tag-col:           12%;
-
-/*
-Colours
----------------------
-WHERE USED                  COLOUR  HOVER       NAME
-------------------------------------------------------------
-container/table borders     #D7D5D4             [light gray]
-hyperlinks                  #5A981C (#003939)   [teal]
-page/column backgrounds     #FFF                [off-white]
-window background           #FBFBFB             [off-gray]
-projects                    #D55A12 (#1B6BAE)   [dark red]
-    label text              #D3A07E             [dark red]
-    label backgrd           #F5F5F5             [pastel red]
-    label border            #F5EAEA
-tags header                 #1B6BAE             [blue]          ALT: #006699
-    tag                     #6F6FB9 (#5958A1)   [blue]
-    backgrd                 #F6F7F9             [pastel blue]
-    border                  #EDEDFA (#5958A1)
-task / result header        #6BBA1F
-note text                   #777                [gray]
-completed task text         #BCBCBC             [soft gray]
-text box backgrd            #FFFFAA             [pastel yellow]
-cheatsheet backgrd          #E0E2EB             [light gray]
-highlight/starred           #FF9                [post-it yellow]
-*/
 
 
 /* basic reset */
@@ -501,7 +476,7 @@ a:hover {
             p {
                 display: inline;
                 margin-left: 1px;
-                padding: 0px 3px 0px 3px;
+                padding: 2px 3px;
                 vertical-align: 4px;
                 &:hover {
                     cursor: pointer;
@@ -511,15 +486,16 @@ a:hover {
             // little project/tag labels at end of task when searching
             .tag, .date-tag, .project {
                 margin-left: 7px;
-                vertical-align: 4px;
+                vertical-align: 6px;
+                font-size: 80%;
             }
 
             .project {
-                background: #F5F5F5;
-                border: 1px solid #F5EAEA;
-                color: @red;
+                background: @bk-red;
+                border: 1px dotted @bk-gray;
+                color: @base1;
                 font-size: 85%;
-                padding: 0px 3px;
+                padding: 2px 4px;
                 .hover();
             }
 
@@ -543,7 +519,7 @@ a:hover {
 
         // info lines in task list
         &.info {
-            color: @base0;
+            color: @base00;
             font-size: 97%;
             font-weight: normal;
             margin-bottom: 8px;
@@ -554,7 +530,7 @@ a:hover {
         // note formatting: for projects, tasks and info lines
         .note {
             border: 0;
-            color: #777;
+            color: @base0;
             display: list-item;
             font-style: normal;
             font-size: 85%;
@@ -598,8 +574,8 @@ a:hover {
     margin: 0 8px;
 
     textarea {
-        background: #FFFFD3;
-        border: 1px solid #D7D5D4;
+        background: @bk-yellow;
+        border: 1px solid @border;
         clear: both;
         float: left;
         font: 14px verdana, helvetica,sans-serif;
@@ -635,7 +611,7 @@ a:hover {
 }
 
 .tag {
-    color: @blue;
+    color: @base1;
     background: @tag;
     border: 1px dotted @bk-gray;
     font-size: 90%;
@@ -645,7 +621,6 @@ a:hover {
 
 .date-tag {
     .tag;
-    color: @base1;
     background-color: @date-tag;
 }
 
@@ -758,6 +733,8 @@ a:hover {
     }
     select {
         border-color: @border;
+        border-width: 1px;
+        border-style: solid;
         float: right;
         margin: 0 15px 0 5px;
         vertical-align: top;
@@ -839,8 +816,8 @@ input:disabled {
     text-indent: 0px;
 
     text, textarea {
-        background: #FFFFD3;
-        border: 1px solid #D7D5D4;
+        background: @bk-yellow;
+        border: 1px solid @border;
         font: 14px "Segoe UI";
         margin: 0 0px 3px 7px;
         margin-left: 5px;

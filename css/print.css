@@ -1,12 +1,13 @@
 /* basic reset */
 html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, pre, form, fieldset, table, th, td {
-    margin: 0; padding: 0;
+    margin: 0; 
+    padding: 0;
 }
 
 /* basic font and sizes */
 body {
-    font:14px/18px "Verdana", helvetica, sans-serif;
     background-color:white;
+    font:14px/18px "Segoe UI", Verdnana, helvetica, sans-serif;
 }
 h1 {
     font-size:120%;
@@ -18,16 +19,16 @@ a {
 
 /* Main content areas, 1-column layout */
 #frame {
-    width:100%;
+    background:white;
+    border-top:0;
     margin-left:auto;
     margin-right:auto;
-    border-top:0;
     padding-bottom:0px;
     text-align:left;
-    background:white;
+    width:100%;
 }
 
-#header, #footer, #tabs, #message-banner, .projects, .tags {
+#header, #footer, .tabs, #message-banner, .projects, .meta {
     display:none;
 }
 
@@ -36,89 +37,86 @@ a {
     color:#6BBA1F;
 }
 .tasks h2 {
-    font-size:100%;
     color:gray;
     display:inline;
+    font-size:100%;
 }
 /* Project headers */
-.tasks h3 {
-    font-size:105%;
+.tasks li.project {
     color:#D55A12;
     display:block;
-    padding-left:0.3em;
+    font-size:110%;
     margin-bottom:5px;
     margin-top:13px;
+    padding-left:0.3em;
 }
 /* Labels and misc headers */
-.tasks h4 {
-    font-size:100%;
+.tasks li.info {
     color:gray;
+    font-size:100%;
     margin-left:10px;
     margin-top:5px;
 }
-.tasks li {
+.tasks li.task {
+    line-height:150%;
+    list-style:none;
     margin-left:12px;
     margin-top:3px;
-    list-style:none;
-    line-height:150%;
-    text-indent:-30px;
     padding-left:30px;
+    text-indent:-30px;
 }
-.tasks li div {
-    text-indent:0;
-    padding-left:0;
-    margin-left:0;
-    margin-top:1px;
+.tasks li ul {
     background:#FBFBFB;
     border:1px dotted gray;
+    margin-left:0;
+    margin-top:1px;
+    padding-left:0;
+    text-indent:0;
 }
-.tasks li li {
+.tasks li ul {
     display:none;
 }
 /* Task body text */
 .tasks p {
     display:inline;
+    line-height:110%;
     margin-left:1px;
     padding:0px 3px 0px 3px;
-    line-height:110%;
 }
+.tasks p.sortable {
+    display:none;
+}
+
 .tasks li .project {
     /*display:inline;*/
+    background:#F5F5F5;
+    border:1px #D3A07E;
+    border-left:0;
+    border-top:0;
+    color:#D3A07E;
+    font-size:85%;
     margin-left:7px;
     padding:0px 3px 1px 3px;
-    color:#D3A07E;
-    border:1px #D3A07E;
-    border-top:0;
-    border-left:0;
-    background:#F5F5F5;
-    font-size:85%;
-}
-.tasks li {
-    cursor:pointer;
-    border-color:black;
-}
-.tasks li .tag {
-    margin-left:7px;
 }
 
 /* all the Task line settings */
-.tag {
-    color:#6F6FB9;
-    font-size:90%;
-    padding:0px 3px 1px 3px;
+.tag, .date-tag {
+    background:#F7F7F7;
     border:1px solid #EDEDFA;
     border-top:0;
     border-left:0;
-    background:#F6F7F9;
-    background:#F7F7F7;
+    color:#6F6FB9;
+    font-size:90%;
+    margin-left:7px;
+    padding:0px 3px 1px 3px;
 }
 .note, .hidden-note {
+    color:#777;
     display:block;
+	font-size:85%;
+	font-style:italic;
     margin-top:2px;
     padding-left:20px;
-    color:#777;
-	font-style:italic;
-	font-size:85%;
 }
 .hidden-note {
     display:block;
@@ -132,16 +130,16 @@ a {
 }
 p.filter-yellow {
     background:#ff9;
-    padding:0 4px 0 4px;
     font-weight:bold;
+    padding:0 4px 0 4px;
 }
 .check-done {
-    /*height:20px;
-    width:20px;*/
+    height:12px;
+    width:12px;
 }
 
 /* Buttons and icons */
-.task-buttons, .task-tools, #edit-tasks{
+.task-buttons, .task-tools, #edit-tasks {
     display:none
 }
 

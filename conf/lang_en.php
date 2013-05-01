@@ -36,16 +36,16 @@ $lang['filter_settings']    = array(
 
 // search engine intervals and commands (English => Other Language)
 $lang['interval_names']     = array(
-                                    'date' => 'date',
-                                    'future' => 'future',
-                                    'past' => 'past',
-                                    'yesterday' => 'yesterday',
-                                    'today' => 'today',
-                                    'tomorrow' =>'tomorrow',
                                     'day' => 'day',
                                     'week' => 'week',
                                     'month' => 'month',
                                     'year' => 'year',
+                                    'yesterday' => 'yesterday',
+                                    'today' => 'today',
+                                    'tomorrow' =>'tomorrow',
+                                    'future' => 'future',
+                                    'past' => 'past',
+                                    'date' => 'date',
                                     );
 
 // names of the various sorting "columns" (English => Other Language)
@@ -97,7 +97,7 @@ $lang['remove_actions_tip'] = 'Remove action highlighting from all tasks at once
 
 
 // task related tips and buttons
-$lang['search_box_tip']     = "Type in words, tags, commands, or dates to search for, or type in a new task; then press ENTER";
+$lang['search_box_tip']     = "Type in words, tags, filters, or dates to search for, then [ENTER]\nOr type in a new task then [CTRL+ENTER]\n(Shortcut: Alt+Shift+C)";
 $lang['search_help_tip']    = "Need help searching? Click for a cheatsheet (Ctrl+click for a new page)";
 $lang['startpage_tip']      = 'Back to default view';
 $lang['save_changes_tip']   = 'Save your changes';
@@ -114,7 +114,7 @@ $lang['tag_click_tip']      = 'Filter by this tag';
 
 
 // sent with task-buttons
-$lang['action_button_tip']  = 'Toggle between the different actions: none » next » wait » maybe';
+$lang['action_button_tip']  = 'Toggle between the different actions: none Â» next Â» wait Â» maybe';
 $lang['archive_button_tip'] = 'Archive this task';
 $lang['trash_button_tip']   = 'Delete this task';
 
@@ -127,8 +127,8 @@ $lang['about_lbl']          = 'About';
 $lang['faq_lbl']            = 'FAQ';
 $lang['website_lbl']        = 'Website';
 $lang['go_lbl']             = 'Go';
-$lang['save_lbl']           = 'Save';
-$lang['cancel_lbl']         = 'Cancel';
+$lang['save_lbl']           = "Save\n (Ctrl+Enter)";
+$lang['cancel_lbl']         = "Cancel\n (Esc)";
 $lang['trash_lbl']          = 'Trash';
 $lang['archive_lbl']        = 'Archive';
 $lang['placeholder']        = 'Add a task [CTRL+ENTER] or Search the list [ENTER]';

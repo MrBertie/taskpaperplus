@@ -297,20 +297,21 @@ a:hover {
 #view-tasks li.task p {
   display:inline;
   margin-left:1px;
-  padding:0px 3px 0px 3px;
+  padding:2px 3px;
   vertical-align:4px;
 }
 #view-tasks li.task p:hover { cursor:pointer; }
 #view-tasks li.task .tag, #view-tasks li.task .date-tag, #view-tasks li.task .project {
   margin-left:7px;
-  vertical-align:4px;
+  vertical-align:6px;
+  font-size:80%;
 }
 #view-tasks li.task .project {
-  background:#f5f5f5;
-  border:1px solid #f5eaea;
-  color:#dc322f;
+  background:#ffe6e6;
+  border:1px dotted #eaeaea;
+  color:#93a1a1;
   font-size:85%;
-  padding:0px 3px;
+  padding:2px 4px;
 }
 #view-tasks li.task .project:hover {
   cursor:pointer;
@@ -349,7 +350,7 @@ a:hover {
   width:16px;
 }
 #view-tasks li.info {
-  color:#839496;
+  color:#657b83;
   font-size:97%;
   font-weight:normal;
   margin-bottom:8px;
@@ -358,7 +359,7 @@ a:hover {
 }
 #view-tasks li .note {
   border:0;
-  color:#777777;
+  color:#839496;
   display:list-item;
   font-style:normal;
   font-size:85%;
@@ -381,7 +382,7 @@ a:hover {
 }
 #view-tasks li .hidden-note {
   border:0;
-  color:#777777;
+  color:#839496;
   display:list-item;
   font-style:normal;
   font-size:85%;
@@ -406,7 +407,7 @@ a:hover {
 #view-tasks li .reveal:hover { cursor:pointer; }
 #edit-tasks { margin:0 8px; }
 #edit-tasks textarea {
-  background:#ffffd3;
+  background:#ffffc3;
   border:1px solid #d7d5d4;
   clear:both;
   float:left;
@@ -434,7 +435,7 @@ a:hover {
   opacity:0.6;
 }
 .tag {
-  color:#268bd2;
+  color:#93a1a1;
   background:#eaeff7;
   border:1px dotted #eaeaea;
   font-size:90%;
@@ -445,12 +446,11 @@ a:hover {
   box-shadow:0px 0px 2px #657b83;
 }
 .date-tag {
-  color:#268bd2;
+  color:#93a1a1;
   background:#eaeff7;
   border:1px dotted #eaeaea;
   font-size:90%;
   padding:2px 4px;
-  color:#93a1a1;
   background-color:#efe8cf;
 }
 .date-tag:hover {
@@ -462,7 +462,7 @@ a:hover {
   text-decoration:line-through;
 }
 .starred {
-  background:#ffff99;
+  background:#ffffc3;
   padding:0 4px 0 4px;
 }
 .filters li span { padding:3px 5px 2px; }
@@ -470,14 +470,14 @@ a:hover {
   cursor:pointer;
   box-shadow:0px 0px 2px #657b83;
 }
-.bk-yellow { background:#ffff99; }
+.bk-yellow { background:#ffffc3; }
 .bk-gray { background:#eaeaea; }
-.bk-blue { background:#bfd3ed; }
-.bk-cyan { background:#bfffff; }
+.bk-blue { background:#e1efff; }
+.bk-cyan { background:#d5e9ff; }
 .bk-green { background:#dbfcb9; }
-.bk-red { background:#fcdbd6; }
+.bk-red { background:#ffe6e6; }
 .bk-brown { background:#eae0c9; }
-.bk-violet { background:#f5d3fc; }
+.bk-violet { background:#fae2ff; }
 .just-info {
   color:gray;
   font-size:90%;
@@ -528,6 +528,8 @@ a:hover {
 }
 #footer select {
   border-color:#d7d5d4;
+  border-width:1px;
+  border-style:solid;
   float:right;
   margin:0 15px 0 5px;
   vertical-align:top;
@@ -564,7 +566,7 @@ input:disabled { opacity:0.2; }
   text-indent:0px;
 }
 .editable-box text, .editable-box textarea {
-  background:#ffffd3;
+  background:#ffffc3;
   border:1px solid #d7d5d4;
   font:14px "Segoe UI";
   margin:0 0px 3px 7px;
