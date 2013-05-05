@@ -117,11 +117,11 @@ a:hover {
 }
 #header .logo p {
   color:#586e75;
-  font-size:1.4em;
-  text-shadow:0 1px #eee8d5;
   float:left;
+  font-size:1.4em;
   font-weight:bold;
   opacity:0.75;
+  text-shadow:0 1px 1px #657b83;
   vertical-align:top;
 }
 #header .logo p.red { color:#dc322f; }
@@ -307,9 +307,8 @@ a:hover {
   font-size:80%;
 }
 #view-tasks li.task .project {
-  background:#ffe6e6;
-  border:1px dotted #eaeaea;
-  color:#93a1a1;
+  border:1px dotted #d7d5d4;
+  color:#dc9897;
   font-size:85%;
   padding:2px 4px;
 }
@@ -407,7 +406,7 @@ a:hover {
 #view-tasks li .reveal:hover { cursor:pointer; }
 #edit-tasks { margin:0 8px; }
 #edit-tasks textarea {
-  background:#ffffc3;
+  background:#ffffb7;
   border:1px solid #d7d5d4;
   clear:both;
   float:left;
@@ -462,7 +461,7 @@ a:hover {
   text-decoration:line-through;
 }
 .starred {
-  background:#ffffc3;
+  background:#ffffb7;
   padding:0 4px 0 4px;
 }
 .filters li span { padding:3px 5px 2px; }
@@ -470,14 +469,14 @@ a:hover {
   cursor:pointer;
   box-shadow:0px 0px 2px #657b83;
 }
-.bk-yellow { background:#ffffc3; }
+.bk-yellow { background:#ffffb7; }
 .bk-gray { background:#eaeaea; }
 .bk-blue { background:#e1efff; }
 .bk-cyan { background:#d5e9ff; }
 .bk-green { background:#dbfcb9; }
 .bk-red { background:#ffe6e6; }
 .bk-brown { background:#eae0c9; }
-.bk-violet { background:#fae2ff; }
+.bk-violet { background:#f9dcff; }
 .just-info {
   color:gray;
   font-size:90%;
@@ -566,7 +565,7 @@ input:disabled { opacity:0.2; }
   text-indent:0px;
 }
 .editable-box text, .editable-box textarea {
-  background:#ffffc3;
+  background:#ffffb7;
   border:1px solid #d7d5d4;
   font:14px "Segoe UI";
   margin:0 0px 3px 7px;

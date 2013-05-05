@@ -17,11 +17,11 @@
 @green:      #859900;
 
 // tag and filter highlighting
-@bk-yellow:  #FFFFC3;
+@bk-yellow:  #FFFFB7;
 @bk-orange:  #CBB8B0;
 @bk-red:     #FFE6E6;
 @bk-magenta: #D3BBC7;
-@bk-violet:  #FAE2FF;
+@bk-violet:  #F9DCFF;
 @bk-blue:    #E1EFFF;
 @bk-cyan:    #D5E9FF;
 @bk-green:   #DBFCB9;
@@ -40,6 +40,7 @@
 @aside:      #E6EAEF;
 @tag:        #EAEFF7;
 @date-tag:   #EFE8CF;
+@proj-tag:   #DC9897;
 @strike:     #BCBCBC;
 
 // sizes
@@ -231,11 +232,11 @@ a:hover {
         }
         p {
             color: @base01;
-            font-size: 1.4em;
-            text-shadow: 0 1px @base2;
             float: left;
+            font-size: 1.4em;
             font-weight: bold;
             opacity: 0.75;
+            text-shadow: 0 1px 1px @base00;
             vertical-align: top;
             &.red {
                 color: @red;
@@ -492,9 +493,9 @@ a:hover {
             }
 
             .project {
-                background: @bk-red;
-                border: 1px dotted @bk-gray;
-                color: @base1;
+                //background: @bk-red;
+                border: 1px dotted @border;
+                color: @proj-tag;
                 font-size: 85%;
                 padding: 2px 4px;
                 .hover();

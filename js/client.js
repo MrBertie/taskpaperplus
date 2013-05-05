@@ -506,7 +506,7 @@ var app = (function () {
 
 
             // show a project
-            .on("click", "li.project p, li .project", function () {
+            .on("click", "li.project>p, li .project", function () {
                 show_project(this);
             })
 
