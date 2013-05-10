@@ -41,6 +41,10 @@ Plus some wonderful tools:
   - Notepad++ (testing php functions, and writing help files)
   - Chrome: great web dev tools and xdebug plugin
 
+License: [The MIT License (MIT)](http://opensource.org/licenses/MIT)
+
+Copyright: Symon Bent 2013
+
 
 
 
