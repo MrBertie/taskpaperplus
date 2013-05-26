@@ -182,7 +182,7 @@ class Content {
         // deal with sorting one project by itself
         if ($project !== null) {
             $pos = array_search($project, $this->project_index);
-            $this->parsed_items = array_insert($this->parsed_items, $pos, $sorted_items, 1, true);
+            $this->parsed_items = \tpp\array_insert($this->parsed_items, $pos, $sorted_items, 1, true);
         } else {
             $this->parsed_items = $sorted_items;
         }

@@ -42,6 +42,8 @@
 @date-tag:   #EFE8CF;
 @proj-tag:   #DC9897;
 @strike:     #BCBCBC;
+@eraser:     #D1A4A7;
+@pencil:     #607D86;
 
 // sizes
 @content-width:     95%;
@@ -57,6 +59,7 @@ html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, 
 /* basic font and sizes */
 body {
     background-color: @backdrop;
+    color: @base02;
     font-size: 14px;
     line-height: 18px;
     font-family: "Droid Sans", "Segoe UI", "Verdana", helvetica, sans-serif;
@@ -66,7 +69,8 @@ body {
     z-index: 0;
 }
 h1 {
-    font-size: 120%;
+    font-size: 140%;
+    font-weight: normal;
     margin: 0.2em 0 0.4em 0;
 }
 h1, h2, h3 {
@@ -231,19 +235,16 @@ a:hover {
             top: 0;
         }
         p {
-            color: @base01;
+            color: @pencil;
             float: left;
             font-size: 1.4em;
             font-weight: bold;
-            opacity: 0.75;
-            text-shadow: 0 1px 1px @base00;
             vertical-align: top;
             &.red {
-                color: @red;
+                color: @eraser;
             }
             &:hover {
-                opacity: 1;
-                text-shadow: none;
+                text-shadow: 1px 1px 1px @base1;
             }
         }
     }
@@ -416,9 +417,10 @@ a:hover {
         .sortable {
         color: @tab-border;
         display: inline;
+        float: right;
         font-size: 60%;
         font-weight: normal;
-        margin-left: 12px;
+        margin-right: 1em;
         vertical-align: bottom;
         }
         .just-info {
@@ -638,7 +640,6 @@ a:hover {
 }
 
 // the filters list
-
 .filters li span {
     padding: 3px 5px 2px;
     .hover();
@@ -672,7 +673,6 @@ a:hover {
 }
 
 
-
 // general page information
 .just-info {
     color: gray;
@@ -684,11 +684,12 @@ a:hover {
 
 // hit count or frequency
 .freq {
-    color: @base1;
+    color: @tab-border;
     display: inline;
     font-weight: normal;
     font-size: 70%;
     margin-left: 0.35em;
+    opacity: 0.8;
     vertical-align: top;
 }
 

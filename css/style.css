@@ -4,6 +4,7 @@ html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, 
 }
 body {
   background-color:#d9d5c1;
+  color:#073642;
   font-size:14px;
   line-height:18px;
   font-family:"Droid Sans", "Segoe UI", "Verdana", helvetica, sans-serif;
@@ -13,7 +14,8 @@ body {
   z-index:0;
 }
 h1 {
-  font-size:120%;
+  font-size:140%;
+  font-weight:normal;
   margin:0.2em 0 0.4em 0;
 }
 h1, h2, h3 { font-family:"Calibri"; }
@@ -116,19 +118,14 @@ a:hover {
   top:0;
 }
 #header .logo p {
-  color:#586e75;
+  color:#607d86;
   float:left;
   font-size:1.4em;
   font-weight:bold;
-  opacity:0.75;
-  text-shadow:0 1px 1px #657b83;
   vertical-align:top;
 }
-#header .logo p.red { color:#dc322f; }
-#header .logo p:hover {
-  opacity:1;
-  text-shadow:none;
-}
+#header .logo p.red { color:#d1a4a7; }
+#header .logo p:hover { text-shadow:1px 1px 1px #93a1a1; }
 #header .search {
   margin:3px 3em 0 2.5em;
   position:relative;
@@ -242,9 +239,10 @@ a:hover {
 #view-tasks h1 .sortable {
   color:#c9c7c6;
   display:inline;
+  float:right;
   font-size:60%;
   font-weight:normal;
-  margin-left:12px;
+  margin-right:1em;
   vertical-align:bottom;
 }
 #view-tasks h1 .just-info {
@@ -484,11 +482,12 @@ a:hover {
   margin-top:4px;
 }
 .freq {
-  color:#93a1a1;
+  color:#c9c7c6;
   display:inline;
   font-weight:normal;
   font-size:70%;
   margin-left:0.35em;
+  opacity:0.8;
   vertical-align:top;
 }
 #footer {

@@ -227,7 +227,9 @@ var app = (function () {
 
     pub.add_events = function () {
 
-        $("#home").on("click", reset);
+        $(".logo").on("click", "a", function() {
+            request({event: 'all'});
+        });
 
         $("#purge-session").on("click", function () {
             request({event: 'purgesession'}, function() {

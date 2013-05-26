@@ -48,7 +48,7 @@ function config($item) {
 function ini($item, $value = null) {
     static $ini = null;
     if (is_null($ini)) {
-        $ini = new \tpp\storage\Ini(APP_PATH . 'conf/config.ini', APP_PATH . 'conf/config.new.ini');
+        $ini = new storage\Ini(APP_PATH . 'conf/config.ini', APP_PATH . 'conf/config.new.ini');
     }
     if (is_null($value)) {
         return $ini->item($item);

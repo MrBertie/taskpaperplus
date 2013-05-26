@@ -401,7 +401,7 @@ class Taskpaper extends TaskpaperPersist {
     }
 
     function reorder($new_order, $project = null) {
-        self::$_content->reorder($new_order, $project = null);
+        self::$_content->reorder($new_order, $project);
         self::update(UPDATE_STATE);
     }
 
