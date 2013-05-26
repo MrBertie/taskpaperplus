@@ -62,7 +62,7 @@ a:hover {
   padding:8px 12px;
   text-decoration:none;
 }
-.tabs a.fixed { color:#cb4b16; }
+.tabs a.fixed { color:#2aa198; }
 .tabs li {
   display:inline-block;
   line-height:32px;
@@ -137,7 +137,7 @@ a:hover {
   top:-4px;
 }
 #header .search #search-box {
-  border:1px solid #eee8d5;
+  border:1px solid #d7d5d4;
   font:14px Verdana, helvetica, sans-serif;
   height:1.32em;
   margin-bottom:2px;
@@ -482,7 +482,7 @@ a:hover {
   margin-top:4px;
 }
 .freq {
-  color:#c9c7c6;
+  color:#93a1a1;
   display:inline;
   font-weight:normal;
   font-size:70%;
