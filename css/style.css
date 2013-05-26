@@ -7,7 +7,7 @@ body {
   color:#073642;
   font-size:14px;
   line-height:18px;
-  font-family:"Droid Sans", "Segoe UI", "Verdana", helvetica, sans-serif;
+  font-family:"Droid Sans", "Segoe UI", Verdana, Tahoma, helvetica, sans-serif;
   height:100%;
   min-width:50% !important;
   width:100%;
@@ -62,7 +62,7 @@ a:hover {
   padding:8px 12px;
   text-decoration:none;
 }
-.tabs a.fixed { color:#2aa198; }
+.tabs a.fixed { color:#6c71c4; }
 .tabs li {
   display:inline-block;
   line-height:32px;
