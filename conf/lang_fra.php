@@ -2,70 +2,81 @@
 namespace tpp;
 
 /**
- * FRENCH language
- * To change to this language change to 'language=fra' in conf/config.ini file
+ * Français / FRENCH language
  */
 
 $lang = array();
 
 
- /**
+/**
  * These filters can be changes to suit your needs/whims!
  *
- * each filter consists of: name => (1. expression, 2. tooltip, 3. colour, 4.visibility)
- * name:       this will be displayed to the user (no spaces allowed, however _ will be changed to space on display)
- * expression: any valid search as used in search box (see help file), multiple terms are supported
- *             the expression can use either the language specific commands/intervals as above, or english (more consistent)
+ * Each filter consists of: name => array(expression, tooltip, colour, visibility),
+ * 
+ * name:       
+ *             this will be displayed to the user (no spaces allowed, however _ will be replced by space for display)
+ * expression: 
+ *             any valid search as used in search box (see help file), multiple terms are supported
+ *             the expression can use either the language specific commands/intervals as below, or english (more consistent)
  *             you can even reuse other filter to create a new one, just put the = in front, e.g. '=late'
- * tooltip:    this will pop up when you hover the mouse over the filter, to explain it's purpose
- * colour:     identifies which CSS class to use (CSS class name suffix, see '.filter-' in style.css)
+ * tooltip:    
+ *             this will pop up when you hover the mouse over the filter, to explain it's purpose
+ * colour:     
+ *             identifies which CSS class to use (CSS class name suffix, see '.bk-...' in style.css)
  *             currently valid colours are: blue, brown, cyan, gray, green, red, violet, yellow  (all soft pastel shades)
- * visible:    should this filter be added to Filter sidebar (true),
+ * visible:    
+ *             should this filter be added to Filter sidebar (true),
  *             or just be available from the search box, or used in other filters (false)
  */
-$lang['filter_settings']    = array('suivante'  => array('*next | >week \\date', 'Les actions suivantes, et la prochaine semaine', 'yellow', true),
-                                     'à_bientôt'  => array('*todo >month \\date', 'Toutes tâches à faire, dans le prochain mois', 'green', true),
-                                     'en_attente'  => array('*wait', 'Toutes tâches en attente', 'cyan', true),
-                                     'peut-être' => array('*maybe', 'Peut-être, un de ces jours', 'violet', true),
-                                     'à_faire'  => array('*todo', 'Toutes tâches encore à faire', 'blue', true),
-                                     'accompli'  => array('*done', 'Toutes tâches accomplies', 'gray', true),
-                                     'dû'   => array('*todo =date \\gdate', "Toutes tâches à faire, avec date", 'green', true),
-                                     'tard'  => array('*todo <today \\gdate', "Toutes tâches à faire, avec date dans le passé", 'red', true),
+$lang['filter_settings']    = array(
+                                    'suivante'    => array('*next | >week \\date', 'Les actions suivantes, et la prochaine semaine', 'yellow', true),
+                                    'à_bientôt'   => array('*todo >month \\date', 'Toutes tâches à faire, dans le prochain mois', 'green', true),
+                                    'en_attente'  => array('*wait', 'Toutes tâches en attente', 'cyan', true),
+                                    'peut-être'   => array('*maybe', 'Peut-être, un de ces jours', 'violet', true),
+                                    'à_faire'     => array('*todo', 'Toutes tâches encore à faire', 'blue', true),
+                                    'accompli'    => array('*done', 'Toutes tâches accomplies', 'gray', true),
+                                    'dû'          => array('*todo =date \\date', "Toutes tâches à faire, avec date", 'green', true),
+                                    'tard'        => array('*todo <today \\date', "Toutes tâches à faire, avec date dans le passé", 'red', true),
                                     );
 
 // search engine intervals and commands
-$lang['interval_names']     = array('date' => 'date',
-                                     'future' => 'futur',
-                                     'past' => 'passé',
-                                     'yesterday' => 'hier',
-                                     'today' => "aujourd'hui",
-                                     'tomorrow' => 'demain',
-                                     'day' => 'jour',
-                                     'week' => 'semaine',
-                                     'month' => 'mois',
-                                     'year' => 'année',
+$lang['interval_names']     = array(
+                                    'date'      => 'date',
+                                    'future'    => 'futur',
+                                    'past'      => 'passé',
+                                    'yesterday' => 'hier',
+                                    'today'     => "aujourd'hui",
+                                    'tomorrow'  => 'demain',
+                                    'day'       => 'jour',
+                                    'week'      => 'semaine',
+                                    'month'     => 'mois',
+                                    'year'      => 'année',
                                     );
 
 // names of the various sorting "columns" (English => Other Language)
-$lang['sort_names']         = array('task' => 'tâche',
-                                     'date' => 'date',
-                                     'gdate' => 'gdate',  // grouped dates
-                                     'topic' => 'sujet',
-                                     'state' => 'état',
+$lang['sort_names']         = array(
+                                    'task'  => 'tâche',
+                                    'date'  => 'date',
+                                    'topic' => 'sujet',
+                                    'state' => 'état',
                                     );
 
 // different states (todo, done should not be changed) (English => Other Language)
-$lang['state_names']        = array('todo' => 'àfaire',
-                                     'next' => 'suivante',
-                                     'wait' => 'attends',
-                                     'maybe' => 'peutêtre',
-                                     'done' => 'fait',
+$lang['state_names']        = array(
+                                    'todo'  => 'àfaire',
+                                    'next'  => 'suivante',
+                                    'wait'  => 'attends',
+                                    'maybe' => 'peutêtre',
+                                    'done'  => 'fait',
                                     );
 
-// 0=todo, 1=next, etc.. done should always be last!
-$lang['state_order']        = array('àfaire', 'suivante', 'attends', 'peutêtre', 'fait');
+// 0=done, 1=todo, etc.. done should always be first!
+// REMAINS IN ENGLISH !!
+$lang['state_order']        = array('done', 'todo', 'next', 'wait', 'maybe');
+
 // colours used for various states (in order of use)
 // currently: none, next, wait, maybe (done has no colour)
+// REMAINS IN ENGLISH !!
 $lang['state_colours']      = array('none', 'yellow', 'cyan', 'violet', '');
 
 
@@ -142,28 +153,28 @@ $lang['no_date_hdr']        = 'Pas de date';
 $lang['deleted_lbl']        = 'Effacé:';
 
 
+// login
+$lang['username_lbl']       = 'User Name';
+$lang['password_lbl']       = 'Password';
+$lang['confirmpassword_lbl'] = 'Confirm Password';
+$lang['login_lbl']          = 'Login';
+$lang['resetlogin_lbl']     = 'Reset Login';
+$lang['createuser_lbl']     = 'Create User';
 
-// ******************************************
 
 
+// ****************
+// ** JAVASCRIPT **
+// ****************
 
-// used by javascript side to display messages
-$jslang['colours'] = array('yellow' => '#ff9',
-                           'orange' => '#CBB8B0',
-                           'red' => '#fcdbd6',
-                           'magenta' => '#D3BBC7',
-                           'violet' => '#F5D3FC',
-                           'blue' => '#BFD3ED',
-                           'cyan' => '#BFFFFF',
-                           'green' => '#DBFCB9'
-                           );
 
-$jslang['add_msg']            = array('Tâche ajoutée', $jslang['colours']['blue']);
-$jslang['edit_msg']           = array('Tâche modifiée', $jslang['colours']['yellow']);
-$jslang['trash_msg']          = array('Tâche effacée', $jslang['colours']['red']);
-$jslang['arch_msg']           = array('Tâche archivée', $jslang['colours']['orange']);
-$jslang['all_trash_msg']      = array('Toutes les tâches accomplies ont été effacées', $jslang['colours']['orange']);
-$jslang['all_arch_msg']       = array('Toutes les tâches accomplies ont été archivées', $jslang['colours']['orange']);
+// colours are based on bk-* class colours in style.less
+$jslang['add_msg']            = array('Tâche ajoutée', 'blue');
+$jslang['edit_msg']           = array('Tâche modifiée', 'yellow');
+$jslang['trash_msg']          = array('Tâche effacée', 'red');
+$jslang['arch_msg']           = array('Tâche archivée', 'orange');
+$jslang['all_trash_msg']      = array('Toutes les tâches accomplies ont été effacées', 'orange');
+$jslang['all_arch_msg']       = array('Toutes les tâches accomplies ont été archivées', 'orange');
 
 $jslang['rename_msg']         = 'Quel est le nouveau nom pour cet onglet?';
 $jslang['remove_msg']         = 'Supprimer cet onglet';

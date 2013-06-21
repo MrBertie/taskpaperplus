@@ -3,7 +3,6 @@ namespace tpp;
 
 /**
  * ENGLISH language
- * To change to this language change to 'language=en' in conf/config.ini file
  */
 
 $lang = array();
@@ -12,15 +11,21 @@ $lang = array();
 /**
  * These filters can be changes to suit your needs/whims!
  *
- * each filter consists of: name => (1. expression, 2. tooltip, 3. colour, 4.visibility)
- * name:       this will be displayed to the user (no spaces allowed, however _ will be replced by space for display)
- * expression: any valid search as used in search box (see help file), multiple terms are supported
- *             the expression can use either the language specific commands/intervals as above, or english (more consistent)
+ * Each filter consists of: name => array(expression, tooltip, colour, visibility),
+ * 
+ * name:       
+ *             this will be displayed to the user (no spaces allowed, however _ will be replced by space for display)
+ * expression: 
+ *             any valid search as used in search box (see help file), multiple terms are supported
+ *             the expression can use either the language specific commands/intervals as below, or english (more consistent)
  *             you can even reuse other filter to create a new one, just put the = in front, e.g. '=late'
- * tooltip:    this will pop up when you hover the mouse over the filter, to explain it's purpose
- * colour:     identifies which CSS class to use (CSS class name suffix, see '.bk-...' in style.css)
+ * tooltip:    
+ *             this will pop up when you hover the mouse over the filter, to explain it's purpose
+ * colour:     
+ *             identifies which CSS class to use (CSS class name suffix, see '.bk-...' in style.css)
  *             currently valid colours are: blue, brown, cyan, gray, green, red, violet, yellow  (all soft pastel shades)
- * visible:    should this filter be added to Filter sidebar (true),
+ * visible:    
+ *             should this filter be added to Filter sidebar (true),
  *             or just be available from the search box, or used in other filters (false)
  */
 $lang['filter_settings']    = array(
@@ -52,7 +57,6 @@ $lang['interval_names']     = array(
 $lang['sort_names']         = array(
                                     'task' => 'task',
                                     'date' => 'date',
-                                    'gdate' => 'gdate',  // grouped dates
                                     'topic' => 'topic',
                                     'state' => 'state',
                                     );
@@ -67,10 +71,12 @@ $lang['state_names']        = array(
                                     );
 
 // 0=done, 1=todo, etc.. done should always be first!
+// REMAINS IN ENGLISH !!
 $lang['state_order']        = array('done', 'todo', 'next', 'wait', 'maybe');
 
 // colours used for various actions (in order of use)
 // currently: none, next, wait, maybe (done has no colour)
+// REMAINS IN ENGLISH !!
 $lang['state_colours']      = array('none', 'yellow', 'cyan', 'violet');
 
 
@@ -147,28 +153,28 @@ $lang['no_date_hdr']        = 'No date';
 $lang['deleted_lbl']        = 'Deleted:';
 
 
+// login
+$lang['username_lbl']       = 'User Name';
+$lang['password_lbl']       = 'Password';
+$lang['confirmpassword_lbl'] = 'Confirm Password';
+$lang['login_lbl']          = 'Login';
+$lang['resetlogin_lbl']     = 'Reset Login';
+$lang['createuser_lbl']     = 'Create User';
 
-// ******************************************
 
 
+// ****************
+// ** JAVASCRIPT **
+// ****************
 
-// used by javascript side to display messages
-$jslang['colours'] = array('yellow' => '#ff9',
-                           'orange' => '#CBB8B0',
-                           'red' => '#fcdbd6',
-                           'magenta' => '#D3BBC7',
-                           'violet' => '#F5D3FC',
-                           'blue' => '#BFD3ED',
-                           'cyan' => '#BFFFFF',
-                           'green' => '#DBFCB9'
-                           );
 
-$jslang['add_msg']            = array('Task added', $jslang['colours']['blue']);
-$jslang['edit_msg']           = array('Task edited', $jslang['colours']['yellow']);
-$jslang['trash_msg']          = array('Task deleted', $jslang['colours']['red']);
-$jslang['arch_msg']           = array('Task archived', $jslang['colours']['orange']);
-$jslang['all_trash_msg']      = array('All completed tasks deleted', $jslang['colours']['orange']);
-$jslang['all_arch_msg']       = array('All completed tasks archived', $jslang['colours']['orange']);
+// colours are based on bk-* colours in style.less
+$jslang['add_msg']            = array('Task added', 'blue');
+$jslang['edit_msg']           = array('Task edited', 'yellow');
+$jslang['trash_msg']          = array('Task deleted', 'red');
+$jslang['arch_msg']           = array('Task archived', 'orange');
+$jslang['all_trash_msg']      = array('All completed tasks deleted', 'orange');
+$jslang['all_arch_msg']       = array('All completed tasks archived', 'orange');
 
 $jslang['rename_msg']         = 'What is the new name for this tab?';
 $jslang['remove_msg']         = 'Delete this tab?';

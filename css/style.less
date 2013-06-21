@@ -28,7 +28,7 @@
 @bk-hilite:  #FF9;
 @bk-edit:    #FFFFAA;
 @bk-brown:   #EAE0C9;
-@bk-gray:    #eaeaea;
+@bk-gray:    #EAEAEA;
 
 // other colours
 @background: #F7F5EE;
@@ -157,7 +157,7 @@ a:hover {
     a {
         color: @base02;
         line-height: 32px;
-        padding: 8px 12px;
+        padding: 8px 14px;
         text-decoration: none;
         &.fixed {
             color: @violet;
@@ -214,8 +214,7 @@ a:hover {
 // **************************
 
 #header {
-    background-color: @background;
-    background: @aside;
+    background-color: @aside;
     border-bottom: 1px solid @border;
     margin-bottom: 0;
     padding: 10px 220px 10px 120px;
@@ -458,16 +457,18 @@ a:hover {
             border: 1px transparent solid;
             color: @red;
             display: block;
-            font-size: 105%;
+            font-size: 110%;
             margin-bottom: 3px;
             margin-left: 0.2em;
             margin-top: 12px;
-            padding-bottom: 2px;
-            padding-top: 2px;
             .box-hover();
             p {
                 display: inline;
+                padding: 2px 0;
                 .topic-hover();
+            }
+            ul {
+                padding-top: 3px;
             }
         }
 
@@ -845,7 +846,6 @@ input:disabled {
 
 // Sliding message banner at top
 #message-banner {
-    background: @base2;
     color: @base01;
     height: 20px;
     left: 0;

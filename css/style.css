@@ -59,7 +59,7 @@ a:hover {
 .tabs a {
   color:#073642;
   line-height:32px;
-  padding:8px 12px;
+  padding:8px 14px;
   text-decoration:none;
 }
 .tabs a.fixed { color:#6c71c4; }
@@ -97,8 +97,7 @@ a:hover {
 }
 .tabs p.today:hover { color:#6c71c4; }
 #header {
-  background-color:#f7f5ee;
-  background:#e6eaef;
+  background-color:#e6eaef;
   border-bottom:1px solid #d7d5d4;
   margin-bottom:0;
   padding:10px 220px 10px 120px;
@@ -275,22 +274,24 @@ a:hover {
   border:1px transparent solid;
   color:#dc322f;
   display:block;
-  font-size:105%;
+  font-size:110%;
   margin-bottom:3px;
   margin-left:0.2em;
   margin-top:12px;
-  padding-bottom:2px;
-  padding-top:2px;
 }
 #view-tasks li.project:hover {
   background:#fafafa;
   border:1px #d7d5d4 dotted;
 }
-#view-tasks li.project p { display:inline; }
+#view-tasks li.project p {
+  display:inline;
+  padding:2px 0;
+}
 #view-tasks li.project p:hover {
   cursor:pointer;
   text-shadow:0 0 1px #cb4b16;
 }
+#view-tasks li.project ul { padding-top:3px; }
 #view-tasks li.task { margin-left:1em; }
 #view-tasks li.task p {
   display:inline;
@@ -592,7 +593,6 @@ input:disabled { opacity:0.2; }
 .editable-box img.top { top:1px; }
 .editable-box img.bottom { top:33px; }
 #message-banner {
-  background:#eee8d5;
   color:#586e75;
   height:20px;
   left:0;

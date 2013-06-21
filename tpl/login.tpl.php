@@ -1,15 +1,17 @@
-<!-- login form -->
-<form name="'.$formname.'" method="post" id="'.$formname.'" class="'.$formclass.'" enctype="application/x-www-form-urlencoded" action="'.$formaction.'">
-    <div>
-        <label for="username">Username</label>
-        <input name="username" id="username" type="text">
-    </div>
-    <div>
-        <label for="password">Password</label>
-        <input name="password" id="password" type="password">
-    </div>
-    <input name="action" id="action" value="login" type="hidden">
-    <div>
-        <input name="submit" id="submit" value="Login" type="submit">
-    </div>
-</form>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>
+            <?php echo \tpp\config('title'); ?>
+        </title>
+
+        <link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="css/print.css" media="print" />
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    </head>
+    
+    <body>
+        <?php echo $form; ?>
+    </body>
+</html>

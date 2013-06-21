@@ -1,11 +1,11 @@
 <!-- reset password form -->
-<form name="'.$formname.'" method="post" id="'.$formname.'" class="'.$formclass.'" enctype="application/x-www-form-urlencoded" action="'.$formaction.'">
+<form name="resetuser" method="post" id="resetuser" class="resetuser" enctype="application/x-www-form-urlencoded" action="login-reset">
     <div>
-        <label for="username">Username</label>
+        <label for="username"><?php tpp\lang('username_lbl'); ?></label>
         <input name="username" id="username" type="text">
     </div>
     <input name="action" id="action" value="resetlogin" type="hidden">
     <div>
-        <input name="submit" id="submit" value="Reset Password" type="submit">
+        <input name="submit" id="submit" value="<?php tpp\lang('resetlogin_lbl'); ?>" type="submit">
     </div>
 </form>

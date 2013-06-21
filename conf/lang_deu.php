@@ -2,8 +2,7 @@
 namespace tpp;
 
 /**
- * GERMAN language (Deutsch)
- * To change to this language use the memo bottom right
+ * Deutsch / GERMAN language
  */
 
 $lang = array();
@@ -12,60 +11,72 @@ $lang = array();
 /**
  * These filters can be changes to suit your needs/whims!
  *
- * each filter consists of: name => (1. expression, 2. tooltip, 3. colour, 4.visibility)
- * name:       this will be displayed to the user (no spaces allowed, however _ will be changed to space on display)
- * expression: any valid search as used in search box (see help file), multiple terms are supported
- *             the expression can use either the language specific commands/intervals as above, or english (more consistent)
+ * Each filter consists of: name => array(expression, tooltip, colour, visibility),
+ * 
+ * name:       
+ *             this will be displayed to the user (no spaces allowed, however _ will be replced by space for display)
+ * expression: 
+ *             any valid search as used in search box (see help file), multiple terms are supported
+ *             the expression can use either the language specific commands/intervals as below, or english (more consistent)
  *             you can even reuse other filter to create a new one, just put the = in front, e.g. '=late'
- * tooltip:    this will pop up when you hover the mouse over the filter, to explain it's purpose
- * colour:     identifies which CSS class to use (CSS class name suffix, see '.filter-' in style.css)
+ * tooltip:    
+ *             this will pop up when you hover the mouse over the filter, to explain it's purpose
+ * colour:     
+ *             identifies which CSS class to use (CSS class name suffix, see '.bk-...' in style.css)
  *             currently valid colours are: blue, brown, cyan, gray, green, red, violet, yellow  (all soft pastel shades)
- * visible:    should this filter be added to Filter sidebar (true),
+ * visible:    
+ *             should this filter be added to Filter sidebar (true),
  *             or just be available from the search box, or used in other filters (false)
  */
-$lang['filter_settings']    = array('unblockiert'  => array('*next | >week \\date', 'Unblockierte Aufgaben inklusive nächster Woche', 'yellow', true),
-                                     'bald_fällig'  => array('*todo >month \\date', 'Fällig im nächsten Monat', 'green', true),
-                                     'blockiert'  => array('*wait', 'Aufgaben wartend auf jemanden/etwas', 'cyan', true),
-                                     'eventuell' => array('*maybe', 'Mögliche Aufgaben für die Zukunft', 'violet', true),
-                                     'pendent'  => array('*todo', 'Alle pendenten Aufgaben', 'blue', true),
-                                     'erledigt'  => array('*done', 'Nur erledigte Aufgaben', 'gray', true),
-                                     'mit_Datum'   => array('*todo =date \\gdate', 'Pendente Aufgaben mit Datum', 'green', true),
-                                     'überfällig'  => array('*todo <today \\gdate', 'Überfällige pendente Aufgaben', 'red', true),
+$lang['filter_settings']    = array(
+                                    'unblockiert'   => array('*next | >week \\date', 'Unblockierte Aufgaben inklusive nächster Woche', 'yellow', true),
+                                    'bald_fällig'   => array('*todo >month \\date', 'Fällig im nächsten Monat', 'green', true),
+                                    'blockiert'     => array('*wait', 'Aufgaben wartend auf jemanden/etwas', 'cyan', true),
+                                    'eventuell'     => array('*maybe', 'Mögliche Aufgaben für die Zukunft', 'violet', true),
+                                    'pendent'       => array('*todo', 'Alle pendenten Aufgaben', 'blue', true),
+                                    'erledigt'      => array('*done', 'Nur erledigte Aufgaben', 'gray', true),
+                                    'mit_Datum'     => array('*todo =date \\gdate', 'Pendente Aufgaben mit Datum', 'green', true),
+                                    'überfällig'    => array('*todo <today \\gdate', 'Überfällige pendente Aufgaben', 'red', true),
                                     );
 
 // search engine intervals and commands (English => Other Language)
-$lang['interval_names']     = array('date' => 'Datum',
-                                     'future' => 'zukünftig',
-                                     'past' => 'vergangene',
-                                     'yesterday' => 'gestern',
-                                     'today' => 'heute',
-                                     'tomorrow' =>'morgen',
-                                     'day' => 'Tag',
-                                     'week' => 'Woche',
-                                     'month' => 'Monat',
-                                     'year' => 'Jahr',
+$lang['interval_names']     = array(
+                                    'date'      => 'Datum',
+                                    'future'    => 'zukünftig',
+                                    'past'      => 'vergangene',
+                                    'yesterday' => 'gestern',
+                                    'today'     => 'heute',
+                                    'tomorrow'  =>'morgen',
+                                    'day'       => 'Tag',
+                                    'week'      => 'Woche',
+                                    'month'     => 'Monat',
+                                    'year'      => 'Jahr',
                                     );
 
 // names of the various sorting "columns" (English => Other Language)
-$lang['sort_names']         = array('task' => 'Aufgabe',
-                                     'date' => 'Datum',
-                                     'gdate' => 'Gruppierte Daten',    // grouped dates
-                                     'topic' => 'Projekt',
-                                     'state' => 'Status',
+$lang['sort_names']         = array(
+                                    'task'  => 'Aufgabe',
+                                    'date'  => 'Datum',
+                                    'topic' => 'Projekt',
+                                    'state' => 'Status',
                                     );
 
 // different states (sequence should not be changed) (English => Other Language)
-$lang['state_names']        = array('todo' => 'zutun',
-                                     'next' => 'unblockierte',
-                                     'wait' => 'wartend',
-                                     'maybe' => 'eventuell',
-                                     'done' => 'erledigt',
+$lang['state_names']        = array(
+                                    'todo'  => 'zutun',
+                                    'next'  => 'unblockierte',
+                                    'wait'  => 'wartend',
+                                    'maybe' => 'eventuell',
+                                    'done'  => 'erledigt',
                                     );
 
 // 0=todo, 1=next, etc.. done should always be last!
+// REMAINS IN ENGLISH !!
 $lang['state_order']        = array('todo', 'next', 'wait', 'maybe', 'done');
+
 // colours used for various states (in order of use)
 // currently: none, next, wait, maybe (done has no colour)
+// REMAINS IN ENGLISH !!
 $lang['state_colours']      = array('none', 'yellow', 'cyan', 'violet', '');
 
 
@@ -142,28 +153,28 @@ $lang['no_date_hdr']        = 'Kein Datum';
 $lang['deleted_lbl']        = 'Erlöscht:';
 
 
+// login
+$lang['username_lbl']       = 'User Name';
+$lang['password_lbl']       = 'Password';
+$lang['confirmpassword_lbl'] = 'Confirm Password';
+$lang['login_lbl']          = 'Login';
+$lang['resetlogin_lbl']     = 'Reset Login';
+$lang['createuser_lbl']     = 'Create User';
 
-// ******************************************
 
 
+// ****************
+// ** JAVASCRIPT **
+// ****************
 
-// used by javascript side to display messages
-$jslang['colours'] = array('yellow' => '#ff9',
-                           'orange' => '#CBB8B0',
-                           'red' => '#fcdbd6',
-                           'magenta' => '#D3BBC7',
-                           'violet' => '#F5D3FC',
-                           'blue' => '#BFD3ED',
-                           'cyan' => '#BFFFFF',
-                           'green' => '#DBFCB9'
-                           );
 
-$jslang['add_msg']            = array('Aufgabe hinzugefügt', $jslang['colours']['blue']);
-$jslang['edit_msg']           = array('Aufgabe geändert', $jslang['colours']['yellow']);
-$jslang['trash_msg']          = array('Aufgabe gelöscht', $jslang['colours']['red']);
-$jslang['arch_msg']           = array('Aufgabe archiviert', $jslang['colours']['orange']);
-$jslang['all_trash_msg']      = array('Alle abgeschlossenen Aufgaben gelöscht', $jslang['colours']['orange']);
-$jslang['all_arch_msg']       = array('Alle abgeschlossenen Aufgaben archiviert', $jslang['colours']['orange']);
+// colours are based on bk-* class colours in style.less
+$jslang['add_msg']            = array('Aufgabe hinzugefügt', 'blue');
+$jslang['edit_msg']           = array('Aufgabe geändert', 'yellow');
+$jslang['trash_msg']          = array('Aufgabe gelöscht', 'red');
+$jslang['arch_msg']           = array('Aufgabe archiviert', 'orange');
+$jslang['all_trash_msg']      = array('Alle abgeschlossenen Aufgaben gelöscht', 'orange');
+$jslang['all_arch_msg']       = array('Alle abgeschlossenen Aufgaben archiviert', 'orange');
 
 $jslang['rename_msg']         = 'Neuer Name für dieses Tab?';
 $jslang['remove_msg']         = 'Dieses Tab löschen?';

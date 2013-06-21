@@ -194,14 +194,11 @@ class Dispatcher extends BasicDispatcher {
         parent::__construct($this->state, $default);
     }
 
+
     function respond() {
 
-        // first confirm that user is valid
-        if ( ! $this->_check_login()) {
-
-            log&&msg('login failed');
-
-            return;
+        if ( ! $this->_user->logged_in()) {
+            return $this->existuser();
         }
 
         $request = & $this->request;
@@ -223,12 +220,18 @@ class Dispatcher extends BasicDispatcher {
     }
 
 
-    protected function _check_login() {
-        if ( ! $this->_user->logged_in()) {
-            // show login screen
-        }
-        // TODO: finish login screens!
-        return true;
+    protected function existuser() {
+        return $this->_views->existuser();
+    }
+    
+
+    protected function newuser() {
+        return $this->_views->newuser();
+    }
+
+
+    protected function resetpassword() {
+        return $this->_views->resetpassword();
     }
 
 

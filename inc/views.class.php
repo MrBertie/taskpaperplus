@@ -136,5 +136,28 @@ class Views {
                      'tags' => $this->tags()->render(),
                      'restricted' => $this->_taskpapers->active()->restricted());
     }
-
+    
+    
+    /**
+     * Login views
+     */
+    function login_user() {
+        $view = new Template('login');
+        $view->form = new Template('existuser');
+        return $view;
+    }
+    
+    
+    function new_user() {
+        $view = new Template('login');
+        $view->form = new Template('newuser');
+        return $view;
+    }
+    
+    
+    function reset_password() {
+        $view = new Template('login');
+        $view->form = new Template('resetpassword');
+        return $view;
+    }
 }

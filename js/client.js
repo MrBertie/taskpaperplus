@@ -205,7 +205,9 @@ var app = (function () {
         var left = ($(window).width() - $message_banner.width()) / 2;
         
         $message_banner
-            .css({"background" : colour, "top" : new_top, "left" : left})
+            .removeClass()
+            .addClass('bk-' + colour)
+            .css({"top" : new_top, "left" : left})
             .animate({top: "+=20px", opacity: 200}, {duration: 900})
             .animate({opacity: 0}, {duration: 900});
     };
