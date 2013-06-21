@@ -235,7 +235,7 @@ var app = (function () {
 
         $("#purge-session").on("click", function () {
             request({event: 'purgesession'}, function() {
-                show_message(['Session cleared! Reloading...', lang.colours.green]);
+                show_message(['Session cleared! Reloading...', 'green']);
                 window.setTimeout("window.location.reload()", 1500);
                 $index_load.val('false');
             });
@@ -243,13 +243,13 @@ var app = (function () {
 
         $("#purge-cache").on("click", function () {
             request({event: 'purgecache'}, function() {
-                show_message(['Cache cleared!', lang.colours.yellow]);
+                show_message(['Cache cleared!', 'yellow']);
             });
         });
 
         $('#footer select').on('change', function () {
             request({event: 'lang', value: this.value}, function () {
-                show_message([lang.lang_change_msg, lang.colours.green]);
+                show_message([lang.lang_change_msg, 'green']);
                 window.setTimeout("window.location.reload()", 1000);
             });
         });
