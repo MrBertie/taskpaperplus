@@ -32,7 +32,7 @@ $lang['filter_settings']    = array(
                                     'suivante'    => array('*next | >week \\date', 'Les actions suivantes, et la prochaine semaine', 'yellow', true),
                                     'à_bientôt'   => array('*todo >month \\date', 'Toutes tâches à faire, dans le prochain mois', 'green', true),
                                     'en_attente'  => array('*wait', 'Toutes tâches en attente', 'cyan', true),
-                                    'peut-être'   => array('*maybe', 'Peut-être, un de ces jours', 'violet', true),
+                                    'peutêtre'   => array('*maybe', 'Peut-être, un de ces jours', 'violet', true),
                                     'à_faire'     => array('*todo', 'Toutes tâches encore à faire', 'blue', true),
                                     'accompli'    => array('*done', 'Toutes tâches accomplies', 'gray', true),
                                     'dû'          => array('*todo =date \\date', "Toutes tâches à faire, avec date", 'green', true),
@@ -63,11 +63,11 @@ $lang['sort_names']         = array(
 
 // different states (todo, done should not be changed) (English => Other Language)
 $lang['state_names']        = array(
+                                    'done'  => 'fait',
                                     'todo'  => 'àfaire',
                                     'next'  => 'suivante',
                                     'wait'  => 'attends',
                                     'maybe' => 'peutêtre',
-                                    'done'  => 'fait',
                                     );
 
 // 0=done, 1=todo, etc.. done should always be first!
@@ -77,7 +77,7 @@ $lang['state_order']        = array('done', 'todo', 'next', 'wait', 'maybe');
 // colours used for various states (in order of use)
 // currently: none, next, wait, maybe (done has no colour)
 // REMAINS IN ENGLISH !!
-$lang['state_colours']      = array('none', 'yellow', 'cyan', 'violet', '');
+$lang['state_colours']      = array('none', 'yellow', 'cyan', 'violet');
 
 
 // main headers and titles
@@ -187,8 +187,8 @@ $jslang['save_tip']           = $lang['save_lbl'];
 $jslang['cancel_tip']         = $lang['cancel_lbl'];
 
 $jslang['tag_click_tip']      = $lang['tag_click_tip'];
-$jslang['project_click_tip']  = 'Afficher seulement ce sujet';
 $jslang['edit_in_place_tip']  = 'Double-cliquez pour modifier cette tâche sur place';
+$jslang['project_click_tip']  = 'Afficher seulement ce sujet';
 $jslang['mark_complete_tip']  = 'Marquer cette tâche comme faite ou pas';
 $jslang['reveal_tip']         = "Afficher / Cacher le bloc notee";
 $jslang['sort_tip']           = "&#10; -ou- glisser et déplacer des tâches pour changer l'ordre";

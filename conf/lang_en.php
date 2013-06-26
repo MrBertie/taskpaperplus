@@ -41,16 +41,16 @@ $lang['filter_settings']    = array(
 
 // search engine intervals and commands (English => Other Language)
 $lang['interval_names']     = array(
-                                    'day' => 'day',
-                                    'week' => 'week',
-                                    'month' => 'month',
-                                    'year' => 'year',
+                                    'day'       => 'day',
+                                    'week'      => 'week',
+                                    'month'     => 'month',
+                                    'year'      => 'year',
                                     'yesterday' => 'yesterday',
-                                    'today' => 'today',
-                                    'tomorrow' =>'tomorrow',
-                                    'future' => 'future',
-                                    'past' => 'past',
-                                    'date' => 'date',
+                                    'today'     => 'today',
+                                    'tomorrow'  =>'tomorrow',
+                                    'future'    => 'future',
+                                    'past'      => 'past',
+                                    'date'      => 'date',
                                     );
 
 // names of the various sorting "columns" (English => Other Language)
@@ -120,7 +120,7 @@ $lang['tag_click_tip']      = 'Filter by this tag';
 
 
 // sent with task-buttons
-$lang['action_button_tip']  = 'Toggle between the different actions: none Â» next Â» wait Â» maybe';
+$lang['action_button_tip']  = 'Toggle between the different actions: none » next » wait » maybe';
 $lang['archive_button_tip'] = 'Archive this task';
 $lang['trash_button_tip']   = 'Delete this task';
 
@@ -137,7 +137,7 @@ $lang['save_lbl']           = "Save\n (Ctrl+Enter)";
 $lang['cancel_lbl']         = "Cancel\n (Esc)";
 $lang['trash_lbl']          = 'Trash';
 $lang['archive_lbl']        = 'Archive';
-$lang['placeholder']        = 'Add a task [CTRL+ENTER] or Search the list [ENTER]';
+$lang['placeholder']        = 'Add a task [Ctrl+Enter] or Search the list [Enter]';
 $lang['language']           = 'Language';
 
 
@@ -188,7 +188,7 @@ $jslang['cancel_tip']         = $lang['cancel_lbl'];
 
 $jslang['tag_click_tip']      = $lang['tag_click_tip'];
 $jslang['edit_in_place_tip']  = 'Double-click to edit this task in place';
-$jslang['project_click_tip']  = 'Click to view this topic only';
-$jslang['mark_complete_tip']  = 'Click to toggle the task between done/todo';
-$jslang['reveal_tip']         = "Click to toggle the note";
+$jslang['project_click_tip']  = 'View this topic only';
+$jslang['mark_complete_tip']  = 'Toggle the task between done/todo';
+$jslang['reveal_tip']         = "Toggle the note";
 $jslang['sort_tip']           = '&#10; -OR- Click & drag to change order of item';

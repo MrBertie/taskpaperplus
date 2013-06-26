@@ -6,11 +6,11 @@ namespace tpp;
 //------------------------------
 
 // PHP errors
-define('SHOW_ERRORS', true);    // false
+define('SHOW_ERRORS', false);    // false
 // [PHP_ERROR] Error pretty printer for debugging (to webpage)
 define('PHP_ERROR', false);     // false
 // Show debug messages: de&&bug(...)
-define('de', true);             // false
+define('de', false);             // false
 // Show performance|sequence logs:   log&&msg(...)
 define('log', false);           // false
 

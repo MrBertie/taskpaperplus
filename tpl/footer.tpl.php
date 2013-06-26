@@ -16,6 +16,7 @@
 </select>
 
 <span class="label"><?php echo \tpp\lang('language'); ?></span>
-<span class="link" id="purge-session">Clear Session!</span>
-<span class="link" id="purge-cache">Clear Cache!</span>
-
+<?php if (SHOW_ERRORS) { ?>
+    <span class="link" id="purge-session">Clear Session!</span>
+    <span class="link" id="purge-cache">Clear Cache!</span>
+<?php } ?>

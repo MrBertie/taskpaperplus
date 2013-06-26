@@ -794,10 +794,11 @@ class TaskItem extends BasicItem {
     }
     function date() {
         $date = $this->_parsed->date;
+        $fdate = '';
         if ( ! empty($date)) {
-            $date = strftime(\tpp\config('date_format'), $date);
+            $fdate = utf8_encode(strftime(\tpp\config('date_format'), $date));
         }
-        return $date;
+        return $fdate;
     }
 
     /**
@@ -886,11 +887,8 @@ class TaskItem extends BasicItem {
         if ($parsed->action > 0) {
             $action = ' ' . str_repeat($term['action_suffix'], $parsed->action);
         }
-        if ( ! empty($parsed->note->raw)) {
-            $note = "\n" . $parsed->note->raw;
-        }
 
-        $raw = $done . $pfx . $text . $tags . $date . $action . $note;
+        $raw = $done . $pfx . $text . $tags . $date . $action;
         return $raw;
     }
 

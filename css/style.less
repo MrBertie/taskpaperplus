@@ -253,10 +253,16 @@ a:hover {
         position: relative;
 
         a {
-            font-size: 75%;
+            opacity: 0.6;
             position: absolute;
-            right: -4em;
-            top: -4px;
+            right: -38px;
+            top: -1px;
+            img {
+                width: 18px;
+            }
+            &:hover {
+                opacity: 1;
+            }
         }
         #search-box {
             border: 1px solid @border;
@@ -281,7 +287,7 @@ a:hover {
             }
         }
         // the little reset search symbol
-        img {
+        #reset-search {
             display: none;
             height: 16px;
             opacity: 0.2;
@@ -712,11 +718,10 @@ a:hover {
     p {
         color: @base00;
         float: left;
-        font-style: italic;
         margin-left: 10px;
     }
     p.version-number {
-        font-size: 85%;
+        font-size: 75%;
     }
     a {
         padding: 0 5px 0 5px;
@@ -724,7 +729,7 @@ a:hover {
     .link, .label {
         color: @base01;
         float: right;
-        font-size: 70%;
+        font-size: 75%;
         padding-right: 10px;
     }
     .label {
@@ -741,7 +746,7 @@ a:hover {
         float: right;
         margin: 0 15px 0 5px;
         vertical-align: top;
-    }
+    }       
 }
 
 

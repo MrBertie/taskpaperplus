@@ -130,11 +130,13 @@ a:hover {
   position:relative;
 }
 #header .search a {
-  font-size:75%;
+  opacity:0.6;
   position:absolute;
-  right:-4em;
-  top:-4px;
+  right:-38px;
+  top:-1px;
 }
+#header .search a img { width:18px; }
+#header .search a:hover { opacity:1; }
 #header .search #search-box {
   border:1px solid #d7d5d4;
   font:14px Verdana, helvetica, sans-serif;
@@ -149,7 +151,7 @@ a:hover {
 #header .search #search-box::-webkit-input-placeholder { color:#d7d5d4 !important; }
 #header .search #search-box:-moz-placeholder { color:#d7d5d4 !important; }
 #header .search #search-box.big { height:4.5em; }
-#header .search img {
+#header .search #reset-search {
   display:none;
   height:16px;
   opacity:0.2;
@@ -157,7 +159,7 @@ a:hover {
   right:-6px;
   top:6px;
 }
-#header .search img:hover { opacity:0.5; }
+#header .search #reset-search:hover { opacity:0.5; }
 #header .tabtools {
   height:36px;
   margin-top:5px;
@@ -509,15 +511,14 @@ a:hover {
 #footer p {
   color:#657b83;
   float:left;
-  font-style:italic;
   margin-left:10px;
 }
-#footer p.version-number { font-size:85%; }
+#footer p.version-number { font-size:75%; }
 #footer a { padding:0 5px 0 5px; }
 #footer .link, #footer .label {
   color:#586e75;
   float:right;
-  font-size:70%;
+  font-size:75%;
   padding-right:10px;
 }
 #footer .label { padding-right:5px; }
