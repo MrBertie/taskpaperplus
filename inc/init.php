@@ -4,16 +4,28 @@ namespace tpp;
 //------------------------------
 // Error reporting and logging.  TURN OFF FOR RELEASE!
 //------------------------------
+define('PRODUCTION', true);
 
-// PHP errors
-define('SHOW_ERRORS', false);    // false
-// [PHP_ERROR] Error pretty printer for debugging (to webpage)
-define('PHP_ERROR', false);     // false
-// Show debug messages: de&&bug(...)
-define('de', false);             // false
-// Show performance|sequence logs:   log&&msg(...)
-define('log', false);           // false
 
+if (PRODUCTION) {
+    
+    define('SHOW_ERRORS', false);
+    define('PHP_ERROR', false);
+    define('de', false);
+    define('log', false);
+    
+} else {
+    
+    // PHP errors
+    define('SHOW_ERRORS', true);
+    // [PHP_ERROR] Error pretty printer for debugging (to webpage)
+    define('PHP_ERROR', false);
+    // Show debug messages: de&&bug(...)
+    define('de', true);
+    // Show performance|sequence logs:   log&&msg(...)
+    define('log', false);
+    
+}
 
 //**************************************
 // Fundamental paths and session setup
