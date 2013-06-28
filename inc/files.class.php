@@ -9,23 +9,17 @@ class FilesCommon {
     protected static $_archive_file = '';
     protected static $_trash_file = '';
     protected static $_default_file = '';
-    protected static $_dir = '';
+    protected static $_data_dir = '';
+    protected static $_deleted_dir = '';
 
 
-    function __construct($dir, $default_dir, $default_file) {
-        // re-create the default data folder if it is missing (e.g. new install)
-        if ( ! file_exists($dir)) {
-            $dir = './' . $default_dir;
-            mkdir($dir);
-        }
-        if (substr($dir, -1, 1) != '/') {
-            $dir .= '/';
-        }
-        self::$_dir = $dir;
+    function __construct($data_dir, $deleted_dir, $default_file) {
+
+        self::$_data_dir = $data_dir;
+        self::$_deleted_dir = $deleted_dir;
         self::$_default_file = $default_file;
         self::$_archive_file = FILE_ARCHIVE;
         self::$_trash_file = FILE_TRASH;
-
         self::refresh();
     }
 
@@ -35,12 +29,8 @@ class FilesCommon {
         if ($file !== false && ! $file->restricted()) {
 
             $timestamp = date('YmdHis') . '-';
-            $deletion_path = \tpp\config('deleted_dir');
 
-            if (!file_exists($deletion_path)) {
-                mkdir($deletion_path);
-            }
-            rename($file->path, $deletion_path . $timestamp . $file->name . EXT);
+            rename($file->path, self::$_deleted_dir . $timestamp . $file->name . EXT);
 
             unset($file);
             self::refresh();
@@ -75,15 +65,15 @@ class FilesCommon {
         self::$_archive_file = $this->_create(FILE_ARCHIVE);
         self::$_trash_file = $this->_create(FILE_TRASH);
 
-        $paths = glob(self::$_dir . "*" . EXT);
+        $paths = glob(self::$_data_dir . "*" . EXT);
 
         // what if only trash and archive exist?  Create a default task file
         if (count($paths) <= 2) {
             self::_create(self::$_default_file);
-            $paths[] = self::$_dir . self::$_default_file . EXT;
+            $paths[] = self::$_data_dir . self::$_default_file . EXT;
         }
 
-        $names = str_replace(array(EXT, self::$_dir), '', $paths);
+        $names = str_replace(array(EXT, self::$_data_dir), '', $paths);
         self::$_names = $names;
 
         $modified = array_map(function($path) {
@@ -171,7 +161,7 @@ class FilesCommon {
 
 
     protected function _fullpath($name) {
-        return self::$_dir . $name . EXT;
+        return self::$_data_dir . $name . EXT;
     }
 
 
@@ -189,8 +179,8 @@ class FilesCommon {
  */
 class Files extends FilesCommon implements \IteratorAggregate {
 
-    function __construct($dir, $default_dir, $default_file) {
-        parent::__construct($dir, $default_dir, $default_file);
+    function __construct($data_dir, $deleted_dir, $default_file) {
+        parent::__construct($data_dir, $deleted_dir, $default_file);
     }
 
 

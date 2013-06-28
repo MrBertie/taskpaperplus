@@ -171,6 +171,12 @@ require_once(APP_PATH . 'conf/term.php');
 require_once(APP_PATH . 'inc/common.php');
 
 
+// confirm that necessary data folders exist
+define('DATA_DIR', mkdir_or(ini('taskpaper_folder'), config('data_dir')));
+define('DELETED_DIR', mkdir_or(config('deleted_dir')));
+define('CACHE_DIR', mkdir_or(config('cache_dir')));
+
+
 // Load global language array from existing config file names
 $langs = glob('./conf/lang_*');
 foreach($langs as $lang) {

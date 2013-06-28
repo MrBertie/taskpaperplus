@@ -13,7 +13,7 @@ $config['version_number']   = '1.0.3.0 beta | 2013-Jun-26';
 $config['debug_file']       = 'logs/debug.txt';
 $config['log_file']         = 'logs/log.txt';
 $config['user_file']        = '_cache/users';
-$config['data_dir']         = 'data';
+$config['data_dir']         = 'data/';  // default data dir
 $config['deleted_dir']      = '_deleted/';
 $config['cache_dir']        = '_cache/';
 

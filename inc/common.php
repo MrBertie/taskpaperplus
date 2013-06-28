@@ -101,3 +101,22 @@ function array_insert($array, $key, $insert, $offset = 0, $overwrite = false) {
   $end = array_slice($array, $index + $offset + $skipped);
   return array_merge($begin, $insert, $end);
 }
+
+
+/**
+ * Checks if $dir exists, if not creates it (or $default_dir is provided).
+ * 
+ * @param type $dir the dir that should exist
+ * @param type $default_dir (optional) default dir if $dir doesn't exist
+ * @return string   the existing directory
+ */
+function mkdir_or($dir, $default_dir = '') {
+    if ( ! file_exists($dir)) {
+        if ( ! empty($default_dir)) {
+            $dir = $default_dir;
+        }
+        if (substr($dir, -1, 1) != '/') $dir .= '/';
+        mkdir('./' . $dir);
+    }
+    return $dir;
+}

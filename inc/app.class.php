@@ -23,11 +23,10 @@ class App {
         log&&msg('Setting up the app API');
 
         $this->user = new user\User(APP_PATH . config('user_file'));
-        $this->files = new storage\Files(ini('taskpaper_folder'),
-                                         config('data_dir'),
+        $this->files = new storage\Files(DATA_DIR, DELETED_DIR,
                                          config('default_active')
                                         );
-        $this->cache = new storage\Cache($this->files);
+        $this->cache = new storage\Cache(CACHE_DIR, $this->files);
         $this->parser = new storage\Parser();
         $this->states = new user\States($this->files);
 

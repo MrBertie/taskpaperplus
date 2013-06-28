@@ -17,12 +17,12 @@ class Cache {
     /**
      * @param Files A Files object, providing access to all taskpaper data files
      */
-    function __construct(Files $files) {
+    function __construct($cache_dir, Files $files) {
         $this->_parser = new Parser;
         $this->_builder = new model\ContentBuilder;
         $this->_files = $files;
         $this->_tabs = new model\Tabs;
-        $this->_cache_dir = \tpp\config('cache_dir');
+        $this->_cache_dir = $cache_dir;
     }
 
 

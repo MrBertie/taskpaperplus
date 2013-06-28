@@ -133,7 +133,7 @@ a:hover {
   opacity:0.6;
   position:absolute;
   right:-38px;
-  top:-1px;
+  top:0px;
 }
 #header .search a img { width:18px; }
 #header .search a:hover { opacity:1; }
