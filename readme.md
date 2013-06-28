@@ -17,6 +17,8 @@ sometimes it's worth reading the manuals, they are not that long!
 
 All credit goes to the original Taskpaper application for the inspiration and ideas...but none of the code!
 
+**IMPORTANT** : If you are looking for a portable, stand-alone version with its own web server then head over to the [taskpaperplus-server](https://github.com/MrBertie/taskpaperplus-server) repository and download that one instead.  This includes a pre-configured [Nginx](http://wiki.nginx.org/Main) web server with PHP 5.4, and a easy Start/Stop GUI.  Works well with [Dokuwiki](https://www.dokuwiki.org) too if you happen to use that as well like me!
+
 
 Credits
 =======
