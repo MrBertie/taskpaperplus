@@ -1,4 +1,4 @@
-<p class="version-number">Version: <?php echo \tpp\config('version_number') . (PRODUCTION==true ? '' : ' | DEVELOPMENT'); ?></p>
+<p class="version-number">Version: <?php echo \tpp\config('version_number'); ?></p>
 <a href="help/help.html"><?php echo \tpp\lang('help_lbl'); ?></a>
 <a href="readme.md"><?php echo \tpp\lang('about_lbl'); ?></a>
 <a href="help/faq.html"><?php echo \tpp\lang('faq_lbl'); ?></a>

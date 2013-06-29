@@ -58,7 +58,7 @@ html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, 
 
 /* basic font and sizes */
 body {
-    background-color: @background;
+    background-color: @backdrop;
     color: @base02;
     font-size: 14px;
     line-height: 18px;
@@ -214,9 +214,9 @@ a:hover {
 // **************************
 
 #header {
-    //background-color: @aside;
-    //border-bottom: 1px solid @border;
-    margin-bottom: 5px;
+    background-color: @aside;
+    border-bottom: 1px solid @border;
+    margin-bottom: 0;
     padding: 10px 220px 10px 120px;
     position: relative;
 
@@ -322,14 +322,14 @@ a:hover {
 // *************************
 
 #content {
-    //background: @background;
-    //border: 1px solid @border;
+    background: @background;
+    border: 1px solid @border;
     border-bottom: 0;
     border-top: 0;
     margin-bottom: 50px;
     overflow: hidden;
     padding-bottom: 0px;
-    //.content-shadow();
+    .content-shadow();
 }
 
 .columns {
@@ -346,22 +346,21 @@ a:hover {
 
     .projects {
         background: @base2;
-        border: 1px solid @border;
         width: @project-col;
     }
     .tasks {
-        //border-left: 1px solid @border;
+        border-left: 1px solid @border;
     }
     .meta {
         background: @base2;
-        border: 1px solid @border;
+        border-left: 1px solid @border;
         width: @tag-col;
     }
     // main content headers
     h1 {
-        //border-bottom: 1px solid @border;
+        border-bottom: 1px solid @border;
         display: block;
-        font-size: 22px;
+        font-size: 18px;
         margin-bottom: 12px;
         padding-bottom: 4px;
     }
@@ -423,7 +422,7 @@ a:hover {
         color: @tab-border;
         display: inline;
         float: right;
-        font-size: 10px;
+        font-size: 60%;
         font-weight: normal;
         margin-right: 1em;
         vertical-align: bottom;
@@ -694,8 +693,7 @@ a:hover {
     color: @base1;
     display: inline;
     font-weight: normal;
-    font-size: 9px;
-    font-family: Arial;
+    font-size: 70%;
     margin-left: 0.35em;
     opacity: 0.8;
     vertical-align: top;
@@ -703,14 +701,14 @@ a:hover {
 
 
 #footer {
-    //background-color: @aside;
-    border: 0;
-    border-top: 1px solid @border;
+    background-color: @aside;
+    border: 1px solid @border;
+    border-left: 0;
+    border-right: 0;
     clear: both;
-    float: left;
     height: 20px;
     line-height: 20px;
-    margin: 3em 0 0 0;
+    margin: 0;
     padding: 5px;
     position: relative;
     text-align: center;

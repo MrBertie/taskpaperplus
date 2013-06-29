@@ -76,5 +76,6 @@
     <input id="page-address"     type="hidden" value="<?php echo $this->page_address; ?>" />
     <input id="task-prefix"      type="hidden" value="<?php echo $this->task_prefix; ?>" />
     <input id="task-buttons-tpl" type="hidden" value='<?php echo $this->task_buttons; ?>' />
+    <input id="debug-mode" type="hidden" value='<?php echo $this->debug_mode; ?>' />
 </body>
 </html>

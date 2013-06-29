@@ -1,32 +1,6 @@
 <?php
 namespace tpp;
 
-//------------------------------
-// Error reporting and logging.  TURN OFF FOR RELEASE!
-//------------------------------
-define('PRODUCTION', true);
-
-
-if (PRODUCTION) {
-    
-    define('SHOW_ERRORS', false);
-    define('PHP_ERROR', false);
-    define('de', false);
-    define('log', false);
-    
-} else {
-    
-    // PHP errors
-    define('SHOW_ERRORS', true);
-    // [PHP_ERROR] Error pretty printer for debugging (to webpage)
-    define('PHP_ERROR', false);
-    // Show debug messages: de&&bug(...)
-    define('de', true);
-    // Show performance|sequence logs:   log&&msg(...)
-    define('log', false);
-    
-}
-
 //**************************************
 // Fundamental paths and session setup
 //**************************************
@@ -41,19 +15,11 @@ define('APP_NAME', basename($path));
 session_name(APP_NAME);
 session_start();
 
-if (SHOW_ERRORS) {
-    // View all error and notices
-    error_reporting(E_ALL);
-    ini_set("display_errors", 1);
-}
 
-if (PHP_ERROR) {
-    require_once(APP_PATH . 'other/php_error.php');
-    $opt = array(
-        'catch_class_not_found' => false,
-    );
-    \php_error\reportErrors($opt);
-}
+//------------------------------
+// Error reporting and logging.
+//------------------------------
+require_once('inc/debugmode.php');
 
 
 // takes care of autoloading class files
@@ -67,12 +33,6 @@ require_once(APP_PATH . 'inc/autoload.php');
 // Load the global app config; including base paths
 $config = array();
 require_once(APP_PATH . 'conf/config.php');
-
-
-// Main logging and debug printer (to file)
-if (de || log) {
-    require_once(APP_PATH . 'inc/logger.php');
-}
 
 
 log&&msg('Initialising basic app data');
@@ -171,10 +131,10 @@ require_once(APP_PATH . 'conf/term.php');
 require_once(APP_PATH . 'inc/common.php');
 
 
-// confirm that necessary data folders exist
-define('DATA_DIR', mkdir_or(ini('taskpaper_folder'), config('data_dir')));
-define('DELETED_DIR', mkdir_or(config('deleted_dir')));
-define('CACHE_DIR', mkdir_or(config('cache_dir')));
+// Confirm that necessary data folders exist
+define('DATA_DIR', getdir_or(ini('taskpaper_folder'), config('data_dir')));
+define('DELETED_DIR', getdir_or(config('deleted_dir')));
+define('CACHE_DIR', getdir_or(config('cache_dir')));
 
 
 // Load global language array from existing config file names

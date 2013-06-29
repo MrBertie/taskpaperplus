@@ -3,7 +3,7 @@ html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, 
   padding:0;
 }
 body {
-  background-color:#d9d5c1;
+  background-color:#f7f5ee;
   color:#073642;
   font-size:14px;
   line-height:18px;
@@ -97,9 +97,7 @@ a:hover {
 }
 .tabs p.today:hover { color:#6c71c4; }
 #header {
-  background-color:#e6eaef;
-  border-bottom:1px solid #d7d5d4;
-  margin-bottom:0;
+  margin-bottom:5px;
   padding:10px 220px 10px 120px;
   position:relative;
 }
@@ -130,13 +128,13 @@ a:hover {
   position:relative;
 }
 #header .search a {
-  opacity:0.6;
+  opacity:0.3;
   position:absolute;
-  right:-38px;
+  right:-32px;
   top:0px;
 }
-#header .search a img { width:18px; }
-#header .search a:hover { opacity:1; }
+#header .search a img { width:16px; }
+#header .search a:hover { opacity:0.6; }
 #header .search #search-box {
   border:1px solid #d7d5d4;
   font:14px Verdana, helvetica, sans-serif;
@@ -175,14 +173,11 @@ a:hover {
   opacity:0.6;
 }
 #content {
-  background:#f7f5ee;
-  border:1px solid #d7d5d4;
   border-bottom:0;
   border-top:0;
   margin-bottom:50px;
   overflow:hidden;
   padding-bottom:0px;
-  box-shadow:5px 10px 15px rgba(0,0,0,0.2);
 }
 .columns {
   display:table;
@@ -197,18 +192,17 @@ a:hover {
 }
 .columns .projects {
   background:#eee8d5;
+  border:1px solid #d7d5d4;
   width:18%;
 }
-.columns .tasks { border-left:1px solid #d7d5d4; }
 .columns .meta {
   background:#eee8d5;
-  border-left:1px solid #d7d5d4;
+  border:1px solid #d7d5d4;
   width:12%;
 }
 .columns h1 {
-  border-bottom:1px solid #d7d5d4;
   display:block;
-  font-size:18px;
+  font-size:22px;
   margin-bottom:12px;
   padding-bottom:4px;
 }
@@ -241,7 +235,7 @@ a:hover {
   color:#c9c7c6;
   display:inline;
   float:right;
-  font-size:60%;
+  font-size:10px;
   font-weight:normal;
   margin-right:1em;
   vertical-align:bottom;
@@ -488,20 +482,20 @@ a:hover {
   color:#93a1a1;
   display:inline;
   font-weight:normal;
-  font-size:70%;
+  font-size:9px;
+  font-family:Arial;
   margin-left:0.35em;
   opacity:0.8;
   vertical-align:top;
 }
 #footer {
-  background-color:#e6eaef;
-  border:1px solid #d7d5d4;
-  border-left:0;
-  border-right:0;
+  border:0;
+  border-top:1px solid #d7d5d4;
   clear:both;
+  float:left;
   height:20px;
   line-height:20px;
-  margin:0;
+  margin:3em 0 0 0;
   padding:5px;
   position:relative;
   text-align:center;
@@ -522,6 +516,7 @@ a:hover {
   padding-right:10px;
 }
 #footer .label { padding-right:5px; }
+#footer .link { color:red; }
 #footer .link:hover {
   color:black;
   cursor:pointer;

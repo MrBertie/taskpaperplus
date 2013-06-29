@@ -110,8 +110,8 @@ function array_insert($array, $key, $insert, $offset = 0, $overwrite = false) {
  * @param type $default_dir (optional) default dir if $dir doesn't exist
  * @return string   the existing directory
  */
-function mkdir_or($dir, $default_dir = '') {
-    if ( ! file_exists($dir)) {
+function getdir_or($dir, $default_dir = '') {
+    if ( ! is_dir($dir)) {
         if ( ! empty($default_dir)) {
             $dir = $default_dir;
         }

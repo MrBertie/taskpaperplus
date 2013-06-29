@@ -30,6 +30,7 @@ class Views {
         $view->langs = tpp\config('lang_list');
         $view->cur_lang = tpp\ini('language');
         $view->task_prefix = $term['task_prefix'];
+        $view->debug_mode = DEBUG_MODE;
         $view->task_buttons = new Template('taskbuttons');
 
         // child views

@@ -32,7 +32,8 @@ var app = (function () {
         task_button_tpl = '',   // template for task line buttons
         task_prefix     = '',
         page_address    = '',   // current (deep link) page address
-        restricted      = false;    // restricd = trash or archive
+        restricted      = false,    // restricd = trash or archive
+        debug_mode      = false;    // is debug mode on?
 
 
     pub.init = function () {
@@ -47,6 +48,7 @@ var app = (function () {
         lang            = JSON.parse($("#jslang").html());
         task_button_tpl = $('#task-buttons-tpl').val();
         task_prefix     = $('#task-prefix').val();
+        debug_mode      = $('#debug-mode').val() === '1';
 
         // set initial page address correctly (deep link after the #)
         page_address    = $("#page-address").val();
@@ -58,6 +60,15 @@ var app = (function () {
         // allow use of tab key in all textareas, makes it easier to add notes
         $.fn.tabOverride.tabSize(4);
         $(document).tabOverride(true, "textarea");
+        
+        // debug mode toggle message (double-click version number)
+        lang['debug_msg'] = 'Do you want to toggle debug mode?';
+        if (debug_mode === true) {
+            $('#footer').css({'border-top': '2px dotted red'});
+            $('p.version-number')
+                .css({'color': 'red'})
+                .append("  |  DEVELOPMENT");
+        }
     };
 
 
@@ -228,6 +239,17 @@ var app = (function () {
 
 
     pub.add_events = function () {
+        
+        $("#footer").on("dblclick", "p.version-number", function(e) {
+            if (e.shiftKey) {
+                var result = confirm(lang.debug_msg);
+                if (result) {
+                    request({event: 'toggle_debug'});
+                    window.setTimeout("window.location.reload()", 1000);
+                    $index_load.val('false');
+                }
+            }
+        });
 
         $(".logo").on("click", "a", function() {
             request({event: 'all'});

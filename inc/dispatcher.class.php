@@ -408,7 +408,13 @@ class Dispatcher extends BasicDispatcher {
         \tpp\ini('language', $this->request->value);
         return self::ACTION;
     }
+    
+    protected function action_toggle_debug() {
+        \tpp\toggle_debug_mode();
+        return self::ACTION;
+    }
 
+    
     /**
      * Show a specific tab state. Always returns a new state.
      *
