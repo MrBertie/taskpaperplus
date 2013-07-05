@@ -21,7 +21,7 @@ var app = (function () {
     var pub = {};               // all public methods
 
 
-    var ajax_file = '',         // name of php ajax target file
+    var ajax_file = 'index.php',  // name of php ajax target file
         $view_tasks,
         $edit_tasks,
         $text_area,
@@ -38,7 +38,6 @@ var app = (function () {
 
     pub.init = function () {
 
-        ajax_file       = "index.php";
         $view_tasks     = $("#view-tasks");
         $edit_tasks     = $("#edit-tasks");
         $text_area      = $("#edit-tasks>textarea");
@@ -64,10 +63,10 @@ var app = (function () {
         // debug mode toggle message (double-click version number)
         lang['debug_msg'] = 'Do you want to toggle debug mode?';
         if (debug_mode === true) {
-            $('#footer').css({'border-top': '2px dotted red'});
-            $('p.version-number')
+            $('.version')
+                .css({'border-bottom': '2px solid red'})
                 .css({'color': 'red'})
-                .append("  |  DEVELOPMENT");
+                .prepend("DEVELOPMENT  ");
         }
     };
 
@@ -239,42 +238,48 @@ var app = (function () {
 
 
     pub.add_events = function () {
-        
-        $("#footer").on("dblclick", "p.version-number", function(e) {
-            if (e.shiftKey) {
-                var result = confirm(lang.debug_msg);
-                if (result) {
-                    request({event: 'toggle_debug'});
-                    window.setTimeout("window.location.reload()", 1000);
-                    $index_load.val('false');
-                }
-            }
-        });
 
         $(".logo").on("click", "a", function() {
             request({event: 'all'});
         });
-
-        $("#purge-session").on("click", function () {
-            request({event: 'purgesession'}, function() {
-                show_message(['Session cleared! Reloading...', 'green']);
-                window.setTimeout("window.location.reload()", 1500);
-                $index_load.val('false');
+        
+        // toggle debug-mode
+        $(".version")
+            .on("dblclick", "span", function(e) {
+                if (e.shiftKey) {
+                    var result = confirm(lang.debug_msg);
+                    if (result) {
+                        request({event: 'toggle_debug'});
+                        window.setTimeout("window.location.reload()", 1000);
+                        $index_load.val('false');
+                    }
+                }
+            })
+            .on("dblclick", "#purge-session", function () {
+                request({event: 'purgesession'}, function() {
+                    show_message(['Session cleared! Reloading...', 'green']);
+                    window.setTimeout("window.location.reload()", 1500);
+                    $index_load.val('false');
+                });
+            })
+            .on("dblclick", "#purge-cache", function () {
+                request({event: 'purgecache'}, function() {
+                    show_message(['Cache cleared!', 'yellow']);
+                });
             });
-        });
-
-        $("#purge-cache").on("click", function () {
-            request({event: 'purgecache'}, function() {
-                show_message(['Cache cleared!', 'yellow']);
+            
+        $("#footer")
+            .on("click", "#logout", function() {
+                request({event: "logout"}, function() {
+                    window.setTimeout("window.location.reload()", 1000);
+                });
+            })
+            .on("change", "select", function () {
+                request({event: 'lang', value: this.value}, function () {
+                    show_message([lang.lang_change_msg, 'green']);
+                    window.setTimeout("window.location.reload()", 1000);
+                });
             });
-        });
-
-        $('#footer select').on('change', function () {
-            request({event: 'lang', value: this.value}, function () {
-                show_message([lang.lang_change_msg, 'green']);
-                window.setTimeout("window.location.reload()", 1000);
-            });
-        });
 
 
         // Search Box

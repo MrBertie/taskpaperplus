@@ -1,11 +1,10 @@
 <?php
 namespace tpp;
+global $lang;
 
 /**
  * Français / FRENCH language
  */
-
-$lang = array();
 
 
 /**
@@ -153,14 +152,37 @@ $lang['no_date_hdr']        = 'Pas de date';
 $lang['deleted_lbl']        = 'Effacé:';
 
 
-// login
-$lang['username_lbl']       = 'User Name';
-$lang['password_lbl']       = 'Password';
-$lang['confirmpassword_lbl'] = 'Confirm Password';
-$lang['login_lbl']          = 'Login';
-$lang['resetlogin_lbl']     = 'Reset Login';
-$lang['createuser_lbl']     = 'Create User';
+// login general form labels
+$lang['username_lbl']         = "nom d'utilisateur";
+$lang['email_lbl']            = 'adresse e-mail';
+$lang['password_lbl']         = 'mot de passe';
+$lang['repeatpassword_lbl']   = 'répéter le mot de passe';
+$lang['login_lbl']            = 'Connexion';
+$lang['register_lbl']         = "S'Inscrire";
+$lang['forgotpassword_lbl']   = 'Mot de passe oublié';
+$lang['logout_lbl']           = 'Déconnexion';
+$lang['logged_in_as_lbl']     = 'Connexion:';
 
+// login allowed pattern decription
+$lang['username_pattern']     = 'Admis: 0-9, a-z, A-Z, longueur: 2-32 caractères';
+$lang['password_pattern']     = 'Admis: 0-9, a-z, A-Z, longueur: 2-32 caractèresAllowed: 0-9, a-z, A-Z; Length: 2-32 chars';
+
+
+// login msgs
+$lang['login_msg']               = 'Identifiez-vous ou inscrivez-vous ci-dessousLogin or Register below';
+$lang['registration_msg']        = 'Inscription réussi</br>Maintenant vous connecter ci-dessous';
+$lang['login_failed_msg']        = "Connexion échouer</br>Corriger les erreurs et d'essayer à nouveau";
+$lang['registration_failed_msg'] = "Inscription échouer</br>Corriger les erreurs et d'essayer à nouveau";
+
+
+// login errors
+$lang['no_such_user_err']       = "Ce nom d'utilisateur n'existe pas</br>Vous vous étés inscrit?";
+$lang['user_exists_err']        = "Nom d'utilisateur déjà pris";
+$lang['invalid_username_err']   = "Nom d'utilisateur n'est pas valable</br>(" . $lang['username_pattern'] . ')';
+$lang['invalid_password_err']   = "Mot de passe n'est pas valabled</br>(" . $lang['password_pattern'] . ')';
+$lang['nonmatch_passwords_err'] = 'Deuxième mot de passe ne correspond pas à la première';
+$lang['invalid_email_err']      = "Votre adresse e-mail n'est pas valable";
+$lang['userfile_missing_err']   = 'Le fichier contenant la liste des utilisateurs manquait, un nouveau a été créé';
 
 
 // ****************

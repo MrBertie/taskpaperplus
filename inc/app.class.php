@@ -36,7 +36,7 @@ class App {
                                                  $this->files,
                                                  $this->cache
                                                 );
-        $this->views = new view\Views($this->taskpapers);
+        $this->views = new view\Views($this->taskpapers, $this->user);
         $this->dispatcher = new control\Dispatcher($this);
 
         log&&msg('Finished setting up the app API');

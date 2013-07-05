@@ -66,16 +66,24 @@
             </div>
 
             <div id="footer">
-                <?php include('tpl/footer.tpl.php'); ?>
+                <?php echo $this->footer; ?>
             </div>
+            
         </div>
 
+        <div class="version">
+            <span>Version: <?php echo \tpp\config('version_number'); ?></span>
+            <?php if (SHOW_ERRORS) { ?>
+                <span id="purge-session">Clear Session!</span>
+                <span id="purge-cache">Clear Cache!</span>
+            <?php } ?>
+        </div>
     </div>
 
     <input id="page-load"        type="hidden" value="true" />
     <input id="page-address"     type="hidden" value="<?php echo $this->page_address; ?>" />
     <input id="task-prefix"      type="hidden" value="<?php echo $this->task_prefix; ?>" />
     <input id="task-buttons-tpl" type="hidden" value='<?php echo $this->task_buttons; ?>' />
-    <input id="debug-mode" type="hidden" value='<?php echo $this->debug_mode; ?>' />
+    <input id="debug-mode"       type="hidden" value='<?php echo $this->debug_mode; ?>' />
 </body>
 </html>

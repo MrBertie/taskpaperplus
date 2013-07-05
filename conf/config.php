@@ -3,7 +3,7 @@
  * default application config files
  *
  */
-$config = array();
+
 
 $config['website_url']      = "http://github.com/MrBertie/taskpaperplus";
 // version numbers: <major>.<minor>.<changes>.<bugfixes>
@@ -12,7 +12,7 @@ $config['version_number']   = '1.0.3.0 beta | 2013-Jun-26';
 // relative to App Base Path
 $config['debug_file']       = 'logs/debug.txt';
 $config['log_file']         = 'logs/log.txt';
-$config['user_file']        = '_cache/users';
+$config['user_file']        = 'conf/users';
 $config['data_dir']         = 'data/';  // default data dir
 $config['deleted_dir']      = '_deleted/';
 $config['cache_dir']        = '_cache/';
@@ -23,3 +23,6 @@ $config['edit_new_tab']     = true;     // open new tabs in 'edit' state
 $config['title']            = 'Taskpaper+';
 $config['default_active']   = 'tasks';
 $config['date_format']      = "%d-%b-%Y";   // strftime formatting!  See php help files
+
+$config['username_pattern'] = '^[a-zA-Z0-9]{2,32}$';
+$config['password_pattern'] = '^[a-zA-Z0-9]{2,32}$';

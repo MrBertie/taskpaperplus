@@ -1,8 +1,10 @@
-<p class="version-number">Version: <?php echo \tpp\config('version_number'); ?></p>
+<p><?php echo \tpp\lang('logged_in_as_lbl') . ' &nbsp' . $this->logged_in_as; ?></p>
+<a class="logout" href='#' id="logout"><?php echo \tpp\lang('logout_lbl'); ?></a>
+
+
 <a href="help/help.html"><?php echo \tpp\lang('help_lbl'); ?></a>
-<a href="readme.md"><?php echo \tpp\lang('about_lbl'); ?></a>
-<a href="help/faq.html"><?php echo \tpp\lang('faq_lbl'); ?></a>
 <a href="<?php echo tpp\config('website_url'); ?>"><?php echo \tpp\lang('website_lbl'); ?></a>
+
 
 <select name="lang-list">
     <?php
@@ -14,9 +16,4 @@
     }
     ?>
 </select>
-
-<span class="label"><?php echo \tpp\lang('language'); ?></span>
-<?php if (SHOW_ERRORS) { ?>
-    <span class="link" id="purge-session">Clear Session!</span>
-    <span class="link" id="purge-cache">Clear Cache!</span>
-<?php } ?>
+<span class="lang"><?php echo \tpp\lang('language'); ?></span>

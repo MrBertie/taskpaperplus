@@ -1,11 +1,10 @@
 <?php
 namespace tpp;
+global $lang;
 
 /**
  * ENGLISH language
  */
-
-$lang = array();
 
 
 /**
@@ -153,13 +152,37 @@ $lang['no_date_hdr']        = 'No date';
 $lang['deleted_lbl']        = 'Deleted:';
 
 
-// login
-$lang['username_lbl']       = 'User Name';
-$lang['password_lbl']       = 'Password';
-$lang['confirmpassword_lbl'] = 'Confirm Password';
-$lang['login_lbl']          = 'Login';
-$lang['resetlogin_lbl']     = 'Reset Login';
-$lang['createuser_lbl']     = 'Create User';
+// login general form labels
+$lang['username_lbl']         = 'username';
+$lang['email_lbl']            = 'email address';
+$lang['password_lbl']         = 'password';
+$lang['repeatpassword_lbl']   = 'repeat password';
+$lang['login_lbl']            = 'Login';
+$lang['register_lbl']         = 'Register';
+$lang['forgotpassword_lbl']   = 'Forgot Password';
+$lang['logout_lbl']           = 'Logout';
+$lang['logged_in_as_lbl']     = 'Login:';
+
+// login allowed pattern decription
+$lang['username_pattern']     = 'Allowed: 0-9, a-z, A-Z; Length: 2-32 chars';
+$lang['password_pattern']     = 'Allowed: 0-9, a-z, A-Z; Length: 2-32 chars';
+
+
+// login msgs
+$lang['login_msg']               = 'Login or Register below';
+$lang['registration_msg']        = 'Successfully registered</br>Now login below';
+$lang['login_failed_msg']        = 'Login failed</br>Correct errors and try again';
+$lang['registration_failed_msg'] = 'Registration failed</br>Correct errors and try again';
+
+
+// login errors
+$lang['no_such_user_err']       = 'No such username.</br>Have you registered?';
+$lang['user_exists_err']        = 'Username already taken';
+$lang['invalid_username_err']   = 'Username is invalid</br>(' . $lang['username_pattern'] . ')';
+$lang['invalid_password_err']   = 'Password in invalid</br>(' . $lang['password_pattern'] . ')';
+$lang['nonmatch_passwords_err'] = 'Second password does not match first';
+$lang['invalid_email_err']      = 'Your email address is not valid';
+$lang['userfile_missing_err']   = 'File containing the list of users was missing, a blank one has been recreated.';
 
 
 

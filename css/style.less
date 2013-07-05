@@ -62,7 +62,7 @@ body {
     color: @base02;
     font-size: 14px;
     line-height: 18px;
-    font-family: "Droid Sans", "Segoe UI", Verdana, Tahoma, helvetica, sans-serif;
+    font-family: "Segoe UI", "Droid Sans", Verdana, Tahoma, helvetica, sans-serif;
     height: 100%;
     min-width: 50% !important;
     width: 100%;
@@ -81,7 +81,7 @@ a {
     text-decoration: none;
 }
 a:hover {
-    color: @violet;
+    text-shadow: 0 0 1px @base02;
     cursor: pointer;
     text-decoration: underline;
 }
@@ -109,11 +109,6 @@ a:hover {
     }
 }
 
-.content-shadow() {
-    box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.20);
-}
-
-
 
 
 // the "something's happening" throbber
@@ -134,7 +129,7 @@ a:hover {
 #frame {
     margin-left: auto;
     margin-right: auto;
-    padding-top: 10px;
+    padding-top: 15px;
     width: @content-width;
 }
 
@@ -146,7 +141,7 @@ a:hover {
 
 .tabs {
     border-bottom: 1px solid @tab-border;
-    font-family: "Segoe UI";
+    //font-family: "Segoe UI";
     font-size: 14px;
     list-style: none;
     margin: 0;
@@ -166,13 +161,12 @@ a:hover {
 
     li {
         display: inline-block;
-        line-height: 32px;
+        line-height: 31px;
         margin: 0 2px -1px 1px;
         position: relative;
     }
 
     li.selected {
-        background: @background;
         background: @aside;
         border: 1px solid @tab-border;
         border-bottom: 0;
@@ -184,8 +178,9 @@ a:hover {
         }
     }
 
-    li:hover {
-        background: @bk-gray;
+    li:hover:not(.selected) {
+        background: @base2;
+        height: 31px;
     }
 
     a img {
@@ -214,39 +209,11 @@ a:hover {
 // **************************
 
 #header {
-    //background-color: @aside;
-    //border-bottom: 1px solid @border;
-    margin-bottom: 5px;
-    padding: 10px 220px 10px 120px;
+    background-color: @aside;
+    border-bottom: 1px solid @border;
+    margin-bottom: 0px;
+    padding: 8px 220px 8px 120px;
     position: relative;
-
-    .logo {
-        left: 0px;
-        padding: 16px 10px 16px 18px;
-        position: absolute;
-        top: 0px;
-        width: 120px;
-
-        a {
-            float: left;
-            position: relative !important;
-            right: 0;
-            top: 0;
-        }
-        p {
-            color: @pencil;
-            float: left;
-            font-size: 1.4em;
-            font-weight: bold;
-            vertical-align: top;
-            &.red {
-                color: @eraser;
-            }
-            &:hover {
-                text-shadow: 1px 1px 1px @base1;
-            }
-        }
-    }
 
     .search {
         margin: 3px 3em 0 2.5em;
@@ -256,7 +223,7 @@ a:hover {
             opacity: 0.3;
             position: absolute;
             right: -32px;
-            top: 0px;
+            top: 4px;
             img {
                 width: 16px;
             }
@@ -293,7 +260,7 @@ a:hover {
             opacity: 0.2;
             position: absolute;
             right: -6px;
-            top: 6px;
+            top: 5px;
             &:hover {
                 opacity: 0.5;
             }
@@ -315,6 +282,35 @@ a:hover {
     }
 }
 
+.logo {
+    font-family: "Open Sans", "Narkism", "Droid Sans", "Trebuchet", "Arial";
+    left: 0px;
+    padding: 16px 10px 16px 18px;
+    position: absolute;
+    top: 0px;
+    width: 120px;
+
+    a {
+        float: left;
+        position: relative;
+        right: 0;
+        top: -2px;
+        &:hover {
+            text-shadow: 1px 0px 1px @base0;
+        }
+    }
+
+    p {
+        color: @pencil;
+        float: left;
+        font-size: 1.4em;
+        font-weight: bold;
+        vertical-align: top;
+        &.red {
+            color: @eraser;
+        }
+    }
+}
 
 
 // *************************
@@ -322,14 +318,10 @@ a:hover {
 // *************************
 
 #content {
-    //background: @background;
-    //border: 1px solid @border;
+    border: 1px solid @tab-border;
     border-bottom: 0;
     border-top: 0;
-    margin-bottom: 50px;
     overflow: hidden;
-    padding-bottom: 0px;
-    //.content-shadow();
 }
 
 .columns {
@@ -346,23 +338,21 @@ a:hover {
 
     .projects {
         background: @base2;
-        border: 1px solid @border;
+        border-right: 1px solid @border;
         width: @project-col;
     }
     .tasks {
-        //border-left: 1px solid @border;
     }
     .meta {
         background: @base2;
-        border: 1px solid @border;
+        border-left: 1px solid @border;
         width: @tag-col;
     }
     // main content headers
     h1 {
-        //border-bottom: 1px solid @border;
         display: block;
-        font-size: 22px;
-        margin-bottom: 12px;
+        font-size: 20px;
+        margin-bottom: 8px;
         padding-bottom: 4px;
     }
 }
@@ -425,7 +415,7 @@ a:hover {
         float: right;
         font-size: 10px;
         font-weight: normal;
-        margin-right: 1em;
+        margin-right: 2em;
         vertical-align: bottom;
         }
         .just-info {
@@ -502,7 +492,6 @@ a:hover {
             }
 
             .project {
-                //background: @bk-red;
                 border: 1px dotted @border;
                 color: @proj-tag;
                 font-size: 85%;
@@ -581,7 +570,7 @@ a:hover {
 
 #edit-tasks {
 
-    //display: none;
+    display: none;
     margin: 0 8px;
 
     textarea {
@@ -703,46 +692,40 @@ a:hover {
 
 
 #footer {
-    //background-color: @aside;
-    border: 0;
+    background-color: @aside;
     border-top: 1px solid @border;
+    border-bottom: 1px solid @tab-border;
+    border-left: 0;
+    border-right: 0;
     clear: both;
     float: left;
+    font-size: 90%;
     height: 20px;
     line-height: 20px;
-    margin: 3em 0 0 0;
-    padding: 5px;
+    margin: 0;
+    padding: 5px 10px;
     position: relative;
     text-align: center;
     vertical-align: middle;
     width: 100%;
 
     p {
-        color: @base00;
+        color: @base01;
         float: left;
-        margin-left: 10px;
-    }
-    p.version-number {
-        font-size: 75%;
     }
     a {
         padding: 0 5px 0 5px;
+        text-decoration: none;
+        &.logout {
+            color: @violet;
+            float: left;
+            margin-left: 20px;
+        }
     }
-    .link, .label {
+    .lang {
         color: @base01;
         float: right;
-        font-size: 75%;
-        padding-right: 10px;
-    }
-    .label {
-        padding-right: 5px;
-    }
-    .link {
-        color: red;
-    }
-    .link:hover {
-        color: black;
-        cursor: pointer;
+        margin-right: 10px;
     }
     select {
         border-color: @border;
@@ -754,7 +737,17 @@ a:hover {
     }       
 }
 
-
+.version {
+    color: @tab-border;
+    font-size: 75%;
+    float: left;
+    margin: 15px 0 30px 0;
+    text-align: center;
+    width: 99.9%;
+    span {
+        padding: 0 5px;
+    }
+}
 
 // Buttons and icons
 
@@ -896,4 +889,130 @@ input:disabled {
     td {
         padding-left: 0.8em;
     }
+}
+
+
+// LOGIN form
+
+#login-msg {
+    height: 240px;
+    left: 50%;
+    margin: 0 0 0 -230px;
+    padding: 30px 0;
+    position: absolute;
+    top: 0;
+    width: 400px;
+    z-index: 0;
+    p {
+        color: @border;
+        text-align: center;
+        font-size: 24px;
+        line-height: 30px;
+    }
+}
+
+
+#login-err {
+    height: 240px;
+    left: 50%;
+    margin: -130px 0 0 230px;
+    padding: 30px 0;
+    position: absolute;
+    top: 50%;
+    width: 240px;
+    z-index: 0;
+    ul {
+        color: @red;
+        text-align: left;
+        font-size: 15px;
+        line-height: 20px;
+    }
+}
+   
+
+#login-form {
+
+    font-family: Segoe UI, Arial;
+    height: 240px;
+    margin: -150px 0 0 -230px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 400px;
+    z-index: 0;
+
+    .logo {
+        
+    }
+    
+    form {
+        border: 1px solid @border;
+        border-top: 0;
+        padding: 30px 30px 26px 30px;
+    }
+
+    form#register {
+        display: none;
+    }
+
+    fieldset {
+        border: 0;
+        padding: 0;
+        margin: 0;
+    }
+
+    .inputs input {
+        border: 1px solid @border;
+        margin: 0 0 10px 0;
+        padding: 5px 10px 5px 10px;
+        width: 316px;
+    }
+
+    .inputs input:focus {
+        background-color: #fff;
+        border-color: #e8c291;
+        outline: none;
+    }
+
+    .actions {
+        margin: 25px 0 0 0;
+    }
+
+    .submit {		
+        background-color: @aside;
+        border-color: @tab-border;
+        border-style: solid;
+        border-width: 1px;
+        color: @base02;
+        cursor: pointer;
+        float: left;
+        font: bold 15px Arial, Helvetica;
+        height: 35px;
+        padding: 0;
+        text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+        width: 120px;
+    }
+
+    .submit:hover, .submit:focus {		
+        background-color: @base2;
+    }	
+
+    .submit:active {		
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;		
+        -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
+        -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
+        outline: none;
+    }
+
+    .submit::-moz-focus-inner {
+        border: 0;
+    }
+
+    .actions a {
+        color: @blue;    
+        float: right;
+        line-height: 35px;
+        margin-left: 10px;
+    }
+
 }

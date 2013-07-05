@@ -15,6 +15,7 @@ use tpp\storage;
  */
 function lang($item, $html_entities = false) {
     global $config, $lang;
+    
     if ($config['hide_tips'] === true && strpos($item, '_tip') > 0) {
         return '';
     }

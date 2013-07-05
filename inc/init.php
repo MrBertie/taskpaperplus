@@ -144,16 +144,18 @@ foreach($langs as $lang) {
 }
 $cur_lang = \tpp\ini('language');
 $lang_path = 'conf/lang_' . $cur_lang . '.php';
+$lang_en_path = 'conf/lang_en.php';
 
-// language defaults to en (English) if missing
-if ( ! file_exists($lang_path)) {
-    $cur_lang = 'en';
-    $lang_path = 'conf/lang_' . $cur_lang . '.php';
+// default english lang strings (in case of missing items or language)
+$lang = array();
+require_once(APP_PATH . $lang_en_path);
+if (file_exists($lang_path)) {
+    require_once(APP_PATH . $lang_path);
 }
-require_once(APP_PATH . $lang_path);
 
 
 // this ensures that dates will be localised also
+// locale names must match PHP standards: see conf/locale_names.txt
 $location = setlocale(LC_ALL, $cur_lang);
 DEFINE('LOCATION', $location);
 

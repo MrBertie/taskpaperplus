@@ -1,11 +1,10 @@
 <?php
 namespace tpp;
+global $lang;
 
 /**
  * Espangol / SPANISH language
  */
-
-$lang = array();
 
 
 /**

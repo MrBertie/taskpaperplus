@@ -8,20 +8,107 @@ class User {
 
     private $_userfile = '';     // storage of login data
     private $_users = array();   // array of all valid users
-    private $_encrypt = true;    // set to true to use sha1 encryption for the password
+    private $_error = array();
 
     
-    function __construct($userfile, $encrypt = true) {
+    function __construct($userfile) {
         $this->_userfile = $userfile;
-        $this->_encrypt = $encrypt;
         $this->_load_users();
 
         log&&msg('Loaded user authenication');
     }
+    
+    /**
+     * THe main login function.
+     * 
+     * Call this to either login or show the login form
+     * 
+     * @return
+     */
+    function do_login() {
+        
+        // basic login check, ignore rest if logged in
+        if ($this->logged_in()) return true;
+
+        // first check for a ajax post request
+        // with the login data
+        if (isset($_POST['login'])) {
+
+            $login_msg = '';
+            $login_err = '';
+            $tab = 'login';
+
+            $logged_in = false;
+
+            $post = $_POST;
+
+            if (isset($post['login-form'])) {
+
+                $username = $post['username'];
+                $password = $post['password'];
+                if ($this->login($username, $password)) {
+                    $logged_in = true;
+                } else {
+                    $login_msg = \tpp\lang('login_failed_msg');
+                }
+
+            } elseif (isset($post['register-form'])) {
+
+                $username = $post['username'];
+                $email = $post['email'];
+                $password1 = $post['password1'];
+                $password2 = $post['password2'];
+                if ($this->register($username, $password1, $password2, $email)) {
+                    $login_msg = \tpp\lang('registration_msg');
+                } else {
+                    $login_msg = \tpp\lang('registration_failed_msg');
+                    $tab = 'register';
+                }
+            }
+
+            if ( ! $logged_in) {
+
+                foreach ($this->errors() as $err) {
+                    $login_err .= '<li>' . $err . '</li>' . "\n";
+                }
+                $response = array(
+                    'success' => false,
+                    'tab' => $tab,
+                    'login_msg' => $login_msg,
+                    'login_err' => $login_err,
+                );
+
+            } else {
+
+                // the index page is refreshed via js
+                $response = array(
+                    'success' => true
+                );
+            }
+            
+            // all login info set via ajax post request
+            // no caching
+            header('Content-type: application/json', true, 200);
+            header("Cache-Control: no-cache, must-revalidate");
+            header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+            echo json_encode($response);
+
+        } else {
+
+            // show the login and register forms
+            header('Content-type: text/html; charset=utf-8');
+            header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); 
+            header("Cache-Control: no-store, no-cache, must-revalidate"); 
+            header("Cache-Control: post-check=0, pre-check=0", false);
+            header("Pragma: no-cache");
+            include('tpl/login.tpl.php');
+        }
+    }
 
     
     function login($username, $password) {
-        if ($this->_get_user($username, $this->_encrypted($password))) {
+        if ($this->_get_user($username, $password) !== false) {
             $_SESSION['user'] = $username;
             return true;
         } else {
@@ -38,25 +125,37 @@ class User {
     
     // is user logged in?
     function logged_in() {
-        //return isset($_SESSION['user']) && $this->_get_user($_SESSION['user']) !== false;
+        $valid = isset($_SESSION['user']) && $this->_get_user($_SESSION['user']) !== false;
+        if ( ! $valid) {
+            $this->_error[] = \tpp\lang('no_such_user_err');
+        }
+        return $valid;
+    }
     
-        return true;
+    
+    function logged_in_as() {
+        if ($this->logged_in()) {
+            return $_SESSION['user'];
+        } else {
+            return '';
+        }
     }
 
     
-    function new_user($username, $password, $nickname) {
-        if ($this->_valid_username($username) && $this->_valid_password($password)) {
-            $this->_set_user($username, $this->_encrypted($password), $nickname);
-            return true;
-        } else {
-            return false;
-        }
+    function register($username, $password1, $password2, $email) {
+        $created = $this->_create_user($username, $password1, $password2, $email);
+        return $created;
+    }
+    
+    
+    function errors() {
+        return $this->_error;
     }
 
     
     function change_password($username, $old_password, $new_password) {
-        if ($this->_valid_password($new_password) && $this->_user_exists($username, $this->_encrypted($old_password))) {
-            $this->_set_user($username, $this->_encrypted($new_password));
+        if ($this->_valid_password($new_password) && $this->_user_exists($username, $old_password)) {
+            $this->_set_user($username, $new_password);
             return true;
         } else {
             return false;
@@ -64,9 +163,9 @@ class User {
     }
 
     
-    function change_name($username, $nickname) {
-        if ($this->_user_exists($username)) {
-            $this->_set_user($username, null, $nickname);
+    function change_email($username, $email) {
+        if ($this->_get_user($username) !== false) {
+            $this->_edit_user($username, null, $email);
             return true;
         } else {
             return false;
@@ -88,16 +187,18 @@ class User {
         }
         return $pass;
     }
-
+    
+    
 
     /**
     * functions to load and save user data storage
     */
     private function _load_users() {
         if (file_exists($this->_userfile)) {
-            $this->_users = unserialize($this->_userfile);
+            $this->_users = unserialize(file_get_contents($this->_userfile));
         } else {
             $this->_users = array();
+            $this->_error[] = \tpp\lang('userfile_missing_err');
         }
         return $this;
     }
@@ -109,18 +210,64 @@ class User {
     }
     
     
-    private function _set_user($username, $password = null, $nickname = null) {
+    private function _create_user($username, $password1, $password2, $email) {
+        // reset errors, to remove any previous login failure
+        $this->_error = array();
+        
+        if ($this->_get_user($username) !== false) {
+            $this->_error[] = \tpp\lang('user_exists_err');
+        }
+        if ( ! $this->_valid_username($username)) {
+            $this->_error[] = \tpp\lang('invalid_username_err');
+        }
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+            $this->_error[] = \tpp\lang('invalid_email_err');
+        }
+        if ( ! $this->_valid_password($password1)) {
+            $this->_error[] = \tpp\lang('invalid_password_err');
+        }
+        if ($password1 !== $password2) {
+            $this->_error[] = \tpp\lang('nonmatch_passwords_err');
+        }
+        
+        if (empty($this->_error)) {
+            $this->_users[$username] = array(
+                                            'username' => $username,
+                                            'password' => $this->_encrypted($password1),
+                                            'email' => $email,
+                                            'modified' => time(),
+                                            );
+            $this->_save_users();
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    
+    private function _edit_user($username, $password = null, $email = null) {
         $user = $this->_get_user($username);
         if ($user !== false) {
-            if (is_null($password)) $password = $user['password'];
-            if (is_null($nickname)) $nickname = $user['nickname'];
+            if ( ! is_null($password)) {
+                if ($this->_valid_password($password)) {
+                    $this->_users[$username]['password'] = $this->_encrypted($password);
+                } else {
+                    $this->_error[] = \tpp\lang('invalid_password_err');
+                }
+            }
+            if (filter_var($email, FILTER_VALIDATE_EMAIL) !== false) {
+                $this->_users[$username]['email'] = $email;
+            } else {
+                $this->_error[] = \tpp\lang('invalid_email_err');
+            }
+            
+            if (empty($this->_error)) {
+                $this->_save_users();
+                return true;
+            } else {
+                return false;
+            }
         }
-        $this->_users[$username] = array('username' => $username,
-                                        'password' => $this->_encrypted($password),
-                                        'nickname' => $nickname,
-                                        'modified' => time());
-        $this->_save_users();
-        return $this;
     }
     
     
@@ -129,12 +276,13 @@ class User {
      *
      * If password is provided then this will be checked for also
      *
-     * @return boolean  true on success
+     * @return boolean | array  false on failure | array of user on success
      */
     private function _get_user($username, $password = null) {
         if (isset($this->_users[$username])) {
             $user = $this->_users[$username];
-            if (is_null($password) || $user['password'] == $this->_encrypted($password)) {
+            $encrypt_password = $this->_encrypted($password);
+            if (is_null($password) || $user['password'] === $encrypt_password) {
                 return $user;
             }
         }
@@ -142,7 +290,7 @@ class User {
     }
     
     
-    private function _del_user($username) {
+    private function _delete_user($username) {
         unset($this->_users[$username]);
         $this->_save_users();
         return $this;
@@ -150,21 +298,20 @@ class User {
     
     
     private function _encrypted($password) {
-        if ($this->_encrypt) {
-            $password = sha1($password);
-        }
+        $password = sha1($password);
         return $password;
     }
 
     
     private function _valid_username($username) {
-        return preg_match('/^[a-z\d_]{6,24}$i/', $username);
+        $succ = (preg_match('/' . \tpp\config('username_pattern') . '/i', $username) == 1);
+        return $succ;
     }
     
     
-    // TODO: this is a bit weak for now, to be improved one day
-    private function valid_password($password) {
-        return strlen($password) >= 4;
+    private function _valid_password($password) {
+        $succ = (preg_match('/' . \tpp\config('password_pattern') . '/i', $password) == 1);
+        return $succ;
     }
 }
 ?>
