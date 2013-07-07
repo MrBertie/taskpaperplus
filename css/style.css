@@ -296,7 +296,7 @@ a:hover {
   display:inline;
   margin-left:1px;
   padding:2px 3px;
-  vertical-align:4px;
+  vertical-align:3px;
 }
 #view-tasks li.task p:hover { cursor:pointer; }
 #view-tasks li.task .tag, #view-tasks li.task .date-tag, #view-tasks li.task .project {
@@ -465,7 +465,7 @@ a:hover {
   background:#ffffb7;
   padding:0 4px 0 4px;
 }
-.filters li span { padding:3px 5px 2px; }
+.filters li span { padding:2px 5px 2px; }
 .filters li span:hover {
   cursor:pointer;
   box-shadow:0px 0px 2px #657b83;
