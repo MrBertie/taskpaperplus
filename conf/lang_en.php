@@ -98,7 +98,7 @@ $lang['edit_all_tip']       = 'Edit the tab as plain-text';
 $lang['archive_done_tip']   = 'Archive all completed tasks at once';
 $lang['trash_done_tip']     = 'Trash all completed tasks at once';
 $lang['remove_actions_tip'] = 'Remove action highlighting from all tasks at once';
-$lang['insert_location_tip']= 'Where to insert new tasks: at top or bottom of list/project?';
+$lang['insert_location_tip']= 'Insert new tasks at top or bottom of list/project?';
 
 // task related tips and buttons
 $lang['search_box_tip']     = "Type in words, tags, filters, or dates to search for, then [ENTER]\nOr type in a new task then [CTRL+ENTER]\n(Shortcut: Alt+Shift+C)";
