@@ -1,7 +1,7 @@
 Taskpaper+ :: More Stuff, Less Fluff!
 ==========
 
-![Taskpaper+ Screenshot](https://taskpaperplus.googlecode.com/files/main-view.png)
+![Taskpaper+ Screenshot](https://taskpaperplus.googlecode.com/files/main-view-2013-07-07.png)
 
 
 Description
