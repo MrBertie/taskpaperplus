@@ -101,8 +101,8 @@ $lang['remove_actions_tip'] = 'Remove action highlighting from all tasks at once
 $lang['insert_location_tip']= 'Insert new tasks at top or bottom of list/project?';
 
 // task related tips and buttons
-$lang['search_box_tip']     = "Type in words, tags, filters, or dates to search for, then [ENTER]\nOr type in a new task then [CTRL+ENTER]\n(Shortcut: Alt+Shift+C)";
-$lang['search_help_tip']    = "Need help searching? Click for a cheatsheet (Ctrl+click for a new page)";
+$lang['search_box_tip']     = "Search for words, tags, filters, or dates [ENTER]\nOr type a new task [CTRL+ENTER]\n(Shortcut: Alt+Shift+C)";
+$lang['search_help_tip']    = "Need help searching? Click for a cheatsheet (Ctrl+Click for a new page)";
 $lang['startpage_tip']      = 'Back to default view';
 $lang['save_changes_tip']   = 'Save your changes';
 $lang['cancel_changes_tip'] = 'Cancel any changes and return to task view';

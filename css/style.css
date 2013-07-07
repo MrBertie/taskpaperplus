@@ -527,17 +527,18 @@ a:hover {
 }
 #footer .insert {
   float:right;
-  margin-right:15px;
+  margin-right:20px;
   opacity:0.5;
 }
 #footer .insert img {
-  height:18px;
+  height:16px;
   display:none;
+  vertical-align:center;
 }
 #footer .lang {
   color:#586e75;
   float:right;
-  margin-right:10px;
+  margin-right:5px;
 }
 #footer select {
   border-color:#d7d5d4;
