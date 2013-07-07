@@ -235,13 +235,13 @@ a:hover {
 }
 #view-tasks h1 { color:#073642; }
 #view-tasks h1 .sortable {
-  color:#c9c7c6;
   display:inline;
   float:right;
-  font-size:10px;
-  font-weight:normal;
-  margin-right:2em;
-  vertical-align:bottom;
+  margin-right:2px;
+}
+#view-tasks h1 .sortable img {
+  height:22px;
+  opacity:0.3;
 }
 #view-tasks h1 .just-info {
   font-size:100%;
@@ -525,6 +525,15 @@ a:hover {
   float:left;
   margin-left:20px;
 }
+#footer .insert {
+  float:right;
+  margin-right:15px;
+  opacity:0.5;
+}
+#footer .insert img {
+  height:18px;
+  display:none;
+}
 #footer .lang {
   color:#586e75;
   float:right;
@@ -534,6 +543,7 @@ a:hover {
   border-color:#d7d5d4;
   border-width:1px;
   border-style:solid;
+  color:#586e75;
   float:right;
   margin:0 15px 0 5px;
   vertical-align:top;

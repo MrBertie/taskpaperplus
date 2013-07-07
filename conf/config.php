@@ -7,7 +7,7 @@
 
 $config['website_url']      = "http://github.com/MrBertie/taskpaperplus";
 // version numbers: <major>.<minor>.<changes>.<bugfixes>
-$config['version_number']   = '1.0.3.0 beta | 2013-Jun-26';
+$config['version_number']   = '1.1.0.0 | 2013-Jul-07';
 
 // relative to App Base Path
 $config['debug_file']       = 'logs/debug.txt';

@@ -27,13 +27,16 @@ class Views {
         global $term;
 
         $view = new Template('index');
+        
+        // page data (hidden)
         $view->jslang = json_encode($jslang);
         $view->page_address = $address;
         $view->task_prefix = $term['task_prefix'];
         $view->debug_mode = DEBUG_MODE;
-        $view->task_buttons = new Template('taskbuttons');
+        $view->insert_pos = \tpp\ini('insert_pos');
 
         // child views
+        $view->task_buttons = new Template('taskbuttons');
         $view->tabs = $this->tabs();
         $view->header = new Template('header');
         $view->projects = $this->projects();

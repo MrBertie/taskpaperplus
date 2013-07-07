@@ -87,7 +87,6 @@ $lang['tag_header']         = 'Tags';
 $lang['project_header']     = 'Projekte';
 $lang['filter_header']      = 'Filter';
 $lang['search_header']      = 'Suche: ';
-$lang['sortable']           = 'Sortierbar';
 
 
 // new tab sample content
@@ -116,6 +115,7 @@ $lang['archive_tab_tip']    = 'Archivierte Aufgaben anzeigen';
 $lang['trash_tab_tip']      = 'Gelöschte Aufgaben anzeigen';
 $lang['clear_box_tip']      = 'Die Suchbox zurücksetzen';
 $lang['tag_click_tip']      = 'Klick um nach diesem Tag zu filtern';
+$lang['sortable_tip']       = 'Sortierbar';
 
 
 // sent with task-buttons

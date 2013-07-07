@@ -87,7 +87,6 @@ $lang['tag_header']         = 'Tags';
 $lang['project_header']     = 'Sujets';
 $lang['filter_header']      = 'Filtres';
 $lang['search_header']      = 'Recherche: ';
-$lang['sortable']           = 'Déplaçable';
 
 
 // new tab sample content
@@ -116,6 +115,7 @@ $lang['archive_tab_tip']    = 'Toutes tâches accomplies ';
 $lang['trash_tab_tip']      = 'Toutes tâches supprimées';
 $lang['clear_box_tip']      = 'Réinitialiser le champ de recherche';
 $lang['tag_click_tip']      = 'Filtrer par ce tag';
+$lang['sortable_tip']       = 'Déplaçable';
 
 
 // sent with task-buttons

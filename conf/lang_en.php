@@ -87,7 +87,6 @@ $lang['tag_header']         = 'Tags';
 $lang['project_header']     = 'Topics';
 $lang['filter_header']      = 'Filters';
 $lang['search_header']      = 'Search: ';
-$lang['sortable']           = 'Sortable';
 
 
 // new tab sample content
@@ -99,7 +98,7 @@ $lang['edit_all_tip']       = 'Edit the tab as plain-text';
 $lang['archive_done_tip']   = 'Archive all completed tasks at once';
 $lang['trash_done_tip']     = 'Trash all completed tasks at once';
 $lang['remove_actions_tip'] = 'Remove action highlighting from all tasks at once';
-
+$lang['insert_location_tip']= 'Where to insert new tasks: at top or bottom of list/project?';
 
 // task related tips and buttons
 $lang['search_box_tip']     = "Type in words, tags, filters, or dates to search for, then [ENTER]\nOr type in a new task then [CTRL+ENTER]\n(Shortcut: Alt+Shift+C)";
@@ -116,7 +115,7 @@ $lang['archive_tab_tip']    = 'All archived tasks';
 $lang['trash_tab_tip']      = 'All deleted tasks';
 $lang['clear_box_tip']      = 'Clear the search box';
 $lang['tag_click_tip']      = 'Filter by this tag';
-
+$lang['sortable_tip']       = 'Sortable';
 
 // sent with task-buttons
 $lang['action_button_tip']  = 'Toggle between the different actions: none » next » wait » maybe';

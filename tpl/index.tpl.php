@@ -85,5 +85,6 @@
     <input id="task-prefix"      type="hidden" value="<?php echo $this->task_prefix; ?>" />
     <input id="task-buttons-tpl" type="hidden" value='<?php echo $this->task_buttons; ?>' />
     <input id="debug-mode"       type="hidden" value='<?php echo $this->debug_mode; ?>' />
+    <input id="insert_pos"       type="hidden" value='<?php echo $this->insert_pos; ?>' />
 </body>
 </html>

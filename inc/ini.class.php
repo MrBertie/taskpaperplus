@@ -50,8 +50,8 @@ class Ini implements \Iterator {
     function item($key, $value = NULL) {
         if (!empty($value)) {
             if (array_key_exists($key, $this->_ini_items)) {
-                $this->_changed_keys[] = '/(' . $key . '=).+\n/';
-                $this->_changed_values[] = "\${1}" . $value . "\n"; // ${1} style to avoid problems with leading digits
+                $this->_changed_keys[] = '/(' . $key . '=).+$/';
+                $this->_changed_values[] = "\${1}" . $value; // ${1} style to avoid problems with leading digits
             } else {
                 $this->_new_items = "\n" . $key . '=' . $value;
             }

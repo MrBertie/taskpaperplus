@@ -24,7 +24,7 @@ $action                    = '(\s[' . $term['action_suffix'] . ']{1,5})?';
 $is_task                   = '((?i)' . $term['done_prefix'] . '?(?-i))' . $term['task_prefix'];
 
 // main task parsing regexs
-$title                    = '\s*((\d+):)?(.*)\s*';                                  // title text
+$title                    = '\s*((\d+)\.)?(.*)\s*';                                  // title text
 $term['md_title']         = '/' . $title . '/';                                     // Markdown style title
 $term['md_title_ul']      = '/={4,12}/';                                            // Markdown style title underline
 $term['doku_title']       = '/==' . $title . '==/';                                 // Dokuwiki style

@@ -285,7 +285,6 @@ class Dispatcher extends BasicDispatcher {
 
         // Where in task list to add the task?
         $project_index = 0;
-        $task_added = false;
         $task = $this->request->value;
 
         if ($this->state->event == 'project') {
@@ -293,12 +292,7 @@ class Dispatcher extends BasicDispatcher {
         } else {
             list($task, $project_index) = $this->_split_task_and_project($task);
         }
-
-        if ($project_index >= 0) {
-            $task_added = $this->_taskpaper->add($task, $project_index);
-        } else {
-            $task_added = $this->_taskpaper->add($task);
-        }
+        $task_added = $this->_taskpaper->add($task, $project_index);
 
         return ($task_added ? self::UPDATED : false);
     }
@@ -406,6 +400,13 @@ class Dispatcher extends BasicDispatcher {
         $this->_user->logout();
         return self::ACTION;
     }
+    
+    protected function action_toggle_insert() {
+        $cur = \tpp\ini('insert_pos');
+        $pos = ($cur == 'top' ? 'bottom' : 'top');
+        \tpp\ini('insert_pos', $pos);
+        return self::ACTION;
+    }
 
     
     /**
@@ -486,7 +487,7 @@ class Dispatcher extends BasicDispatcher {
         global $term;
         $match = array('', '', '');
         $text = $task;
-        $project = '';
+        $project = 0;
 
         $matched = preg_match($term['add_to_proj'], $task, $match);
         if ($matched !== false && $matched > 0) {

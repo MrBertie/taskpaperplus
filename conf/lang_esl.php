@@ -87,7 +87,6 @@ $lang['tag_header']         = 'Tags';
 $lang['project_header']     = 'Asuntos';
 $lang['filter_header']      = 'Filtros';
 $lang['search_header']      = 'Busquedas: ';
-$lang['sortable']           = 'Ordenar';
 
 
 // new tab sample content
@@ -116,6 +115,7 @@ $lang['archive_tab_tip']    = 'Todas las tareas archivadas';
 $lang['trash_tab_tip']      = 'Todas las tareas borradas';
 $lang['clear_box_tip']      = 'Limpia el campo busqueda';
 $lang['tag_click_tip']      = 'Filtra este tag';
+$lang['sortable_tip']       = 'Ordenar';
 
 
 // sent with task-buttons

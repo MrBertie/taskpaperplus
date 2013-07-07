@@ -33,7 +33,8 @@ var app = (function () {
         task_prefix     = '',
         page_address    = '',   // current (deep link) page address
         restricted      = false,    // restricd = trash or archive
-        debug_mode      = false;    // is debug mode on?
+        debug_mode      = false,    // is debug mode on?
+        $insert_pos;
 
 
     pub.init = function () {
@@ -44,11 +45,16 @@ var app = (function () {
         $body           = $('body');
         $index_load     = $('#page-load');
         $search_box     = $("#search-box");
+        
         lang            = JSON.parse($("#jslang").html());
+        
         task_button_tpl = $('#task-buttons-tpl').val();
         task_prefix     = $('#task-prefix').val();
         debug_mode      = $('#debug-mode').val() === '1';
-
+        $insert_pos     = $('#insert_pos');
+        
+        pub.toggle_insert();
+        
         // set initial page address correctly (deep link after the #)
         page_address    = $("#page-address").val();
 
@@ -230,6 +236,17 @@ var app = (function () {
     var throbber_off = function () {
         $("#indicator").hide();
     };
+    
+    
+    pub.toggle_insert = function () {
+        if ($insert_pos.val() === 'top') {
+            $("#insert img#top").show();
+            $("#insert img#bottom").hide();
+        } else {
+            $("#insert img#top").hide();
+            $("#insert img#bottom").show();
+        }
+    };
 
 
     String.prototype.count = function (delim) {
@@ -278,6 +295,13 @@ var app = (function () {
                 request({event: 'lang', value: this.value}, function () {
                     show_message([lang.lang_change_msg, 'green']);
                     window.setTimeout("window.location.reload()", 1000);
+                });
+            })
+            .on("click", "#insert", function() {
+                request({event: 'toggle_insert'}, function() {
+                    var pos = $insert_pos.val();
+                    $insert_pos.val(pos === 'top' ? 'bottom' : 'top');
+                    pub.toggle_insert();
                 });
             });
 

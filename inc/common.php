@@ -54,8 +54,7 @@ function ini($item, $value = null) {
     if (is_null($value)) {
         return $ini->item($item);
     } else {
-        $ini->item($item, $value);
-        $ini->save();
+        $ini->item($item, $value)->save();
     }
 }
 

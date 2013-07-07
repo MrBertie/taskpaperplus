@@ -410,13 +410,13 @@ a:hover {
         color: @base02;
 
         .sortable {
-        color: @tab-border;
-        display: inline;
-        float: right;
-        font-size: 10px;
-        font-weight: normal;
-        margin-right: 2em;
-        vertical-align: bottom;
+            display: inline;
+            float: right;
+            margin-right: 2px;
+            img {
+                height: 22px;
+                opacity: 0.3;
+            }
         }
         .just-info {
             font-size: 100%;
@@ -722,6 +722,15 @@ a:hover {
             margin-left: 20px;
         }
     }
+    .insert {
+        float: right;
+        margin-right: 15px;
+        opacity: 0.5;
+        img {
+            height: 18px;
+            display: none;
+        }
+    }
     .lang {
         color: @base01;
         float: right;
@@ -731,6 +740,7 @@ a:hover {
         border-color: @border;
         border-width: 1px;
         border-style: solid;
+        color: @base01;
         float: right;
         margin: 0 15px 0 5px;
         vertical-align: top;

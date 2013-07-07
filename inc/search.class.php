@@ -255,6 +255,7 @@ class ExpressionFilter extends TokenFilter {
 
 
     private function _tokenise($expression) {
+        $matches = array();
         // quoted phrases are replaced by a marker token `n` and later replaced in token array
         $phrases = preg_match_all('~\"(.+?)\"~', $expression, $matches, PREG_PATTERN_ORDER);
         if($phrases !== false) {
@@ -264,7 +265,13 @@ class ExpressionFilter extends TokenFilter {
         }
         $tokens = explode(' ' , $expression);
         // replace and phrases using `n` marker token
-        $tokens = preg_replace('~`(\d)`~e', '$matches[1]["$1"]', $tokens);
+        $tokens = preg_replace_callback(
+            '~`(\d)`~', 
+            function($m) {
+                return '$m[1][$m[1]]';
+            },
+            $tokens
+        );
         return $tokens;
     }
 

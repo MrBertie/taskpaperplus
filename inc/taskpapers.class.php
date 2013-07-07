@@ -305,24 +305,30 @@ class Taskpaper extends TaskpaperPersist {
      *
      * This is used when adding new tasks from the input box.
      *
-     * @global array $token
-     * @param string $new_task   The new task as text, as typed by the user, can include notes, and a project identifier ('/2')
-     * @param int    $project_id The project id (not number!) into which to insert
-     * @return boolean  true on success
+     * @param string $new_task      The new task as text, as typed by the user, can include notes, and a project identifier ('/2')
+     * @param int    $project_index The project index (not number!) into which to insert
+     * @return boolean  True on success
      */
     function add($new_task, $project_index = 0) {
         $max = self::$_content->project_count - 1;
         $project_index = ($project_index > $max) ? $max : $project_index;
+        $at_top = \tpp\ini('insert_pos') == 'top';
 
-        // insert at end of list if last project or only 1 project exists (edge case)
-        if ($project_index == $max || $max == 0) {
+        // edge case: insert at end of list only 1 project exists
+        if ($max == 0 && ! $at_top) {   
             $raw = $this->raw() . "\n" . $new_task;
             self::update(UPDATE_RAW, $raw);
             return true;
-
-        // or insert into a specific Project (at end of project's task list)
-        } elseif ($project_index < $max) {
-            $key = array_search($project_index + 1, self::$_content->project_index);
+            
+        // edge case: at top of orphan project (0)
+        } elseif ($project_index == 0 && $at_top) {
+            $this->replace('010', $new_task);
+            return true;
+            
+        // or insert into a specific Project
+        } elseif ($project_index >= 0 && $project_index < $max) {
+            $offset = ($at_top ? 0 : 1);
+            $key = array_search($project_index + $offset, self::$_content->project_index);
             $this->replace($key, $new_task);
             return true;
         }

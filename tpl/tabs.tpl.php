@@ -16,7 +16,7 @@
             $tip = $tab->note->text;
             $display = $tab->title;
         }
-        $tip .= ( ! empty($tip)) ? "\n" : '';
+        $tip .= ( ! empty($tip)) ? "\n――――\n" : '';
 
         if($tab->name == $this->active) {
             $tab_class = 'selected';
