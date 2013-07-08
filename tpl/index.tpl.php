@@ -80,7 +80,6 @@
         </div>
     </div>
 
-    <input id="page-load"        type="hidden" value="true" />
     <input id="page-address"     type="hidden" value="<?php echo $this->page_address; ?>" />
     <input id="task-prefix"      type="hidden" value="<?php echo $this->task_prefix; ?>" />
     <input id="task-buttons-tpl" type="hidden" value='<?php echo $this->task_buttons; ?>' />
