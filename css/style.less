@@ -50,6 +50,10 @@
 @project-col:       18%;
 @tag-col:           12%;
 
+@faded:     0.3;
+@dull:      0.45;
+@bright:    0.6;
+
 
 /* basic reset */
 html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, pre, form, fieldset, table, th, td {
@@ -118,7 +122,7 @@ a:hover {
     display: none;
     height: 50px;
     left: 5px;
-    opacity: 0.5;
+    opacity: @bright;
     position: fixed;
     top: 5px;
     width: 50px;
@@ -186,7 +190,7 @@ a:hover {
     a img {
         height: 16px;
         margin-bottom: 3px;
-        opacity: 0.6;
+        opacity: @bright;
         vertical-align: middle;
     }
 
@@ -220,7 +224,7 @@ a:hover {
         position: relative;
 
         a {
-            opacity: 0.3;
+            opacity: @faded;
             position: absolute;
             right: -32px;
             top: 4px;
@@ -228,7 +232,7 @@ a:hover {
                 width: 16px;
             }
             &:hover {
-                opacity: 0.6;
+                opacity: @bright;
             }
         }
         #search-box {
@@ -257,19 +261,19 @@ a:hover {
         #reset-search {
             display: none;
             height: 16px;
-            opacity: 0.2;
+            opacity: @faded;
             position: absolute;
             right: -6px;
             top: 5px;
             &:hover {
-                opacity: 0.5;
+                opacity: @bright;
             }
         }
     }
     .tabtools {
         height: 36px;
         margin-top: 5px;
-        opacity: 0.5;
+        opacity: @dull;
         padding: 4px;
         position: absolute;
         right: 0px;
@@ -277,7 +281,7 @@ a:hover {
         width: 192px;
         &:hover {
             cursor: pointer;
-            opacity: 0.6;
+            opacity: @bright;
         }
     }
 }
@@ -342,6 +346,29 @@ a:hover {
         width: @project-col;
     }
     .tasks {
+        position: relative;
+        #indicators {
+            //line-height: 24px;
+            padding: 10px 14px;;
+            position: absolute;
+            right: 0px;
+            top: 0;
+            img {
+                display: inline;
+                float: right;
+                height: 16px;
+                margin-left: 10px;
+                opacity: @faded;
+                vertical-align: center;
+            }
+            .insert img {
+                display: none;
+                &:hover {
+                    opacity: @bright;
+                    cursor: pointer;
+                }
+            }
+        }
     }
     .meta {
         background: @base2;
@@ -409,15 +436,6 @@ a:hover {
     h1 {
         color: @base02;
 
-        .sortable {
-            display: inline;
-            float: right;
-            margin-right: 2px;
-            img {
-                height: 22px;
-                opacity: 0.3;
-            }
-        }
         .just-info {
             font-size: 100%;
             margin: 0 10px 0 0;
@@ -507,7 +525,7 @@ a:hover {
             .check-done {
                 height: 11px;
                 margin: 0px;
-                opacity: 0.3;
+                opacity: @faded;
                 padding-top: 2px;
                 width: 11px;
             }
@@ -600,7 +618,7 @@ a:hover {
     }
     div .icon{
         float: left;
-        opacity: 0.6;
+        opacity: @bright;
     }
 }
 
@@ -686,7 +704,6 @@ a:hover {
     font-size: 9px;
     font-family: Arial;
     margin-left: 0.35em;
-    opacity: 0.8;
     vertical-align: top;
 }
 
@@ -720,16 +737,6 @@ a:hover {
             color: @violet;
             float: left;
             margin-left: 20px;
-        }
-    }
-    .insert {
-        float: right;
-        margin-right: 20px;
-        opacity: 0.5;
-        img {
-            height: 16px;
-            display: none;
-            vertical-align: center;
         }
     }
     .lang {
@@ -812,7 +819,7 @@ a:hover {
 
     input {
         height: 14px;
-        opacity: 0.5;
+        opacity: @bright;
         padding: 1px 3px;
         width: 14px;
         &:hover {
@@ -825,7 +832,7 @@ a:hover {
 }
 
 input:disabled {
-    opacity: 0.2;
+    opacity: @faded;
 }
 
 .editable-box {

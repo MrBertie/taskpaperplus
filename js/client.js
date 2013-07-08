@@ -18,7 +18,7 @@ var app = (function () {
 
     "use strict";
 
-    var pub = {};               // all public methods
+    var pub = {};                 // all public methods
 
 
     var ajax_file = 'index.php',  // name of php ajax target file
@@ -28,13 +28,13 @@ var app = (function () {
         $body,
         $index_load,
         $search_box,
-        lang            = {},   // language strings for app use
-        task_button_tpl = '',   // template for task line buttons
-        task_prefix     = '',
-        page_address    = '',   // current (deep link) page address
-        restricted      = false,    // restricd = trash or archive
-        debug_mode      = false,    // is debug mode on?
-        is_index        = true,    // initial index page load not ajax
+        lang            = {},     // language strings for app use
+        task_button_tpl = '',     // template for task line buttons
+        task_prefix     = '',     // used to recognise a task in the search box
+        page_address    = '',     // current (deep link) page address
+        restricted      = false,  // restricd = trash or archive
+        debug_mode      = false,  // is debug mode on?
+        is_index        = true,   // initial index page load (i.e. not ajax)
         $insert_pos;
 
 
@@ -44,7 +44,6 @@ var app = (function () {
         $edit_tasks     = $("#edit-tasks");
         $text_area      = $("#edit-tasks>textarea");
         $body           = $('body');
-        //$index_load     = $('#page-load');
         $search_box     = $("#search-box");
         
         lang            = JSON.parse($("#jslang").html());
@@ -159,15 +158,22 @@ var app = (function () {
         $view_tasks.show();
     };
 
+
     pub.make_sortable = function () {
         // 'sortable' function needs to be added on each refresh
-        $view_tasks.children("#sortable").sortable({
-            update: function (event, ui) {
-                var order = $(this).sortable('toArray');
-                request({event: 'sort', value: order});
-            }
-        });
+        if ($view_tasks.children("#sortable").length) {
+            $view_tasks.children("#sortable").sortable({
+                update: function (event, ui) {
+                    var order = $(this).sortable('toArray');
+                    request({event: 'sort', value: order});
+                }
+            });
+            $("#sortable").show();
+        } else {
+            $("#sortable").hide();
+        }
     };
+
 
     /*
      * refreshes various parts of the view based on JSON data
@@ -296,7 +302,9 @@ var app = (function () {
                     show_message([lang.lang_change_msg, 'green']);
                     window.setTimeout("window.location.reload()", 1000);
                 });
-            })
+            });
+            
+        $("#indicators")
             .on("click", "#insert", function() {
                 request({event: 'toggle_insert'}, function() {
                     var pos = $insert_pos.val();
@@ -308,7 +316,7 @@ var app = (function () {
 
         // Search Box
         
-        $('body').bind('keydown', 'shift+return', function (e) {
+        $body.bind('keydown', 'shift+return', function (e) {
             e.preventDefault();
             $search_box.focus();
         });

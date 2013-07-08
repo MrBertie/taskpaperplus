@@ -48,6 +48,7 @@
                 </div>
 
                 <div class="tasks column">
+                    <?php include('tpl/indicators.tpl.php'); ?>
                     <div id="view-tasks">
                         <?php echo $this->tasks; ?>
                     </div>

@@ -34,7 +34,7 @@ a:hover {
   display:none;
   height:50px;
   left:5px;
-  opacity:0.5;
+  opacity:0.6;
   position:fixed;
   top:5px;
   width:50px;
@@ -133,16 +133,16 @@ a:hover {
 #header .search #reset-search {
   display:none;
   height:16px;
-  opacity:0.2;
+  opacity:0.3;
   position:absolute;
   right:-6px;
   top:5px;
 }
-#header .search #reset-search:hover { opacity:0.5; }
+#header .search #reset-search:hover { opacity:0.6; }
 #header .tabtools {
   height:36px;
   margin-top:5px;
-  opacity:0.5;
+  opacity:0.45;
   padding:4px;
   position:absolute;
   right:0px;
@@ -198,6 +198,26 @@ a:hover {
   border-right:1px solid #d7d5d4;
   width:18%;
 }
+.columns .tasks { position:relative; }
+.columns .tasks #indicators {
+  padding:10px 14px;
+  position:absolute;
+  right:0px;
+  top:0;
+}
+.columns .tasks #indicators img {
+  display:inline;
+  float:right;
+  height:16px;
+  margin-left:10px;
+  opacity:0.3;
+  vertical-align:center;
+}
+.columns .tasks #indicators .insert img { display:none; }
+.columns .tasks #indicators .insert img:hover {
+  opacity:0.6;
+  cursor:pointer;
+}
 .columns .meta {
   background:#eee8d5;
   border-left:1px solid #d7d5d4;
@@ -234,15 +254,6 @@ a:hover {
   padding-bottom:2px;
 }
 #view-tasks h1 { color:#073642; }
-#view-tasks h1 .sortable {
-  display:inline;
-  float:right;
-  margin-right:2px;
-}
-#view-tasks h1 .sortable img {
-  height:22px;
-  opacity:0.3;
-}
 #view-tasks h1 .just-info {
   font-size:100%;
   margin:0 10px 0 0;
@@ -336,7 +347,7 @@ a:hover {
 }
 #view-tasks li.task span.task-buttons input {
   height:14px;
-  opacity:0.5;
+  opacity:0.6;
   padding:1px 3px;
   width:14px;
 }
@@ -491,7 +502,6 @@ a:hover {
   font-size:9px;
   font-family:Arial;
   margin-left:0.35em;
-  opacity:0.8;
   vertical-align:top;
 }
 #footer {
@@ -524,16 +534,6 @@ a:hover {
   color:#6c71c4;
   float:left;
   margin-left:20px;
-}
-#footer .insert {
-  float:right;
-  margin-right:20px;
-  opacity:0.5;
-}
-#footer .insert img {
-  height:16px;
-  display:none;
-  vertical-align:center;
 }
 #footer .lang {
   color:#586e75;
@@ -584,7 +584,7 @@ a:hover {
   padding:0px;
   width:28px;
 }
-input:disabled { opacity:0.2; }
+input:disabled { opacity:0.3; }
 .editable-box {
   margin-left:6px;
   text-indent:0px;
