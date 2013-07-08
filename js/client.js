@@ -34,6 +34,7 @@ var app = (function () {
         page_address    = '',   // current (deep link) page address
         restricted      = false,    // restricd = trash or archive
         debug_mode      = false,    // is debug mode on?
+        is_index        = true,    // initial index page load not ajax
         $insert_pos;
 
 
@@ -43,7 +44,7 @@ var app = (function () {
         $edit_tasks     = $("#edit-tasks");
         $text_area      = $("#edit-tasks>textarea");
         $body           = $('body');
-        $index_load     = $('#page-load');
+        //$index_load     = $('#page-load');
         $search_box     = $("#search-box");
         
         lang            = JSON.parse($("#jslang").html());
@@ -57,9 +58,8 @@ var app = (function () {
         
         // set initial page address correctly (deep link after the #)
         page_address    = $("#page-address").val();
-
-        // signals whether this was a full page load/rebuild or not
         $.address.value(page_address);
+        
         $body.data('editable', null);
 
         // allow use of tab key in all textareas, makes it easier to add notes
@@ -76,11 +76,9 @@ var app = (function () {
         }
     };
 
-
     pub.loaded = function () {
-        $index_load.val('false');
+        is_index = false;
     };
-
 
     /**
      * Prepare and make the PHP ajax request
@@ -88,6 +86,8 @@ var app = (function () {
      * e.g. for clean-up or result messages
      */
     var request = function (data, callback) {
+        
+        if (is_index) return;
 
         // set POST based on draft or size of value!
         var has_draft = typeof (data.draft) !== "undefined",
@@ -307,6 +307,11 @@ var app = (function () {
 
 
         // Search Box
+        
+        $('body').bind('keydown', 'shift+return', function (e) {
+            e.preventDefault();
+            $search_box.focus();
+        });
 
         var show_reset_search = function () {
             $search_box.data('can_reset', true);

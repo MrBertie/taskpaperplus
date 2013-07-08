@@ -28,7 +28,7 @@ a {
     width:100%;
 }
 
-#header, #footer, .tabs, #message-banner, .projects, .meta {
+#header, #footer, .tabs, #message-banner, .projects, .meta, .version {
     display:none;
 }
 
