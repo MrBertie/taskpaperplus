@@ -189,6 +189,11 @@ class User {
     }
     
     
+    function as_array() {
+        return $this->_users;
+    }
+    
+    
 
     /**
     * functions to load and save user data storage
@@ -236,7 +241,13 @@ class User {
                                             'password' => $this->_encrypted($password1),
                                             'email' => $email,
                                             'modified' => time(),
+                                            'authorised' => false,
+                                            'admin' => false,
                                             );
+            if (empty($this->_users)) {
+                $this->_users['username']['authorised'] = true;
+                $this->_users['username']['admin'] = true;
+            }
             $this->_save_users();
             return true;
         } else {
@@ -245,9 +256,17 @@ class User {
     }
     
     
-    private function _edit_user($username, $password = null, $email = null) {
+    private function _edit_user($username, $authorised = null, $admin = null, $password = null, $email = null) {
         $user = $this->_get_user($username);
         if ($user !== false) {
+            
+            if ($authorised) {
+                $this->_user['authorised'] = true;
+            }
+            if ($admin) {
+                $this->_users['admin'] = true;
+            }
+            
             if ( ! is_null($password)) {
                 if ($this->_valid_password($password)) {
                     $this->_users[$username]['password'] = $this->_encrypted($password);

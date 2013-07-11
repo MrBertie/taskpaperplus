@@ -48,10 +48,13 @@
                 </div>
 
                 <div class="tasks column">
-                    <?php include('tpl/indicators.tpl.php'); ?>
                     <div id="view-tasks">
-                        <?php echo $this->tasks; ?>
+                        <?php include('tpl/indicators.tpl.php'); ?>
+                        <div id="task-list">
+                            <?php echo $this->tasks; ?>
+                        </div>
                     </div>
+                    
                     <div id="edit-tasks">
                         <?php include('tpl/edittasks.tpl.php'); ?>
                         <?php include('tpl/cheatsheet.tpl.php'); ?>

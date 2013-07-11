@@ -95,7 +95,7 @@ a:hover {
 .hover() {
     &:hover {
         cursor: pointer;
-        box-shadow: 0px 0px 2px @base00;
+        border: 1px solid @border;
     }
 }
 
@@ -331,6 +331,7 @@ a:hover {
 .columns {
     display: table;
     float: left;
+    position: relative;
     width: 100%;
 
     .column {
@@ -346,29 +347,7 @@ a:hover {
         width: @project-col;
     }
     .tasks {
-        position: relative;
-        #indicators {
-            //line-height: 24px;
-            padding: 10px 14px;;
-            position: absolute;
-            right: 0px;
-            top: 0;
-            img {
-                display: inline;
-                float: right;
-                height: 16px;
-                margin-left: 10px;
-                opacity: @faded;
-                vertical-align: center;
-            }
-            .insert img {
-                display: none;
-                &:hover {
-                    opacity: @bright;
-                    cursor: pointer;
-                }
-            }
-        }
+
     }
     .meta {
         background: @base2;
@@ -431,6 +410,28 @@ a:hover {
 // TASKS: main display list
 
 #view-tasks {
+    position: relative;
+
+    #indicators {
+        position: absolute;
+        right: 0;
+        top: -4px;
+        img {
+            display: inline;
+            float: right;
+            height: 16px;
+            margin-left: 10px;
+            opacity: @faded;
+            vertical-align: center;
+        }
+        .insert img {
+            display: none;
+            &:hover {
+                opacity: @bright;
+                cursor: pointer;
+            }
+        }
+    }
 
     // task list title
     h1 {

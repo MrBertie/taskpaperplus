@@ -6,7 +6,7 @@ $(document).ready(function () {
     "use strict";
 
     app.init();
-    app.show_view();
+    app.show('view');
     app.add_events();
     app.make_sortable();
     app.loaded();
@@ -24,6 +24,7 @@ var app = (function () {
     var ajax_file = 'index.php',  // name of php ajax target file
         $view_tasks,
         $edit_tasks,
+        $task_list,
         $text_area,
         $body,
         $index_load,
@@ -42,6 +43,7 @@ var app = (function () {
 
         $view_tasks     = $("#view-tasks");
         $edit_tasks     = $("#edit-tasks");
+        $task_list      = $('#task-list');
         $text_area      = $("#edit-tasks>textarea");
         $body           = $('body');
         $search_box     = $("#search-box");
@@ -153,16 +155,21 @@ var app = (function () {
     };
 
 
-    pub.show_view = function () {
-        $edit_tasks.hide();
-        $view_tasks.show();
+    pub.show = function (which) {
+        if (which === 'view') {
+            $edit_tasks.hide();
+            $view_tasks.show();
+        } else if (which === 'edit') {
+            $edit_tasks.show();
+            $view_tasks.hide();
+        }
     };
 
 
     pub.make_sortable = function () {
         // 'sortable' function needs to be added on each refresh
-        if ($view_tasks.children("#sortable").length) {
-            $view_tasks.children("#sortable").sortable({
+        if ($task_list.children("#sortable").length) {
+            $task_list.children("#sortable").sortable({
                 update: function (event, ui) {
                     var order = $(this).sortable('toArray');
                     request({event: 'sort', value: order});
@@ -183,17 +190,16 @@ var app = (function () {
 
         // show edit area if necessary
         if (response.event === 'edit') {
-            $view_tasks.hide();
-            $edit_tasks.show();
+            pub.show('edit');
             $text_area.val(response.text);
         } else {
-            pub.show_view();
+            pub.show('view');
         }
 
         // update the page content where necessary
 
         if (response.tasks !== undefined) {
-            $view_tasks.html(response.tasks);
+            $task_list.html(response.tasks);
             pub.make_sortable();
         }
         if (response.projects !== undefined) {
@@ -408,13 +414,13 @@ var app = (function () {
 
         var save_edits = function () {
             request({event: 'save', value: $text_area.val()});
-            $('#edit-view textarea')
+            $text_area
                 .unbind('keydown', 'ctrl+return meta+return', save_edits)
                 .unbind('keydown', 'esc', reset);
         };
         $("#edit-button").on("click", function () {
             request({event: 'edit'}, function () {
-                $('#edit-tasks textarea')
+                $text_area
                     .bind('keydown', 'ctrl+return meta+return', save_edits)
                     .bind('keydown', 'esc', reset);
             });
@@ -452,22 +458,24 @@ var app = (function () {
             request({event: 'all'});
         };
 
-        $("#edit-tasks input.cancel-button").on("click", reset);
+        $edit_tasks
+                
+            .on("click", "input.cancel-button", reset)
 
-        /* this is the 'Save' button, for editing area */
-        $("#edit-tasks input.save-button").on("click", save_edits);
+            // this is the 'Save' button, for editing area
+            .on("click", "input.save-button", save_edits)
 
-        // replace text in edited page
-        $("#edit-tasks").on("click", "#replace-button", function () {
-            var find_text = $("#find-word").val();
-            var replace_text = $("#replace-word").val();
-            if(find_text !== "" && replace_text !== "") {
-                find_text = new RegExp(find_text, "gi");
-                var edit_text = $text_area.val();
-                edit_text = edit_text.replace(find_text, replace_text);
-                $text_area.val(edit_text);
-            }
-        });
+            // replace text in edited page
+            .on("click", "#replace-button", function () {
+                var find_text = $("#find-word").val();
+                var replace_text = $("#replace-word").val();
+                if(find_text !== "" && replace_text !== "") {
+                    find_text = new RegExp(find_text, "gi");
+                    var edit_text = $text_area.val();
+                    edit_text = edit_text.replace(find_text, replace_text);
+                    $text_area.val(edit_text);
+                }
+            });
 
 
         // Tab switching
@@ -526,8 +534,7 @@ var app = (function () {
 
         // all events in the main task list area
 
-        $("#view-tasks")
-
+        $task_list
             // add or remove the task buttons
             .on("mouseenter", "li.task", function () {
                 var tpl = task_button_tpl.replace(/\{id\}/gm, $(this).attr("id"));
@@ -630,7 +637,7 @@ var app = (function () {
             var address = e.pathNames,
                 tab = address[0];
             // ignore page load events
-            if ($index_load.val() === 'false' && tab !== undefined) {
+            if (is_index === 'false' && tab !== undefined) {
                 var state = address[1] === undefined ? '' : address[1];
                 var value = address[2] === undefined ? '' : address[2];
                 request({event: 'show', tab: tab, state: state, value: value});
@@ -640,7 +647,7 @@ var app = (function () {
 
         /* TOOLTIPS */
 
-        $("#view-tasks")
+        $view_tasks
             .on("hover", "li.task>p", function () {
                 $(this).attr("title", lang.edit_in_place_tip);
             })

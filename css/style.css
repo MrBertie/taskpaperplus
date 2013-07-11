@@ -185,6 +185,7 @@ a:hover {
 .columns {
   display:table;
   float:left;
+  position:relative;
   width:100%;
 }
 .columns .column {
@@ -197,26 +198,6 @@ a:hover {
   background:#eee8d5;
   border-right:1px solid #d7d5d4;
   width:18%;
-}
-.columns .tasks { position:relative; }
-.columns .tasks #indicators {
-  padding:10px 14px;
-  position:absolute;
-  right:0px;
-  top:0;
-}
-.columns .tasks #indicators img {
-  display:inline;
-  float:right;
-  height:16px;
-  margin-left:10px;
-  opacity:0.3;
-  vertical-align:center;
-}
-.columns .tasks #indicators .insert img { display:none; }
-.columns .tasks #indicators .insert img:hover {
-  opacity:0.6;
-  cursor:pointer;
 }
 .columns .meta {
   background:#eee8d5;
@@ -252,6 +233,25 @@ a:hover {
   margin-bottom:2px;
   margin-left:0.4em;
   padding-bottom:2px;
+}
+#view-tasks { position:relative; }
+#view-tasks #indicators {
+  position:absolute;
+  right:0;
+  top:-4px;
+}
+#view-tasks #indicators img {
+  display:inline;
+  float:right;
+  height:16px;
+  margin-left:10px;
+  opacity:0.3;
+  vertical-align:center;
+}
+#view-tasks #indicators .insert img { display:none; }
+#view-tasks #indicators .insert img:hover {
+  opacity:0.6;
+  cursor:pointer;
 }
 #view-tasks h1 { color:#073642; }
 #view-tasks h1 .just-info {
@@ -323,7 +323,7 @@ a:hover {
 }
 #view-tasks li.task .project:hover {
   cursor:pointer;
-  box-shadow:0px 0px 2px #657b83;
+  border:1px solid #d7d5d4;
 }
 #view-tasks li.task input {
   padding:2px 4px;
@@ -454,7 +454,7 @@ a:hover {
 }
 .tag:hover {
   cursor:pointer;
-  box-shadow:0px 0px 2px #657b83;
+  border:1px solid #d7d5d4;
 }
 .date-tag {
   color:#93a1a1;
@@ -466,7 +466,7 @@ a:hover {
 }
 .date-tag:hover {
   cursor:pointer;
-  box-shadow:0px 0px 2px #657b83;
+  border:1px solid #d7d5d4;
 }
 .strike {
   color:#bcbcbc;
@@ -479,7 +479,7 @@ a:hover {
 .filters li span { padding:2px 5px 2px; }
 .filters li span:hover {
   cursor:pointer;
-  box-shadow:0px 0px 2px #657b83;
+  border:1px solid #d7d5d4;
 }
 .bk-yellow { background:#ffffb7; }
 .bk-gray { background:#eaeaea; }
