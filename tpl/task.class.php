@@ -87,10 +87,10 @@ class TaskTemplate extends Template {
                 $full_text = str_replace("\n", '<br/>', $this->_h($text));
                 $title = strtok($this->_h($text), "\n") .
                          '<span class="more">' . '▼' . '</span>';
-                $note .= '<li class="note reveal" title="">'  .
-                         '<p>' . $title . '</p></li>' .
-                         '<li class="hidden-note reveal" title="">' .
-                         '<p>' . $full_text . '</p></li>';
+                $note .= '<li class="hidden-note reveal" title="">' .
+                         '<p>' . $full_text . '</p></li>' .
+                         '<li class="note reveal" title="">'  .
+                         '<p>' . $title . '</p></li>';
             } else {
                 $note .= '<li class="note">' . $text . '</li>';
             }

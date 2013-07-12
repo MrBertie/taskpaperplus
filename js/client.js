@@ -572,10 +572,10 @@ var app = (function () {
 
             // show or hide notes
             .on("click", ".reveal", function () {
-                $(this).hide().next().show();
+                $(this).hide().prev().show();
             })
             .on("click", ".hidden-note", function () {
-                $(this).prev().show();
+                $(this).next().show();
                 $(this).hide();
             })
 

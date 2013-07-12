@@ -28,8 +28,14 @@ a {
     width:100%;
 }
 
+/* remove the periphery */
 #header, #footer, .tabs, #message-banner, .projects, .meta, .version {
     display:none;
+}
+
+/* Buttons and icons */
+.task-buttons, .task-tools, #edit-tasks, #indicators {
+    display:none
 }
 
 /*** TASK LIST ***/
@@ -65,17 +71,6 @@ a {
     padding-left:30px;
     text-indent:-30px;
 }
-.tasks li ul {
-    background:#FBFBFB;
-    border:1px dotted gray;
-    margin-left:0;
-    margin-top:1px;
-    padding-left:0;
-    text-indent:0;
-}
-.tasks li ul {
-    display:none;
-}
 /* Task body text */
 .tasks p {
     display:inline;
@@ -110,20 +105,27 @@ a {
     margin-left:7px;
     padding:0px 3px 1px 3px;
 }
+
+.tasks li ul {
+    margin-left:0;
+    margin-top:1px;
+    padding-left:0;
+    text-indent:0;
+}
 .note, .hidden-note {
+    background: none;
+    border: none;
     color:#777;
     display:block;
 	font-size:85%;
 	font-style:italic;
     margin-top:2px;
-    padding-left:20px;
 }
-.hidden-note {
-    display:block;
+
+li.hidden-note + li.note {
+    display: none;
 }
-.reveal {
-    margin-left:20px;
-}
+
 .strike {
     color:#777 !important;
     text-decoration:line-through;
@@ -138,8 +140,4 @@ p.filter-yellow {
     width:12px;
 }
 
-/* Buttons and icons */
-.task-buttons, .task-tools, #edit-tasks {
-    display:none
-}
 
