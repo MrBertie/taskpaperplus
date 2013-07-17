@@ -69,11 +69,11 @@ class Content {
      */
     public $types = array();
     /**
-     * @var array   project_index => item_key (only Projects)
+     * @var array   project number => project index (only Projects)
      */
     public $projects = array();
     /**
-     * @var array   item_key  => project_index (reverse lookup)
+     * @var array   project index => project number (reverse lookup)
      *
      * I.e. which items are Projects?
      */

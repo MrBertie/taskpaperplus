@@ -283,16 +283,16 @@ class Dispatcher extends BasicDispatcher {
     
     protected function action_add() {
 
-        // Where in task list to add the task?
-        $project_index = 0;
+        $project_num = 0;
         $task = $this->request->value;
 
+        // Where in task list to add the task?
         if ($this->state->event == 'project') {
-            $project_index = $this->state->value;
+            $project_num = $this->state->value;
         } else {
-            list($task, $project_index) = $this->_split_task_and_project($task);
+            list($task, $project_num) = $this->_split_task_and_project($task);
         }
-        $task_added = $this->_taskpaper->add($task, $project_index);
+        $task_added = $this->_taskpaper->add($task, $project_num);
 
         return ($task_added ? self::UPDATED : false);
     }

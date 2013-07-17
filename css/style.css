@@ -228,11 +228,10 @@ a:hover {
 .meta h1 { color:#268bd2; }
 .meta h1:nth-child(3) { margin-top:1em; }
 .meta li {
-  line-height:1.6em;
+  line-height:1.4em;
   list-style:none;
-  margin-bottom:2px;
+  margin-bottom:6px;
   margin-left:0.4em;
-  padding-bottom:2px;
 }
 #view-tasks { position:relative; }
 #view-tasks #indicators {
@@ -448,8 +447,8 @@ a:hover {
 .tag {
   color:#93a1a1;
   background:#eaeff7;
-  border:1px dotted #eaeaea;
-  font-size:90%;
+  border:1px solid #f7f5ee;
+  font-size:80%;
   padding:2px 4px;
 }
 .tag:hover {
@@ -459,8 +458,8 @@ a:hover {
 .date-tag {
   color:#93a1a1;
   background:#eaeff7;
-  border:1px dotted #eaeaea;
-  font-size:90%;
+  border:1px solid #f7f5ee;
+  font-size:80%;
   padding:2px 4px;
   background-color:#efe8cf;
 }
@@ -476,7 +475,11 @@ a:hover {
   background:#ffffb7;
   padding:0 4px 0 4px;
 }
-.filters li span { padding:2px 5px 2px; }
+.filters li span {
+  border:1px solid #fdf6e3;
+  font-size:90%;
+  padding:1px 5px 2px;
+}
 .filters li span:hover {
   cursor:pointer;
   border:1px solid #d7d5d4;

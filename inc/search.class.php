@@ -121,7 +121,8 @@ class Search {
                     $sort_args[] = array($projects, $dir, SORT_NUMERIC);
                     break;
                 case 'task':
-                    $sort_args[] = array($tasks, $dir, SORT_STRING);
+                    //$tasks = array_map('strtolower', $tasks);
+                    $sort_args[] = array($tasks, $dir, SORT_STRING | SORT_FLAG_CASE);
                     break;
                 case 'state':
                     $states = $this->_content->task_state;

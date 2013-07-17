@@ -306,29 +306,38 @@ class Taskpaper extends TaskpaperPersist {
      * This is used when adding new tasks from the input box.
      *
      * @param string $new_task      The new task as text, as typed by the user, can include notes, and a project identifier ('/2')
-     * @param int    $project_index The project index (not number!) into which to insert
+     * @param int    $project_num The project nnumber (not index!) into which to insert
      * @return boolean  True on success
      */
-    function add($new_task, $project_index = 0) {
+    function add($new_task, $project_num = 0) {
         $max = self::$_content->project_count - 1;
-        $project_index = ($project_index > $max) ? $max : $project_index;
+        $project_num = ($project_num > $max) ? $max : $project_num;
         $at_top = \tpp\ini('insert_pos') == 'top';
 
-        // edge case: insert at end of list only 1 project exists
-        if ($max == 0 && ! $at_top) {   
+        // edge case: insert at end of list only 1 project exists or last project
+        if (($max == 0 || $project_num == $max) && ! $at_top) {   
             $raw = $this->raw() . "\n" . $new_task;
             self::update(UPDATE_RAW, $raw);
             return true;
             
         // edge case: at top of orphan project (0)
-        } elseif ($project_index == 0 && $at_top) {
+        } elseif ($project_num == 0 && $at_top) {
             $this->replace('010', $new_task);
             return true;
             
         // or insert into a specific Project
-        } elseif ($project_index >= 0 && $project_index < $max) {
-            $offset = ($at_top ? 0 : 1);
-            $key = array_search($project_index + $offset, self::$_content->project_index);
+        } elseif ($project_num >= 0) {
+            if ($project_num > $max) $project_num = $max;
+            if ($at_top) {
+                // find this project's index
+                $proj = array_search($project_num, self::$_content->project_index);
+                // then find the key of the next (task) item
+                $keys = array_keys(self::$_content->raw_items);
+                $key = $keys[array_search($proj, $keys) + 1];
+            } else {
+                // just find the next project's index
+                $key = array_search($project_num + 1, self::$_content->project_index);
+            }
             $this->replace($key, $new_task);
             return true;
         }

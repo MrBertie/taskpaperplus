@@ -397,11 +397,10 @@ a:hover {
         margin-top: 1em;
     }
     li {
-        line-height: 1.6em;
+        line-height: 1.4em;
         list-style: none;
-        margin-bottom: 2px;
+        margin-bottom: 6px;;
         margin-left: 0.4em;
-        padding-bottom: 2px;
     }
 }
 
@@ -632,8 +631,8 @@ a:hover {
 .tag {
     color: @base1;
     background: @tag;
-    border: 1px dotted @bk-gray;
-    font-size: 90%;
+    border: 1px solid @background;
+    font-size: 80%;
     padding: 2px 4px;
     .hover();
 }
@@ -656,7 +655,9 @@ a:hover {
 
 // the filters list
 .filters li span {
-    padding: 2px 5px 2px;
+    border: 1px solid @base3;
+    font-size: 90%;
+    padding: 1px 5px 2px;
     .hover();
 }
 
