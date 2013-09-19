@@ -134,9 +134,9 @@ a:hover:hover {
   border-radius:2.5px;
 }
 #header .search #search-box:active { border-color:#93a1a1; }
+#header .search #search-box.big { height:4.5em; }
 #header .search #search-box::-webkit-input-placeholder { color:#d7d5d4 !important; }
 #header .search #search-box:-moz-placeholder { color:#d7d5d4 !important; }
-#header .search #search-box.big { height:4.5em; }
 #header .search #reset-search {
   display:none;
   height:16px;
@@ -291,6 +291,13 @@ a:hover:hover {
   text-indent:-2em;
 }
 #view-tasks li:hover { background:#fafafa; }
+#view-tasks li .check-done {
+  height:11px;
+  margin:0px;
+  padding:2px 4px;
+  vertical-align:1px;
+  width:11px;
+}
 #view-tasks li.project {
   border:1px transparent solid;
   color:#dc322f;
@@ -317,7 +324,7 @@ a:hover:hover {
 #view-tasks li.task p {
   color:#073642;
   display:inline;
-  margin-left:1px;
+  margin-left:0px;
   padding:2px 3px;
   vertical-align:3px;
 }
@@ -341,17 +348,6 @@ a:hover:hover {
   box-shadow:0px 0px 15px rgba(127,127,127,0.35);
   cursor:pointer;
 }
-#view-tasks li.task input {
-  padding:2px 4px;
-  vertical-align:1px;
-}
-#view-tasks li.task .check-done {
-  height:11px;
-  margin:0px;
-  opacity:0.3;
-  padding-top:2px;
-  width:11px;
-}
 #view-tasks li.task span.task-buttons {
   display:inline-block;
   left:-68px;
@@ -374,12 +370,17 @@ a:hover:hover {
   width:18px;
 }
 #view-tasks li.info {
+  margin-top:4px;
+  margin-left:0.6em;
+  margin-bottom:4px;
+}
+#view-tasks li.info p {
   color:#657b83;
+  display:inline;
   font-size:97%;
   font-weight:normal;
-  margin-bottom:8px;
-  margin-left:1em;
-  margin-top:8px;
+  padding:2px 3px;
+  vertical-align:3px;
 }
 #view-tasks li .note {
   border:0;

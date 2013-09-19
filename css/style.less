@@ -490,6 +490,14 @@ a:hover {
         .box-hover();
         .hanging-indent();
 
+        .check-done {
+            height: 11px;
+            margin: 0px;
+            padding: 2px 4px;
+            vertical-align: 1px;
+            width: 11px;
+        }
+
         &.project {
             border: 1px transparent solid;
             color: @red;
@@ -510,14 +518,13 @@ a:hover {
         }
 
         &.task {
-            //margin-bottom: 0.15em;
             margin-left: 0.6em;
 
             // body text with a task
             p {
                 color: @base02;
                 display: inline;
-                margin-left: 1px;
+                margin-left: 0px;
                 padding: 2px 3px;
                 vertical-align: 3px;
                 &:hover {
@@ -542,19 +549,6 @@ a:hover {
                 .hover();
             }
 
-            input {
-                padding: 2px 4px;
-                vertical-align: 1px;
-            }
-
-            .check-done {
-                height: 11px;
-                margin: 0px;
-                opacity: @faded;
-                padding-top: 2px;
-                width: 11px;
-            }
-
             span.task-buttons {
                 .task-buttons();
             }
@@ -562,12 +556,17 @@ a:hover {
 
         // info lines in task list
         &.info {
-            color: @base00;
-            font-size: 97%;
-            font-weight: normal;
-            margin-bottom: 8px;
-            margin-left: 1em;
-            margin-top: 8px;
+            margin-top: 4px;
+            margin-left: 0.6em;
+            margin-bottom: 4px;
+            p {
+                color: @base00;
+                display: inline;
+                font-size: 97%;
+                font-weight: normal;
+                padding: 2px 3px;
+                vertical-align: 3px;
+            }
         }
 
         // note formatting: for projects, tasks and info lines

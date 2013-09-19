@@ -16,18 +16,17 @@ class TaskTemplate extends Template {
         list($li, $text, $note) = $this->basic_markup($item);
 
         if ($item instanceof model\TaskItem) {
-            $colours = \tpp\lang('state_colours');
-            $done = '';
-            $tags = '';
+            $colours  = \tpp\lang('state_colours');
+            $done     = '';
+            $tags     = '';
             $date_tag = '';
-            $checked = '';
+            $dated    = '';
             $decorate = '';
-            $project = '';
+            $project  = '';
 
             // done always takes precedence; however if not-done, the old state returns
             if ($item->done()) {
                 $done = 'strike';
-                $checked = ' checked="checked"';
                 $decorate = ' class="' . $done . '"';
             } else {
                 $decorate = ' class="bk-' . $colours[$item->action()] .'"';
@@ -42,27 +41,28 @@ class TaskTemplate extends Template {
             }
 
             if ($show_project) {
-                $name = $this->_h($item->project_name());
+                $name    = $this->_h($item->project_name());
                 $project = '<span class="project" id="' . $item->project_key() . '" title="' .
                            '" data-index="' . $item->project_index() . '">' .
                            $name . '</span>';
             }
+            $todo   = empty($date_tag) ? 'images/todo.png' : 'images/event.png';
+            $src    = ($item->done()) ? 'images/done.png' : $todo;
+            $check  = '<input type="image" class="check-done' . $dated . '" src="' . $src . '" id="'. $item->key() . '" title="">';
 
-            $src = ($item->done()) ? 'images/done.png' : 'images/todo.png';
-            $check = '<input type="image" class="check-done" src="' . $src . '" id="'. $item->key() . '" title="">';
-            //$check = '<input type="checkbox" name="'. $item->key() . '" ' . $checked . '>';
-
-            $p = '<p' . $decorate . '>' . $text . '</p>';
+            $p      = '<p' . $decorate . '>' . $text . '</p>';
             $markup = $li . $check . $p . $tags . $date_tag . $project . $note . '</li>';
 
         } elseif ($item instanceof model\ProjectItem) {
-            $index = $item->index();
-            $pfx = ($index > 0) ? $index . $term['proj_sep'] : '';
-            $p = '<p data-index="' . $index . '" title="">' . $pfx . $text . '</p>';
+            $index  = $item->index();
+            $pfx    = ($index > 0) ? $index . $term['proj_sep'] : '';
+            $p      = '<p data-index="' . $index . '" title="">' . $pfx . $text . '</p>';
             $markup = $li . $p . $note . '</li>';
 
         } elseif ($item instanceof model\InfoItem) {
-            $markup = $li . $text . $note . '</li>';
+            $bullet = '<img class="check-done" src="images/bullet.png" />';
+            $text   = '<p>' . $text . '</p>';
+            $markup = $li . $bullet . $text . $note . '</li>';
         }
 
         return $markup . "\n";
@@ -70,14 +70,15 @@ class TaskTemplate extends Template {
 
 
     private function basic_markup(model\BasicItem $item) {
-        $li = '<li class="' . $item->type() . ' editable" title="" id="' . $item->key() . '" name="'. $this->_h($item->raw()) . '">';
+        $li   = '<li class="' . $item->type() . ' editable" title="" id="' . $item->key() . '" name="' . $this->_h($item->raw()) . '">';
         $text = $this->mark_up_syntax($this->_h($item->text()));
         $note = $this->mark_up_note($item);
         return array($li, $text, $note);
     }
 
+    
     function mark_up_note($item) {
-        $text = $this->_h($item->note()->text);
+        $text  = $this->_h($item->note()->text);
         $multi = ($item->note()->len > 1);
         if ( ! empty($text)) {
             $note = '<ul>';
