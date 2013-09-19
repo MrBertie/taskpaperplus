@@ -119,6 +119,10 @@ $lang['sortable_tip']       = 'Déplaçable';
 
 
 // sent with task-buttons
+$lang['next_button_tip']    = "Changer l'êtat: *suivante";
+$lang['wait_button_tip']    = "Changer l'êtat: *attends";
+$lang['maybe_button_tip']   = "Changer l'êtat: *peutêtre";
+$lang['none_button_tip']    = "Changer l'êtat: rien";
 $lang['action_button_tip']  = "Changer l'êtat de cette tâche";
 $lang['archive_button_tip'] = "Archiver cette tâche";
 $lang['trash_button_tip']   = "Effacer cette tâche";
@@ -195,8 +199,8 @@ $jslang['add_msg']            = array('Tâche ajoutée', 'blue');
 $jslang['edit_msg']           = array('Tâche modifiée', 'yellow');
 $jslang['trash_msg']          = array('Tâche effacée', 'red');
 $jslang['arch_msg']           = array('Tâche archivée', 'orange');
-$jslang['all_trash_msg']      = array('Toutes les tâches accomplies ont été effacées', 'orange');
-$jslang['all_arch_msg']       = array('Toutes les tâches accomplies ont été archivées', 'orange');
+$jslang['trash_done_msg']     = array('Toutes les tâches accomplies ont été effacées', 'orange');
+$jslang['arch_done_msg']      = array('Toutes les tâches accomplies ont été archivées', 'orange');
 
 $jslang['rename_msg']         = 'Quel est le nouveau nom pour cet onglet?';
 $jslang['remove_msg']         = 'Supprimer cet onglet';

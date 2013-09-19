@@ -20,26 +20,36 @@ class App {
 
     function __construct() {
 
-        log&&msg('Setting up the app API');
-
-        $this->user = new user\User(APP_PATH . config('user_file'));
-        $this->files = new storage\Files(DATA_DIR, DELETED_DIR,
-                                         config('default_active')
-                                        );
-        $this->cache = new storage\Cache(CACHE_DIR, $this->files);
-        $this->parser = new storage\Parser();
-        $this->states = new user\States($this->files);
-
-        log&&msg('building taskpapers');
-
-        $this->taskpapers = new model\Taskpapers($this->states->active()->tab,
-                                                 $this->files,
-                                                 $this->cache
-                                                );
-        $this->views = new view\Views($this->taskpapers, $this->user);
+        $this->user       = new user\User(APP_PATH . config('user_file'));
+        $this->files      = new storage\Files(DATA_DIR, DELETED_DIR, config('default_active')     
+        );     
+        $this->cache      = new storage\Cache(CACHE_DIR, $this->files);
+        $this->parser     = new storage\Parser();
+        $this->states     = new user\States($this->files);
+        
+        $tab              = $this->state()->address->tab;
+        $this->taskpapers = new model\Taskpapers($tab, $this->files, $this->cache
+        );
+        $this->views      = new view\Views($this->taskpapers, $this->user);
         $this->dispatcher = new control\Dispatcher($this);
 
-        log&&msg('Finished setting up the app API');
+        \log&&msg('Finished setting up the app API');
+    }
+    
+    
+    /**
+     * Always returns current/active taskpaper (convenience func).
+     * @return type
+     */
+    function taskpaper() {
+        return $this->taskpapers->get();
+    }
+    
+    /**
+     * Always returns current/active tab state (convenience func).
+     * @return type
+     */
+    function state() {
+        return $this->states->get();
     }
 }
-?>

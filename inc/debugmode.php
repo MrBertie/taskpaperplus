@@ -62,4 +62,3 @@ function toggle_debug_mode() {
         fclose($f);
     }
 }
-?>

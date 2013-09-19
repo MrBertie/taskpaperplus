@@ -8,6 +8,7 @@ $(document).ready(function () {
     app.init();
     app.show('view');
     app.add_events();
+    app.make_editable();
     app.make_sortable();
     app.loaded();
 });
@@ -96,7 +97,7 @@ var app = (function () {
             post = has_draft || long_value;
 
         // close any editable boxes that might be still open
-        if (data.event !== 'editable' && $body.data('editable') !== null) {
+        if (data.action !== 'editable' && $body.data('editable') !== null) {
             $body.data('editable').editable('destroy');
             $body.data('editable', null);
         }
@@ -135,17 +136,20 @@ var app = (function () {
 
         throbber_off();
 
-        if (response === '__action__') {
+        if (response.type === 'done') {
             return true;
         }
         if (response !== undefined &&
                 response !== null &&
-                response !== '__failed__') {
+                response.type !== 'error' &&
+                response.type !== 'missing') {
 
             restricted = response.restricted;
             update_view(response);
 
-            if (response.address !== '' && $.address.value() !== response.address) {
+            if (response.type === 'address' && 
+                    response.address !== '' && 
+                    $.address.value() !== response.address) {
                 $.address.value(response.address);
             }
             return true;
@@ -170,9 +174,9 @@ var app = (function () {
         // 'sortable' function needs to be added on each refresh
         if ($task_list.children("#sortable").length) {
             $task_list.children("#sortable").sortable({
-                update: function (event, ui) {
+                update: function (action, ui) {
                     var order = $(this).sortable('toArray');
-                    request({event: 'sort', value: order});
+                    request({action: 'sort', value: order});
                 }
             });
             $("#sortable").show();
@@ -180,8 +184,51 @@ var app = (function () {
             $("#sortable").hide();
         }
     };
-
-
+    
+    
+    pub.make_editable = function () {
+        if ($body.data('editable') === null) {
+            $('li.editable').editable(function (value) {
+                var $that = $(this);
+                request({action: 'editable', key: $that.attr("id"), value: value}, function () {
+                    $body.data('editable', null);
+                    show_message(lang.edit_msg);
+                });
+            },
+            {
+                type:      'textarea',
+                indicator: 'css/img/indicator.gif',
+                event:     'dblclick',
+                onblur:    'ignore',
+                cssclass:  'editable-box',
+                cols:      40,
+                rows:      3,
+                submit:    '<img class="top" src="images/save.png" title="' + lang.save_tip + '">',
+                cancel:    '<img class="bottom" src="images/cancel.png" title="' + lang.cancel_tip + '">',
+                data:     function () {
+                    // the raw text is stored in the name attribute
+                    var text = $(this).attr("name");
+                    return text;
+                },
+                onedit:   function () {
+                    hide_task_button_tpl();
+                    $body.data('editable', this);
+                    var $form = $(this).children('form');
+                    var $edit_area = $form.children('textarea');
+                    $edit_area.bind('keydown', 'ctrl+return meta+return', function () {
+                        $form.trigger('submit');
+                    });
+                    var txt = $edit_area[0];
+                    txt.selectionStart = txt.selectionEnd = txt.value.length;
+                },
+                onreset:  function () {
+                    $body.data('editable', null);
+                }
+           });
+        }
+    }
+    
+    
     /*
      * refreshes various parts of the view based on JSON data
      * returned to render function
@@ -189,7 +236,7 @@ var app = (function () {
     var update_view = function (response) {
 
         // show edit area if necessary
-        if (response.event === 'edit') {
+        if (response.type === 'edit') {
             pub.show('edit');
             $text_area.val(response.text);
         } else {
@@ -201,6 +248,7 @@ var app = (function () {
         if (response.tasks !== undefined) {
             $task_list.html(response.tasks);
             pub.make_sortable();
+            pub.make_editable();
         }
         if (response.projects !== undefined) {
             $("#projects").html(response.projects);
@@ -259,6 +307,15 @@ var app = (function () {
             $("#insert img#bottom").show();
         }
     };
+    
+    
+    var hide_task_button_tpl = function (target) {
+        if (target === undefined) {
+            $(".task-buttons").remove();
+        } else {
+            $(target).children(".task-buttons").remove();
+        }
+    };
 
 
     String.prototype.count = function (delim) {
@@ -269,42 +326,42 @@ var app = (function () {
     pub.add_events = function () {
 
         $(".logo").on("click", "a", function() {
-            request({event: 'all'});
+            request({action: 'all'});
         });
         
-        // toggle debug-mode
         $(".version")
+            // toggle debug-mode
             .on("dblclick", "span", function(e) {
                 if (e.shiftKey) {
                     var result = confirm(lang.debug_msg);
                     if (result) {
-                        request({event: 'toggle_debug'});
+                        request({action: 'toggle_debug'});
                         window.setTimeout("window.location.reload()", 1000);
                         $index_load.val('false');
                     }
                 }
             })
             .on("dblclick", "#purge-session", function () {
-                request({event: 'purgesession'}, function() {
+                request({action: 'purgesession'}, function() {
                     show_message(['Session cleared! Reloading...', 'green']);
                     window.setTimeout("window.location.reload()", 1500);
                     $index_load.val('false');
                 });
             })
             .on("dblclick", "#purge-cache", function () {
-                request({event: 'purgecache'}, function() {
+                request({action: 'purgecache'}, function() {
                     show_message(['Cache cleared!', 'yellow']);
                 });
             });
             
         $("#footer")
             .on("click", "#logout", function() {
-                request({event: "logout"}, function() {
+                request({action: "logout"}, function() {
                     window.setTimeout("window.location.reload()", 1000);
                 });
             })
             .on("change", "select", function () {
-                request({event: 'lang', value: this.value}, function () {
+                request({action: 'lang', value: this.value}, function () {
                     show_message([lang.lang_change_msg, 'green']);
                     window.setTimeout("window.location.reload()", 1000);
                 });
@@ -312,7 +369,7 @@ var app = (function () {
             
         $("#indicators")
             .on("click", "#insert", function() {
-                request({event: 'toggle_insert'}, function() {
+                request({action: 'toggle_insert'}, function() {
                     var pos = $insert_pos.val();
                     $insert_pos.val(pos === 'top' ? 'bottom' : 'top');
                     pub.toggle_insert();
@@ -353,7 +410,7 @@ var app = (function () {
                     expression = task_prefix + " " + expression;
                 }
                 // new task to be added
-                request({event: 'add', value: expression}, function () {
+                request({action: 'add', value: expression}, function () {
                     show_message(lang.add_msg);
                     $search_box.removeClass("big");
                     reset_search();
@@ -366,10 +423,10 @@ var app = (function () {
         var do_search = function () {
             var expression = $search_box.val();
             if (expression !== "") {
-                request({event: 'search', value: expression});
+                request({action: 'search', value: expression});
             // enter in a blank box == reset (common practice)
             } else {
-                request({event: 'all'});
+                request({action: 'all'});
             }
         };
 
@@ -413,41 +470,41 @@ var app = (function () {
         // Tab toolbar
 
         var save_edits = function () {
-            request({event: 'save', value: $text_area.val()});
+            request({action: 'save', value: $text_area.val()});
             $text_area
                 .unbind('keydown', 'ctrl+return meta+return', save_edits)
                 .unbind('keydown', 'esc', reset);
         };
         $("#edit-button").on("click", function () {
-            request({event: 'edit'}, function () {
+            request({action: 'edit'}, function () {
                 $text_area
                     .bind('keydown', 'ctrl+return meta+return', save_edits)
                     .bind('keydown', 'esc', reset);
             });
         });
         $("#remove-actions-button").on("click", function () {
-            request({event: 'remove_actions'});
+            request({action: 'remove_actions'});
         });
         $("#archive-done-button").on("click", function () {
-            request({event: 'archive_done'}, function () {
+            request({action: 'archive_done'}, function () {
                 show_message(lang.arch_done_msg);
             });
         });
         $("#trash-done-button").on("click", function () {
-            request({event: 'trash_done'}, function () {
+            request({action: 'trash_done'}, function () {
                 show_message(lang.trash_done_msg);
             });
         });
         $("#rename-button").on("click", function () {
             var new_name = prompt(lang.rename_msg);
             if (new_name !== null && new_name !== "") {
-                request({event: 'rename', value: new_name});
+                request({action: 'rename', value: new_name});
             }
         });
         $("#remove-button").on("click", function () {
             var result = confirm(lang.remove_msg);
             if (result === true) {
-                request({event: 'remove'});
+                request({action: 'remove'});
             }
         });
 
@@ -455,7 +512,7 @@ var app = (function () {
         // Inside Text Edit box
 
         var reset = function () {
-            request({event: 'all'});
+            request({action: 'all'});
         };
 
         $edit_tasks
@@ -483,7 +540,7 @@ var app = (function () {
         $("#tabs").on("click", "li", function (e) {
             e.preventDefault();
             var draft = '',
-                tab = $(this).attr("name");
+                  tab = $(this).attr("name");
 
             // pass the draft text state if the edit area is visible
             if ($edit_tasks.css("display") !== "none") {
@@ -494,19 +551,20 @@ var app = (function () {
                 var new_name = '';
                 new_name = prompt(lang.create_msg);
                 if (new_name !== null && new_name !== "") {
-                    request({event: 'show', tab: new_name, draft: draft}, function () {
+                    request({action: 'tab', value: new_name, draft: draft}, function () {
                         $text_area.focus();
                     });
                 }
+            // standard tab change    
             } else {
-                request({event: 'show', tab: tab, draft: draft});
+                request({action: 'tab', value: tab, draft: draft});
             }
         });
 
 
 
         var show_project = function (target) {
-            request({event: 'project', value: $(target).attr("data-index")});
+            request({action: 'project', value: $(target).attr("data-index")});
         };
 
         $(".projects").on("click", "li", function () {
@@ -514,22 +572,17 @@ var app = (function () {
         });
 
         var show_tag = function (target) {
-            request({event: 'tag', value: target.innerHTML});
+            request({action: 'tag', value: target.innerHTML});
         };
 
         // filter list in meta column
         $(".meta")
             .on("click", ".filters li span", function () {
-                request({event: 'filter', value: $(this).attr("id")});
+                request({action: 'filter', value: $(this).attr("id")});
             })
             .on("click", "li .tag", function () {
                 show_tag(this);
             });
-
-
-        var hide_task_button_tpl = function (target) {
-            $(target).children(".task-buttons").remove();
-        };
 
 
         // all events in the main task list area
@@ -537,8 +590,12 @@ var app = (function () {
         $task_list
             // add or remove the task buttons
             .on("mouseenter", "li.task", function () {
-                var tpl = task_button_tpl.replace(/\{id\}/gm, $(this).attr("id"));
-                $(tpl).appendTo(this);
+                var $me = $(this);
+                if ($me.has("form").length !== 0) {
+                    return;
+                }
+                var tpl = task_button_tpl.replace(/\{id\}/gm, $me.attr("id"));
+                $(tpl).appendTo($me);
             })
             .on("mouseleave", "li.task", function () {
                 hide_task_button_tpl(this);
@@ -547,18 +604,19 @@ var app = (function () {
 
             // all the task buttons
             .on("click", "li .check-done", function () {
-                request({event: 'done', value: $(this).attr("id")});
+                request({action: 'done', value: $(this).attr("id")});
             })
             .on("click", "li .action-button", function () {
-                request({event: 'action', value: $(this).attr("id")});
+                var $me = $(this);
+                request({action: 'action', key: $me.attr("id"), value: $me.attr("data-action")});
             })
             .on("click", "li .archive-button", function () {
-                request({event: 'archive', value: $(this).attr("id")}, function () {
+                request({action: 'archive', value: $(this).attr("id")}, function () {
                     show_message(lang.arch_msg);
                 });
             })
             .on("click", "li .trash-button", function () {
-                request({event: 'trash', value: $(this).attr("id")}, function () {
+                request({action: 'trash', value: $(this).attr("id")}, function () {
                     show_message(lang.trash_msg);
                 });
             })
@@ -583,71 +641,22 @@ var app = (function () {
             // show a project
             .on("click", "li.project>p, li .project", function () {
                 show_project(this);
-            })
-
-
-            // editable attr only added when user clicks
-            .on("click", "li.editable", function () {
-                var that = $(this),
-                    text = that.attr("name"),
-                    rows = text.count("\n");
-
-                rows = (rows > 1) ? rows : 2;
-
-                if ($body.data('editable') === null) {
-                    that.editable(function (value) {
-                        request({event: 'editable', key: that.attr("id"), value: value}, function () {
-                            $body.data('editable', null);
-                            show_message(lang.edit_msg);
-                        });
-                    },
-                        {
-                            type: 'textarea',
-                            /*tooltip: editable_tip,*/
-                            indicator: 'css/img/indicator.gif',
-                            event: 'dblclick',
-                            onblur: 'ignore',
-                            cssclass: 'editable-box',
-                            cols: 40,
-                            rows: rows + 1,
-                            submit: '<img class="top" src="images/save.png" title="' + lang.save_tip + '">',
-                            cancel: '<img class="bottom" src="images/repeat.png" title="' + lang.cancel_tip + '">',
-                            data: function () {
-                                hide_task_button_tpl(that);
-                                $body.data('editable', that);
-                                return text;
-                            },
-                            onedit: function () {
-                                var edit_area = that.find('form textarea');
-                                edit_area.bind('keydown', 'ctrl+return meta+return', function () {
-                                    that.find('form').trigger('submit');
-                                });
-                                edit_area[0].selectionStart = edit_area[0].selectionEnd = edit_area[0].value.length;
-                            },
-                            onreset: function () {
-                                $body.data('editable', null);
-                            }
-                        });
-                }
             });
-
 
 
         $.address.externalChange(function (e) {
             var address = e.pathNames,
-                tab = address[0];
-            // ignore page load events
+                    tab = address[0];
+            // ignore page load events or invalid addresses (i.e. at least tab must be provided)
             if (is_index === 'false' && tab !== undefined) {
-                var state = address[1] === undefined ? '' : address[1];
-                var value = address[2] === undefined ? '' : address[2];
-                request({event: 'show', tab: tab, state: state, value: value});
+                request({action: 'url', value: address});
             }
         });
 
 
         /* TOOLTIPS */
 
-        $view_tasks
+        $task_list
             .on("hover", "li.task>p", function () {
                 $(this).attr("title", lang.edit_in_place_tip);
             })

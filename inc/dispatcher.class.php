@@ -1,486 +1,441 @@
 <?php
 namespace tpp\control;
-use tpp, tpp\User\State as State;
+use tpp, tpp\user\Address as Address;
 
 
-/**
- * Basic router/dispatcher, based on calling correct function by naming convention.
- *
- * @author Symon Bent
- */
-class BasicDispatcher {
+class Dispatcher extends DispatcherBase {
+    
+    private $app;
+    private $request;
+    private $mapping;
+    
+    const STATEFUL = '_state';
 
-    const PFX_ACTION = 'action_';
-    const PFX_STATE = 'state_';
-
-    const FAILED = '__failed__';
-    const ACTION = '__action__';
-    const UPDATED = '__updated__';
-    const NEWSTATE = '__newstate__';
-
-    public $request;
-    public $state;
-
-
+    
     /**
-     * @param \tpp\control\State $state Current active Tab/view State
-     * @param array $default    Default request parameters
+     * @param Request   $request    An instance of the http request (@see class Request)
+     * @param App       $app        An instance of the web-app class, for use by the dispatch functions
      */
-    function __construct(State $state, Array $defaults) {
-        $this->state = $state;
-        $this->request = new Request($defaults);
+    function __construct(tpp\App $app) {
+        $this->app     = $app;
+        $this->request = new Request();
+        // the $mapping defines the order in which the request parameters
+        // should be passed to the handler functions
+        $this->mapping = array(
+            'action' => DEFAULT_ACTION,
+            'tab'    => $app->state()->address->tab,
+            'key'    => '',
+            'value'  => DEFAULT_VALUE,
+            'draft'  => null,
+        );
     }
-
+    
+    
     /**
-     * Main response function: all page requests pass through here.
-     *
-     * The request is dispatched to the correct PHP function based on a simple naming convention: either as an INDEX (i.e. page load), ACTION or a STATE
-     *
-     * Html/Json response is send directly to browser
-     */
-    function respond() {
-
-        $request = & $this->request;
-        $response = false;
-
-        // first check for page refresh or first load
-        if ($this->request->source == REQ_INDEX) {
-            $state = $request->to_state(true);
-            $response = $this->_do_index($state);
-
-        } else {
-
-            // next try for action event
-            if ( ! $response) {
-                $response = $this->_do_action($request);
-            }
-
-            // then fall back to state event
-            if ( ! $response) {
-                $state = $request->to_state();
-                $response = $this->_do_state($state);
-            }
-        }
-
-        // send response content to browser
-        if ($response !== false) {
-            if ($request->source == REQ_AJAX) {
-                header('Content-type: application/json', true, 200);
-                // no caching for ajax responses
-                header("Cache-Control: no-cache, must-revalidate");
-                header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-                $response = json_encode($response);
-            } else {
-                header('Content-type: text/html; charset=utf-8');
-            }
-            echo $response;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private function _do_index(State $state) {
-
-        log&&msg('found index EVENT, state: ', $state);
-
-        $response = $this->index($state);
-        $state->activate();
-        return $response;
-    }
-
-    /**
-     * ACTIONS: carry out an action, but do not return a new page state.
-     * Only Ajax requests can do an action!
-     *
-     * @param \tpp\control\Request $request
+     * Start the dispatcher.
+     * 
      * @return boolean
      */
-    private function _do_action(Request $request) {
-
-        $ajax = $request->source == REQ_AJAX;
-        $has_action = ! is_null($request->event);
-        $action_exists = method_exists($this, self::PFX_ACTION . $request->event);
-        if ($ajax && $has_action && $action_exists) {
-            $response = call_user_func(array($this, self::PFX_ACTION . $request->event), $request);
-
-            log&&msg('found ACTION from: ', $request);
-
-            // only content updated, return previous STATE
-            if ($response == self::UPDATED) {
-                $response = $this->_do_state($this->state);
-
-            // internal action, no visible changes
-            } elseif ($response == self::ACTION) {
-                $response =  array('type' => self::ACTION);
-
-            // this action led to another STATE
-            } elseif ($response instanceof State) {
-                $response = $this->_do_state($response);
-
-            // failure!
-            } elseif ($response === false
-                        || empty($response)
-                        || $response == self::FAILED) {
-                $response =  array('type' => self::FAILED);
-            }
-            return $response;
-        }
-        return false;
-    }
-
-    /**
-     * STATE: Create and set the final page state (address).
-     *
-     * @param \tpp\control\State $state
-     */
-    private function _do_state(State $state = null) {
-
-        if (method_exists($this, self::PFX_STATE . $state->event)) {
-
-            log&&msg('found state EVENT, setting state to: ', $state);
-
-            $response = call_user_func(array($this, self::PFX_STATE . $state->event), $state);
-
-            if ($response !== false) {
-                $response['event'] = $state->event;
-                $response['address'] = $state->to_address();
-
-                // this state becomes the new Active
-                $state->activate();
-
-                log&&msg('called STATE:', $state, 'RESPONSE is: ', $response);
-                return $response;
-            }
-        }
-        return false;
-    }
-}
-
-
-
-class Dispatcher extends BasicDispatcher {
-
-    protected $_cache;
-    protected $_files;
-    protected $_states;
-    protected $_taskpaper;
-    protected $_taskpapers;
-    protected $_user;
-    protected $_views;
-
-    const TAB_NONE      = 0;
-    const TAB_SAME      = 1;
-    const TAB_CHANGED   = 2;
-    const TAB_NEW       = 3;
-
-    function __construct(tpp\App $app) {
-
-        log&&msg('constructing Dispatcher');
-
-        $this->_states = $app->states;
-        $this->_taskpapers = $app->taskpapers;
-        $this->_taskpaper = $app->taskpapers->active();
-        $this->_views = $app->views;
-        $this->_files = $app->files;
-        $this->_user = $app->user;
-        $this->_cache = $app->cache;
-
-        $this->state = $app->states->active();
-
-        // defaults for missing request params
-        // (needed later to ensure a valid state)
-        $default = array();
-        $default['tab']  = $this->state->tab;
-        $default['event'] = DEFAULT_EVENT;
-        $default['value'] = DEFAULT_VALUE;
-        $default['draft'] = null;
-
-        parent::__construct($this->state, $default);
-    }
-
-
-    function respond() {
-
-        $request = & $this->request;
-
-        log&&msg('beginning the response; request is:', $request);
-
-        // save any draft text...
-        if ($this->state->event == 'edit' && ! empty($this->request->draft)) {
-            $this->state->draft = $request->draft;
-            $this->state->save();
-        }
-
-        if ($request->source == REQ_INDEX) {
-            $request->tab = $this->state->tab;
-        }
-        parent::respond();
-
-        log&&msg('finished response, state saved as:', $this->_states->active());
-    }
-
-
-
-    /**
-     * Main start up Index page: full rebuild back to default view.
-     *
-     * @param State $state
-     */
-    protected function index(State $state) {
-        $this->_change_tab($state->tab);
-        $address = $state->to_address();
-        $view = $this->_views->index($address);
-        return $view;
-    }
-
-
-    // **********************************
-    // STATES: returns a new page address
-    // **********************************
-
-    protected function state_all() {
-        return $this->_views->all_json();
-    }
-
-    protected function state_search(State $state) {
-        if ( ! empty($state->value)) {
-            $result = $this->_taskpaper->search()->by_expression($state->value);
-            return $this->_views->results_json($result);
+    function start() {
+        if ($this->before()) {
+            return $this->route($this->request);
         } else {
             return false;
         }
     }
-
-    protected function state_filter(State $state) {
-        $result = $this->_taskpaper->search()->by_named_filter($state->value);
-        return $this->_views->results_json($result);
-    }
-
-    protected function state_tag(State $state) {
-        $result = $this->_taskpaper->search()->by_tag($state->value);
-        return $this->_views->results_json($result);
-    }
-
+    
+    
     /**
-     * Returns a Project state, which is referenced by *index* number not key.
-     * This allows Projects to be saved as links.
+     * Tee main routing function, all routing passes through here!
+     * 
+     * Request: Http request routing, mapped to sequence of args as for states.
+     * State:   The current tab name is passed to stateful route functions
+     *          Used for constructing the final page address.
+     *          Stateful functions also have '_state' appended to end of function name
+     * None:    Defaults to current state
+     * Args:    Array consisting of:  tab, action, value (as per address!)
+     *          Used for manually setting page state (e.g. via the url bar).
+     *          These should always be stateful.
+     *          Converts from tab,action,value (url hash) to action, tab, value (internal call)
+     * Tab:     New tab name only, therefore try to get action and value from previous state of this tab
+     * 
+     * @param mixed $dest Either null, State, Request, array of args, or string (tab name)
+     * @return boolean On success or failure
      */
-    protected function state_project(State $state) {
-        return $this->_views->project_json($state->value);
+    protected function route($dest = null) {
+        $tab = '';
+        $is_action = false;
+        
+        \log&&msg('Current state is:', $this->app->state()->address);
+        
+        // Request
+        if ($dest instanceof Request) {
+            $request = $dest;
+            // special index page build route
+            if ($request->source == REQ_INDEX) {
+                // a couple of little dev parameters, useful for resetting
+                // when things get pear shaped
+                if (isset($request->purge_session)) {
+                    $this->purgesession();
+                    return;
+                } elseif (isset($request->purge_cache)) {
+                    $this->purgecache();
+                    return;
+                }
+                $this->index();
+                return true;
+            } else {
+                $args = $this->_map_request($request, $this->mapping);
+                if (method_exists($this, $args[0] . self::STATEFUL)) {
+                    $func = array_shift($args);
+                    $tab  = (isset($request->tab)) ?
+                            $request->tab :
+                            $this->app->state()->address->tab;
+                    $args = array_merge((array) $func, (array) $tab, $args);
+                } else {
+                    $is_action = true;
+                }
+            }
+        
+        // State
+        } elseif ($dest instanceof Address) {
+            $address = $dest;
+            $args    = array($address->action,
+                             $address->tab,
+                             $address->value);
+            
+        // None
+        } elseif ($dest === null) {
+            $address = $this->app->state()->address;
+            $args    = array($address->action,
+                             $address->tab,
+                             $address->value);
+        
+        // Manual args
+        } elseif (is_array($dest)) {
+            $args = array($dest[1], $dest[0], $dest[2]);
+        
+        // Just a tab name only
+        } elseif (is_string($dest)) {
+            $tab     = $dest;
+            $address = $this->app->states->get($tab)->address;
+            $args    = array($address->action, $tab, $address->value);
+        
+        // Abject failure...
+        } else {
+            
+            \log&&msg('No route matched.  Destination was: ', $dest);
+            
+            return false;
+        }
+        if ( ! $is_action) {
+            $args[0] .= self::STATEFUL;
+        }
+        
+        \log&&msg('Destination was:', $dest, "\tRouting to:", $args);
+        
+        return parent::route($args);
     }
 
-    protected function state_edit(State $state) {
-        $text = ( ! empty($state->draft)) ? $state->draft : $this->_taskpaper->raw();
-        return $this->_views->edit_json($text);
+
+    // Abstract hook functions that **MUST** be overridden
+
+
+    protected function before() {
+        // first confirm is user is logged in
+        $logged_in = $this->app->user->do_login();
+        return $logged_in;
     }
 
+
+    protected function before_route(&$func, &$args) {
+        // if user was in an 'edit' state then save any draft text to current state
+        $state = $this->app->state();
+        if ($state->address->action == 'edit' && ! empty($this->request->draft)) {
+            $state->draft = $this->request->draft;
+            $state->save();
+        }
+    }
+    
+    
+    protected function before_html_response(Array &$response) {}
+    
+    
+    protected function before_json_response(Array &$response) {}
+    
+    
+    protected function after_response(Array &$response, Address $address = null) {
+        // the state of all address type responses are saved by default
+        if ( ! empty($address)) {
+            $this->app->states->set($address)->save();
+        }
+        
+        log&&msg('JSON response was:', $response, 'Setting state address to:', $address);
+    }
+
+    
+    // ****************************************
+    // INDEX: inital page load
+    // ****************************************
+    
+
+    function index() {
+        $address = $this->app->state()->reset()->address;
+        $this->app->taskpapers->set($address->tab);
+        $view    = $this->app->views->index(strval($address));
+        $this->respond(eRespType::INDEX, $view, $address);
+    }
+
+    
+    // *****************************************
+    // STATEFUL requests, => new page address
+    // *****************************************
+
+    function all_state($tab) {
+        $view    = $this->app->views->all()->json('tasks') +
+                   $this->app->views->meta();
+        $this->respond(eRespType::ADDRESS, $view, new Address($tab));
+    }
+
+    function search_state($tab, $expression) {
+        $view = $this->app->views->search($expression)->json('tasks') + 
+                $this->app->views->meta();
+        $this->respond(eRespType::ADDRESS, $view, new Address($tab, 'search', $expression));
+    }
+    
+    function filter_state($tab, $filter) {
+        $view = $this->app->views->filter($filter)->json('tasks') + 
+                $this->app->views->meta();
+        $this->respond(eRespType::ADDRESS, $view, new Address($tab, 'filter', $filter));
+    }
+
+    function tag_state($tab, $tag) {
+        $view = $this->app->views->tag($tag)->json('tasks') + 
+                $this->app->views->meta();
+        $this->respond(eRespType::ADDRESS, $view, new Address($tab, 'tag', $tag));
+    }
+
+    function project_state($tab, $project) {
+        $view = $this->app->views->project($project)->json('tasks') + 
+                $this->app->views->meta();
+        $this->respond(eRespType::ADDRESS, $view, new Address($tab, 'project', $project));
+    }
+
+    function edit_state($tab) {
+        $text = ( ! empty($this->state->draft)) ? 
+                $this->state->draft : 
+                $this->app->taskpaper()->raw();
+        $view = array('text' => $text) + $this->app->views->meta();
+        $this->respond(eRespType::EDIT, $view, new Address($tab, 'edit'));
+    }
+    
 
     // *****************************************
     // ACTION ONLY requests, no new page address
     // *****************************************
     
     
-    protected function action_add() {
-
+    function add($task) {
         $project_num = 0;
-        $task = $this->request->value;
 
-        // Where in task list to add the task?
-        if ($this->state->event == 'project') {
-            $project_num = $this->state->value;
+        // Which project to add the task to?
+        $address = $this->app->state()->address;
+        if ($address->action == 'project') {
+            $project_num = $address->value;
         } else {
             list($task, $project_num) = $this->_split_task_and_project($task);
         }
-        $task_added = $this->_taskpaper->add($task, $project_num);
-
-        return ($task_added ? self::UPDATED : false);
+        $success = $this->app->taskpaper()->add($task, $project_num);
+        if ($success) {
+            $this->route();
+        }
+        return $success;
     }
 
-    protected function action_sort() {
-        if ($this->state->event == 'project') {
-            $project = $this->state->value;
+    protected function sort($order) {
+        $address = $this->app->state()->address;
+        if ($address->action == 'project') {
+            $project = $address->value;
         } else {
             $project = null;
         }
-        $this->_taskpaper->reorder($this->request->value, $project);
-        return self::UPDATED;
+        $this->app->taskpaper()->reorder($order, $project);
+        $this->route();
     }
 
-    protected function action_save() {
-        $this->_taskpaper->update(UPDATE_RAW, $this->request->value);
-        // saving true reverts to default state, removing old draft text
-        $state = $this->request->to_state(true);
-        return $state;
+    protected function save($raw) {
+        $this->app->taskpaper()->update(UPDATE_RAW, $raw);
+        $this->app->state()->reset()->save();
+        $this->route();
     }
 
-    protected function action_done() {
-        $task = $this->_taskpaper->items[$this->request->value];
-        $task->done( ! $task->done());
-        return self::UPDATED;
+    protected function done($item) {
+        $this->app->taskpaper()->items($item)->done('swap');
+        $this->route();
     }
 
-    protected function action_action() {
-        $task = $this->_taskpaper->items[$this->request->value];
-        $task->action($task->action() + 1);
-        return self::UPDATED;
+    protected function action($item, $action) {
+        $this->app->taskpaper()->items($item)->action($action);
+        $this->route();
     }
 
-    protected function action_remove_actions() {
-        $this->_taskpaper->remove_actions();
-        return self::UPDATED;
+    protected function remove_actions() {
+        $this->app->taskpaper()->remove_actions();
+        $this->route();
     }
 
-    protected function action_archive_done() {
-        $this->_taskpaper->archive_done();
-        return self::UPDATED;
+    protected function archive_done() {
+        $this->app->taskpaper()->archive_done();
+        $this->route();
     }
 
-    protected function action_trash_done() {
-        $this->_taskpaper->trash_done();
-        return self::UPDATED;
+    protected function trash_done() {
+        $this->app->taskpaper()->trash_done();
+        $this->route();
     }
 
-    protected function action_archive() {
-        $this->_taskpaper->archive($this->request->value);
-        return self::UPDATED;
+    protected function archive($item) {
+        $this->app->taskpaper()->archive($item);
+        $this->route();
     }
 
-    protected function action_trash() {
-        $this->_taskpaper->trash($this->request->value);
-        return self::UPDATED;
+    protected function trash($item) {
+        $this->app->taskpaper()->trash($item);
+        $this->route();
     }
 
-    protected function action_rename() {
-        $name = $this->_taskpapers->rename($this->request->value);
-        $this->state->tab = $name;
-        return self::UPDATED;
+    protected function rename($name) {
+        $tab = $this->app->taskpapers->rename($name);
+        $this->app->state()->update(new Address($tab))->save();
+        $this->route();
     }
 
-    protected function action_remove() {
-        $name = $this->_taskpapers->delete();
-        $this->_taskpaper = $this->_taskpapers->active($name);
-        $state = $this->_states->item($name);
-        return $state;
-    }
-
-    protected function action_editable() {
-        if ( ! empty($this->request->key)) {
-            $key = $this->request->key;
-            $text = $this->request->value;
-            $items = $this->_taskpaper->items();
-            $items[$key]->raw($text);
-            return self::UPDATED;
+    protected function remove() {
+        $success = $this->app->taskpapers->delete();
+        if ($success) {
+            // grab the first tab (default when current tab is missing)
+            $tab = $this->app->taskpaper()->name();
+            $this->route($tab);
         }
-        return false;
+    }
+
+    protected function editable($key, $text) {
+        if ( ! empty($key)) {
+            $this->app->taskpaper()->items($key)->raw($text);
+            $this->route();
+        }
     }
 
 
-    protected function action_purgesession() {
+    // actions with no direct content change or update
+    
+    
+    protected function purgesession() {
         session_destroy();
-        return self::ACTION;
+        $this->respond(eRespType::DONE);
     }
 
-    protected function action_purgecache() {
-        $this->_cache->purge();
-        return self::ACTION;
+    protected function purgecache() {
+        $this->app->cache->purge();
+        $this->respond(eRespType::DONE);
     }
 
-    protected function action_lang() {
-        \tpp\ini('language', $this->request->value);
-        return self::ACTION;
+    protected function lang($lang) {
+        \tpp\ini('language', $lang);
+        $this->respond(eRespType::DONE);
     }
     
-    protected function action_toggle_debug() {
+    protected function toggle_debug() {
         \tpp\toggle_debug_mode();
-        return self::ACTION;
+        $this->respond(eRespType::DONE);
     }
     
-    protected function action_logout() {
-        $this->_user->logout();
-        return self::ACTION;
+    protected function logout() {
+        $this->app->user->logout();
+        $this->respond(eRespType::DONE);
     }
     
-    protected function action_toggle_insert() {
+    protected function toggle_insert() {
         $cur = \tpp\ini('insert_pos');
         $pos = ($cur == 'top' ? 'bottom' : 'top');
         \tpp\ini('insert_pos', $pos);
-        return self::ACTION;
+        $this->respond(eRespType::DONE);
+    }
+    
+    
+    protected function url($url_hash) {
+        $address = $this->_split_address($url_hash);
+        if (empty($address->action)) {
+            $address->reset();
+        }
+        return $this->show($address);
     }
 
     
-    /**
-     * Show a specific tab state. Always returns a new state.
-     *
-     * Used by url, change tab, and new tab requests.
-     *
-     * @param Request $request
-     */
-    protected function action_show() {
-
-        $tab = $this->request->tab;
-        $text = $this->request->value;
-
-        $what_changed = $this->_change_tab($tab, $text);
-
-        switch ($what_changed) {
-            case self::TAB_SAME:
-                $state = $this->request->to_state(true);
-
-                log&&msg('refresh tab: leave state as:', $state);
-
-                break;
-
-            case self::TAB_CHANGED:
-                $state = $this->_states->item($tab);
-
-                log&&msg('change tab: setting state to:', $state);
-
-                break;
-
-            case self::TAB_NEW:
-                $state = $this->request->to_state();
-
-                // which default edit state?
-                $state->event = tpp\config('edit_new_tab') ? 'edit' : 'all';
-                if ($state->event == 'all') {
-                    // edit event set the draft text as a value
-                    $state->value = '';
-                }
-                log&&msg('new tab: setting state to:', $state);
-
-                break;
-
-            default:
-                $state = false;
-        }
-        return $state;
+    protected function tab($tab) {
+        return $this->_show(new Address($tab, null, null));
     }
+    
+    
+    /**
+     * Show a specific tab state. Always routes to the new state.
+     * 
+     * If tab does not exist it will be created.  If the tab name is the same as the previous state then the tab state will be reset.
+     *
+     * @param string | Address $address  Full page address OR just Tab name
+     * @aram $text  Text content if this is a new tab
+     */
+    private function _show(Address $address) {
 
+        $tab = $address->tab;
 
-    private function _change_tab($name, $text = null) {
+        if ($this->app->taskpapers->exists($tab)) {
+            // existing tab with no action provided => route to current tab state
+            if ($address->action === null) {
+                $address = $this->app->states->get($tab)->address;
+            }
 
-        if ($this->_taskpapers->exists($name)) {
+            // Is it the same tab: if so reset tab state
+            if ($tab === $this->app->state()->address->tab) {
 
-            if ($name == $this->state->tab) {
-                return self::TAB_SAME;
-
+                log&&msg('same as current address: ', $address . ' therefore no change.');
+                $this->route($address->reset());
+            // Or a different one?
             } else {
-                $this->_taskpaper = $this->_taskpapers->active($name);
-                return self::TAB_CHANGED;
+                $this->app->taskpapers->set($tab);
+
+                log&&msg('routing to:', $address);
+                $this->route($address);
             }
 
         } else {
-            $new_tab = $this->_taskpapers->create($name, $text);
-            if ($new_tab !== false) {
-                $this->_taskpaper = $this->_taskpapers->active($new_tab);
-                return self::TAB_NEW;
+            
+            // Or finally a new tab?
+            $tab = $this->app->taskpapers->create($tab);
+            if ($tab !== false) {
+                
+                $this->app->taskpapers->set($tab);
+
+                // which default edit state? Set the draft text if 'edit'
+                $action = tpp\config('edit_new_tab') ? 'edit' : 'all';
+                $address = new Address($tab, $action, null);
+
+                log&&msg('new tab: setting state to:', $this->app->state());
+                
+                $this->route($address);
+            } else {
+
+                // Or plain ol' abject failure of course...
+                return false;
             }
         }
-        return self::TAB_NONE;
     }
-
-        /**
+    
+    
+    // +++++++++++++++++++++++++++++++++++++++++++ //
+    
+    
+    /**
      * grab project number from end of a user-inputed task
      */
     private function _split_task_and_project($task) {
@@ -495,5 +450,46 @@ class Dispatcher extends BasicDispatcher {
             $project = (int) trim($match[2], ":/ ");
         }
         return array($text, $project);
+    }
+    
+    
+    /**
+     * Converts a / separated address hash into an Address object.
+     * 
+     * Missing values will be replaced by a blank string
+     * 
+     * @param string $address_hash
+     * @return Address
+     */
+    private function _split_address($address_hash) {
+        $args = explode('/', $address_hash);
+        $args = array_pad($args, 3, '');
+        $address = new Address($args[0], $args[1], $args[2]);
+        return $address;
+    }
+
+    
+    /**
+     * Map current URL parameters to a simple array of args.
+     *
+     * The mapping array defines the order in which arguments will be delivered to the 'action' functions.
+     *
+     * E.g. if mapping: array{'action', 'value', 'tab'}
+     *        from url: 'event=search??&tab=work&value=roof&value2=' 
+     *          func:   
+     *          args: array{'search', 'roof', 'work'}
+     */
+    private function _map_request($request, $mapping) {
+        $args = array();
+        foreach ($mapping as $map => $default) {
+            if (isset($request->$map)) {
+                if ($request->$map !== null) {
+                    $args[] = $request->$map;
+                } else {
+                    $args[] = $default;
+                }
+            }
+        }
+        return $args;
     }
 }

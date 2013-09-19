@@ -6,7 +6,7 @@ namespace tpp\model;
 class Tabs implements \IteratorAggregate {
 
     protected $_tabs;
-    const last = '999';
+    const LAST = '999';
 
     function __construct() {
         $this->clear();
@@ -41,7 +41,7 @@ class Tabs implements \IteratorAggregate {
 
 
     function sort() {
-        $last = '999';
+        $last = self::LAST;
         // by user-defined index:
         // a default 'last' index value is used to ensure
         // that trash and archive tabs sort first even if you

@@ -119,7 +119,10 @@ $lang['sortable_tip']       = 'Sortierbar';
 
 
 // sent with task-buttons
-$lang['action_button_tip']  = 'Zwischen den verschiedenen Aktionen wechseln: keine » pendent » wartend » eventuell';
+$lang['next_button_tip']    = 'Aktion wechseln: *pendent';
+$lang['wait_button_tip']    = 'Aktion wechseln: *wartend';
+$lang['maybe_button_tip']   = 'Aktion wechseln: *eventuell';
+$lang['none_button_tip']    = 'Aktion wechseln: keine';
 $lang['archive_button_tip'] = 'Diese Aufgabe archivieren';
 $lang['trash_button_tip']   = 'Diese Aufgabe löschen';
 
@@ -195,8 +198,8 @@ $jslang['add_msg']            = array('Aufgabe hinzugefügt', 'blue');
 $jslang['edit_msg']           = array('Aufgabe geändert', 'yellow');
 $jslang['trash_msg']          = array('Aufgabe gelöscht', 'red');
 $jslang['arch_msg']           = array('Aufgabe archiviert', 'orange');
-$jslang['all_trash_msg']      = array('Alle abgeschlossenen Aufgaben gelöscht', 'orange');
-$jslang['all_arch_msg']       = array('Alle abgeschlossenen Aufgaben archiviert', 'orange');
+$jslang['trash_done_msg']     = array('Alle abgeschlossenen Aufgaben gelöscht', 'orange');
+$jslang['arch_done_msg']      = array('Alle abgeschlossenen Aufgaben archiviert', 'orange');
 
 $jslang['rename_msg']         = 'Neuer Name für dieses Tab?';
 $jslang['remove_msg']         = 'Dieses Tab löschen?';

@@ -143,7 +143,8 @@ class Content {
      * @return object ParsedProject
      */
     function project_by_index($index) {
-        $project = $this->parsed_items[$this->projects[$index]];
+        $key = $this->projects[$index];
+        $project = $this->parsed_items[$key];
         return $project;
     }
 
@@ -175,9 +176,7 @@ class Content {
      */
     function reorder($order, $project = null) {
         $order = array_flip($order);
-        //$sorted_items = array_intersect_key($this->parsed_items, $order);
         $sorted_items = array_merge($order, $this->parsed_items);
-        //$sorted_items = array_merge($this->parsed_items, $sorted_items);
 
         // deal with sorting one project by itself
         if ($project !== null) {
@@ -272,19 +271,24 @@ class ContentBuilder {
 
 
     /**
-     * Rebuild raw_items & raw from parsed_items
+     * Rebuild raw_items & raw from parsed_items array in $content.
+     * 
+     * Used by the cache.class update function.
+     * 
      * Mainly done after small state changes and sorting
      */
     function rebuild_from_parsed(Content &$content) {
         $content->raw_items = $this->_rebuild_raw_items($content->parsed_items);
-        $content->raw = $this->_rebuild_raw($content->raw_items,
-                                            $content->raw_title);
+        $content->raw       = $this->_rebuild_raw($content->raw_items,
+                                                  $content->raw_title);
         return $content;
     }
 
-
     /**
-     * Used by the to
+     * Convert the parsed_items array in $content into a raw text string.
+     * 
+     * Used by the cache.class update function.
+     * 
      * @param \tpp\model\Content $content
      * @return type
      */
@@ -294,7 +298,14 @@ class ContentBuilder {
         return $this->_rebuild_raw($raw_items, $raw_title);
     }
 
-
+    /**
+     * Convert the raw_items array in $content into a raw text string.
+     * 
+     * Used by the cache.class update function.
+     * 
+     * @param \tpp\model\Content $content
+     * @return string
+     */
     function raw_items_to_raw(Content $content) {
         $raw_items = $content->raw_items;
         $raw_title = $content->raw_title;
@@ -302,16 +313,15 @@ class ContentBuilder {
     }
 
 
-    private function _rebuild_raw_items(Array $parsed_items) {
-        $raw_items = array_map(array($this, '_get_raw'), $parsed_items);
-        return $raw_items;
-    }
-
-
+    // ---- PRIVATE ----
+    
+    
     /**
      * Rebuilds the raw text file.
      *
-     * Make raw presentation look better, adds extra blank lines before projects, and insesrts the title
+     * Make raw presentation look better inserts the title at top.
+     * The _rebuild_raw_items function already adds blank lines above the project items.
+     * 
      * @param array $raw_items
      * @param string $raw_title
      * @return string
@@ -320,6 +330,26 @@ class ContentBuilder {
         $raw = ( ! empty($raw_title)) ? $raw_title . "\n\n" : '';
         $raw .= implode("\n", $raw_items);
         return $raw;
+    }
+
+    /**
+     * Rebuild the raw_items array based on the parsed_items array.
+     * 
+     * Used mainly when small state changes are made that do not require a complete re-parse.
+     * Also adds blank rows above project for later display purposes in the _rebuild_raw function.
+     * 
+     * @param array $parsed_items
+     * @return array
+     */
+    private function _rebuild_raw_items(Array $parsed_items) {
+        $prev = array();
+        foreach($parsed_items as $key => $parsed) {
+            if ($parsed->type == 'project' && ! empty($prev)) {
+                $raw_items[] = '';
+            }
+            $prev = $raw_items[$key] = $this->_get_raw($parsed);
+        }
+        return $raw_items;
     }
 
 

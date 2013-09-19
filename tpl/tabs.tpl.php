@@ -6,24 +6,28 @@
         $text_class = 'fixed';
         $name = $tab->name;
         if ($tab->type == TAB_ARCHIVE) {
-            $tip = \tpp\lang('archive_tab_tip');
+            $title = \tpp\lang('archive_tab_tip');
             $display = \tpp\lang('archive_lbl'); 
         } elseif ($tab->type == TAB_TRASH) {
-            $tip = \tpp\lang('trash_tab_tip');
+            $title = \tpp\lang('trash_tab_tip');
             $display = \tpp\lang('trash_lbl'); 
         } else {
             $text_class = '';
-            $tip = $tab->note->text;
+            $title = $tab->note->text;
             $display = $tab->title;
         }
-        $tip .= ( ! empty($tip)) ? "\n――――\n" : '';
+        if ( ! empty($title)) {
+            $title = "\n――――\n" . $title;
+        }
 
         if($tab->name == $this->active) {
             $tab_class = 'selected';
-            $tip .= \tpp\lang('reset_tab_tip');
+            $tip = \tpp\lang('reset_tab_tip');
         } else {
-            $tip .= \tpp\lang('change_tab_tip');
+            $tip = \tpp\lang('change_tab_tip');
         }
+        
+        $tip .= $title;
 
         $markup .= '<li class="' . $tab_class . '" name="' . $name . '" title="' . $tip . '"><a href="#" class="' . $text_class . '">' . $display . '</a></li>' . PHP_EOL;
     }

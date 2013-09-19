@@ -4,4 +4,4 @@
 <input type="image" src="images/remove.png" class="tool-icon restrict" id="remove-button" value="Remove" title="<?php echo \tpp\lang('remove_tip'); ?>">
 <input type="image" src="images/archive.png" class="tool-icon restrict" id="archive-done-button" value="Archive" title="<?php echo \tpp\lang('archive_done_tip'); ?>">
 
-<input type="image" src="images/star-off.png" class="tool-icon" id="remove_actions-button" value="Star" title="<?php echo \tpp\lang('remove_actions_tip'); ?>">
+<input type="image" src="images/star-off.png" class="tool-icon" id="remove-actions-button" value="Star" title="<?php echo \tpp\lang('remove_actions_tip'); ?>">

@@ -65,8 +65,6 @@ class TaskTemplate extends Template {
             $markup = $li . $text . $note . '</li>';
         }
 
-        log&&msg('building task:', $item->raw(), get_class($item), $markup);
-
         return $markup . "\n";
     }
 
@@ -86,7 +84,7 @@ class TaskTemplate extends Template {
             if ($multi) {
                 $full_text = str_replace("\n", '<br/>', $this->_h($text));
                 $title = strtok($this->_h($text), "\n") .
-                         '<span class="more">' . '▼' . '</span>';
+                         '<span class="more">' . '…' . '</span>';
                 $note .= '<li class="hidden-note reveal" title="">' .
                          '<p>' . $full_text . '</p></li>' .
                          '<li class="note reveal" title="">'  .

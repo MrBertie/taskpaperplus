@@ -60,20 +60,20 @@ class Template {
         return htmlspecialchars($str);
     }
 
-    function __get($name) {
-        if( isset($this->_vars[$name])) {
-            return $this->_vars[$name];
+    function __get($var) {
+        if( isset($this->_vars[$var])) {
+            return $this->_vars[$var];
         }
         return null;
     }
 
-    function __set($name, $value) {
-        $this->_vars[$name] = $value;
+    function __set($var, $value) {
+        $this->_vars[$var] = $value;
     }
 
     // when testing for empty reverse the result!
-    function __isset($name) {
-        $empty = empty($this->_vars[$name]);
+    function __isset($var) {
+        $empty = empty($this->_vars[$var]);
         return ! $empty;
     }
 
@@ -84,10 +84,17 @@ class Template {
         $rendered = ob_get_clean();
         return $rendered;
     }
+    
+    function json($field = null) {
+        if (is_null($field)) {
+            $field = $this->_tpl_name;
+        }
+        $json = array($field => $this->render());
+        return $json;
+    }
 
+    // implicitly called when the view object is echoed or printed
     function __toString() {
         return $this->render();
     }
 }
-
-?>

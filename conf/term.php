@@ -40,10 +40,10 @@ $term['info']             = '/^(?!' . $term['done_prefix'] . '?' . $term['task_p
 $term['indent_note']      = '/^\s{2,4}(.+)/';                                       // indented style note
 
 // basic task text formatting (used in task.tpl.php)
-$term['hyperlink']        = '/\[([^|]+?)(\|(.+?))?\]/';
-$term['italic']           = '`[^:]\/\/(.+?)\/\/`';
-$term['bold']             = '|\*\*(.+?)\*\*|';
-$term['underline']        = '|__(.+?)__|';
+$term['hyperlink']        = '`\[([^|]+?)(\|(.+?))?\]`';
+$term['italic']           = '`(?!:)\/\/(.+?)\/\/`';
+$term['bold']             = '`\*\*(.+?)\*\*`';
+$term['underline']        = '`__(.+?)__`';
 $term['format_chars']     = '/*_[';   // used to avoid unnecessary replacements for above
 
 // search box syntax

@@ -119,7 +119,10 @@ $lang['sortable_tip']       = 'Ordenar';
 
 
 // sent with task-buttons
-$lang['action_button_tip']  = 'Cambia entre diferentes acciones: Nada » Siguiente » En Espera » Quizas';
+$lang['next_button_tip']    = 'Cambiar la acción: *Siguiente';
+$lang['wait_button_tip']    = 'Cambiar la acción: *En_Espera';
+$lang['maybe_button_tip']   = 'Cambiar la acción: *Quizas';
+$lang['none_button_tip']    = 'Cambiar la acción: Nada';
 $lang['archive_button_tip'] = 'Archivar esta tarea';
 $lang['trash_button_tip']   = 'Borrar esta tarea';
 
@@ -172,8 +175,8 @@ $jslang['add_msg']            = array('Tarea añadió', 'blue');
 $jslang['edit_msg']           = array('Tarea editado', 'yellow');
 $jslang['trash_msg']          = array('Tarea borrado', 'red');
 $jslang['arch_msg']           = array('Tarea archivada', 'orange');
-$jslang['all_trash_msg']      = array('Todas las tareas realizadas borrados', 'orange');
-$jslang['all_arch_msg']       = array('Todas las tareas completadas archivados', 'orange');
+$jslang['trash_done_msg']     = array('Todas las tareas realizadas borrados', 'orange');
+$jslang['arch_done_msg']      = array('Todas las tareas completadas archivados', 'orange');
 
 $jslang['rename_msg']         = 'Cual es el nuevo nombre de esta pestaña?';
 $jslang['remove_msg']         = 'Borrar esta pestaña?';

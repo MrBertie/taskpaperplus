@@ -1,56 +1,52 @@
 <?php
 namespace tpp\control;
-use tpp\user\State as State;
 
 
 /**
  * This models a request from the browser.
  *
  * Obtains basic HTTP request and fills other useful parameters
- * E.g. source = REQ_AJAX or REQ_INDEX
- *      verb = HTTP verb used (GET or POST currently)
+ *      source = REQ_AJAX or REQ_INDEX
+ *      verb   = HTTP verb used (GET or POST only)
  */
 class Request {
 
     public $source = '';
     public $verb = '';
+    
     private $_vars = array();
 
-    /**
-     * @param array $defaults   Any default request parameters that must be present
-     */
-    function __construct(Array $defaults = array()) {
+    
+    function __construct() {
 
+        // http verb used for this request
         $verb = strtoupper($_SERVER['REQUEST_METHOD']);
+        $this->verb = $verb;
 
-        $ajax = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
-            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
-
-        $req = array();
+        // request parameters, accessible via the __set/__get methods below
+        $request = array();
         if ($verb == 'POST' && ! empty($_POST)) {
-            $req = $_POST;
+            $request = $_POST;
         } elseif ($verb == 'GET' && ! empty($_GET)) {
-            $req = $_GET;
+            $request = $_GET;
         }
-
-        $refresh = (empty($req));
-
-        if ($refresh) {
+        $this->_vars = $request;
+        
+        // source: page load/refresh or ajax
+        $is_index = (empty($request));
+        $is_ajax = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+        if ($is_index) {
             $source = REQ_INDEX;
-        } elseif ($ajax) {
+        } elseif ($is_ajax) {
             $source = REQ_AJAX;
         } else {
             $source = REQ_INDEX;
         }
-
-        // fill in any missing parameters/keys
-        $req = array_merge($defaults, $req);
-
         $this->source = $source;
-        $this->verb = $verb;
-        $this->_vars = $req;
     }
 
+    
     function __get($name) {
         if( isset($this->_vars[$name])) {
             return $this->_vars[$name];
@@ -58,21 +54,21 @@ class Request {
         return null;
     }
 
+    
     function __set($name, $value) {
         $this->_vars[$name] = $value;
     }
 
+    
     function __isset($name) {
-        return ! empty($this->_vars[$name]);
+        $is_set = isset($this->_vars[$name]);
+        return $is_set;
     }
-
-    function to_state($set_default = false) {
-        if ($set_default) {
-            return new State($this->tab);
-        } else {
-            return new State($this->tab, $this->event, $this->value);
+    
+    
+    function __unset($name) {
+        if (isset($this->_vars[$name])) {
+            unset($this->_vars[$name]);
         }
-        return false;
     }
 }
-?>

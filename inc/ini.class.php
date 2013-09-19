@@ -50,7 +50,7 @@ class Ini implements \Iterator {
     function item($key, $value = NULL) {
         if (!empty($value)) {
             if (array_key_exists($key, $this->_ini_items)) {
-                $this->_changed_keys[] = '/(' . $key . '=).+$/';
+                $this->_changed_keys[] = '/(' . $key . '=).+$/m';
                 $this->_changed_values[] = "\${1}" . $value; // ${1} style to avoid problems with leading digits
             } else {
                 $this->_new_items = "\n" . $key . '=' . $value;
@@ -63,9 +63,11 @@ class Ini implements \Iterator {
     }
     function save() {
         if ($this->changed()) {
-            $ini_text = file_get_contents($this->_ini_file);
             // replace only changed lines
-            $ini_text = preg_replace(array_values($this->_changed_keys), array_values($this->_changed_values), $ini_text);
+            $find     = array_values($this->_changed_keys);
+            $replace  = array_values($this->_changed_values);
+            $ini_text = file_get_contents($this->_ini_file);
+            $ini_text = preg_replace($find, $replace, $ini_text);
             file_put_contents($this->_ini_file, $ini_text);
             // reset all changes
             unset($this->_changed_items);

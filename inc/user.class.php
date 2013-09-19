@@ -28,7 +28,9 @@ class User {
     function do_login() {
         
         // basic login check, ignore rest if logged in
-        if ($this->logged_in()) return true;
+        if ($this->logged_in()) {
+            return true;
+        }
 
         // first check for a ajax post request
         // with the login data

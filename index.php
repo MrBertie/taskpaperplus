@@ -6,11 +6,9 @@ require_once('inc/init.php');
 
 log&&msg('starting up App');
 
-// start the app (API) and the respond to user input
+// start the app (internal API) and the respond to user input
 $app = new App();
-if ($app->user->do_login()) {
-    $app->dispatcher->respond();
-}
+$app->dispatcher->start();
 
 // clean the cache folder (this happens once a day only)
 $app->cache->cleanup();

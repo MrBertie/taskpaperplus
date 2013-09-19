@@ -15,6 +15,8 @@ define('APP_NAME', basename($path));
 session_name(APP_NAME);
 session_start();
 
+//session_destroy();
+
 
 //------------------------------
 // Error reporting and logging.
@@ -47,7 +49,7 @@ define('EXT', ".txt");
 
 
 // default tab/page states (default tab will be the first one available)
-define('DEFAULT_EVENT', 'all');
+define('DEFAULT_ACTION', 'all');
 define('DEFAULT_VALUE', null);
 
 

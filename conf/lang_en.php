@@ -19,7 +19,7 @@ global $lang;
  *             the expression can use either the language specific commands/intervals as below, or english (more consistent)
  *             you can even reuse other filter to create a new one, just put the = in front, e.g. '=late'
  * tooltip:    
- *             this will pop up when you hover the mouse over the filter, to explain it's purpose
+ *             this will pop up when you hover the mouse over the filter, to explain its purpose
  * colour:     
  *             identifies which CSS class to use (CSS class name suffix, see '.bk-...' in style.css)
  *             currently valid colours are: blue, brown, cyan, gray, green, red, violet, yellow  (all soft pastel shades)
@@ -95,37 +95,42 @@ $lang['new_tab_content']    = "New project:\n- new task #tag\n    a simple note"
 
 // main toolbar buttons
 $lang['edit_all_tip']       = 'Edit the tab as plain-text';
-$lang['archive_done_tip']   = 'Archive all completed tasks at once';
-$lang['trash_done_tip']     = 'Trash all completed tasks at once';
+$lang['archive_done_tip']   = 'Archive all completed tasks now';
+$lang['trash_done_tip']     = 'Trash all completed tasks now';
 $lang['remove_actions_tip'] = 'Remove action highlighting from all tasks at once';
 $lang['insert_location_tip']= 'Insert new tasks at top or bottom of list/project?';
 
+
 // task related tips and buttons
 $lang['search_box_tip']     = "Search for words, tags, filters, or dates [Enter]\nOr type a new task [Ctrl+Enter]\n[Focus here: Shift+Enter]";
-$lang['search_help_tip']    = "Need help searching? Click for a cheatsheet (Ctrl+Click for a new page)";
+$lang['search_help_tip']    = "Need help searching? Click for a cheatsheet\n(Ctrl+Click for a new page)";
 $lang['startpage_tip']      = 'Back to default view';
 $lang['save_changes_tip']   = 'Save your changes';
 $lang['cancel_changes_tip'] = 'Cancel any changes and return to task view';
 $lang['rename_tip']         = 'Rename this tab';
 $lang['remove_tip']         = 'Delete this tab';
 $lang['new_tab_tip']        = 'Add a new tab';
-$lang['change_tab_tip']     = 'Change to this tab. Any unsaved edits will be kept';
-$lang['reset_tab_tip']      = 'Reset this tab back to default view';
+$lang['change_tab_tip']     = "Switch to this tab.";
+$lang['reset_tab_tip']      = 'Back to default view';
 $lang['archive_tab_tip']    = 'All archived tasks';
 $lang['trash_tab_tip']      = 'All deleted tasks';
 $lang['clear_box_tip']      = 'Clear the search box';
 $lang['tag_click_tip']      = 'Filter by this tag';
 $lang['sortable_tip']       = 'Sortable';
 
+
 // sent with task-buttons
-$lang['action_button_tip']  = 'Toggle between the different actions: none » next » wait » maybe';
+$lang['next_button_tip']    = 'Highlight as *next action';
+$lang['wait_button_tip']    = 'Highlight as *wait action';
+$lang['maybe_button_tip']   = 'Highlight as *maybe action';
+$lang['none_button_tip']    = 'Remove action highlighting';
 $lang['archive_button_tip'] = 'Archive this task';
 $lang['trash_button_tip']   = 'Delete this task';
 
 
 // general control labels
-$lang['find_lbl']           = 'Find:';
-$lang['replace_lbl']        = 'Replace:';
+$lang['find_lbl']           = 'Find';
+$lang['replace_lbl']        = 'Replace';
 $lang['help_lbl']           = 'Help';
 $lang['about_lbl']          = 'About';
 $lang['faq_lbl']            = 'FAQ';
@@ -152,19 +157,20 @@ $lang['deleted_lbl']        = 'Deleted:';
 
 
 // login general form labels
-$lang['username_lbl']         = 'username';
-$lang['email_lbl']            = 'email address';
-$lang['password_lbl']         = 'password';
-$lang['repeatpassword_lbl']   = 'repeat password';
-$lang['login_lbl']            = 'Login';
-$lang['register_lbl']         = 'Register';
-$lang['forgotpassword_lbl']   = 'Forgot Password';
-$lang['logout_lbl']           = 'Logout';
-$lang['logged_in_as_lbl']     = 'Login:';
+$lang['username_lbl']       = 'username';
+$lang['email_lbl']          = 'email address';
+$lang['password_lbl']       = 'password';
+$lang['repeatpassword_lbl'] = 'repeat password';
+$lang['login_lbl']          = 'Login';
+$lang['register_lbl']       = 'Register';
+$lang['forgotpassword_lbl'] = 'Forgot Password';
+$lang['logout_lbl']         = 'Logout';
+$lang['logged_in_as_lbl']   = 'Login:';
+
 
 // login allowed pattern decription
-$lang['username_pattern']     = 'Allowed: 0-9, a-z, A-Z; Length: 2-32 chars';
-$lang['password_pattern']     = 'Allowed: 0-9, a-z, A-Z; Length: 2-32 chars';
+$lang['username_pattern']   = 'Allowed: 0-9, a-z, A-Z; Length: 2-32 chars';
+$lang['password_pattern']   = 'Allowed: 0-9, a-z, A-Z; Length: 2-32 chars';
 
 
 // login msgs
@@ -190,13 +196,13 @@ $lang['userfile_missing_err']   = 'File containing the list of users was missing
 // ****************
 
 
-// colours are based on bk-* colours in style.less
+// colours are taken from bk-* colours in style.less
 $jslang['add_msg']            = array('Task added', 'blue');
 $jslang['edit_msg']           = array('Task edited', 'yellow');
 $jslang['trash_msg']          = array('Task deleted', 'red');
 $jslang['arch_msg']           = array('Task archived', 'orange');
-$jslang['all_trash_msg']      = array('All completed tasks deleted', 'orange');
-$jslang['all_arch_msg']       = array('All completed tasks archived', 'orange');
+$jslang['trash_done_msg']     = array('All completed tasks deleted', 'orange');
+$jslang['arch_done_msg']      = array('All completed tasks archived', 'orange');
 
 $jslang['rename_msg']         = 'What is the new name for this tab?';
 $jslang['remove_msg']         = 'Delete this tab?';

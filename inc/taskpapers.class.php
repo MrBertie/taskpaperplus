@@ -14,12 +14,15 @@ use tpp\storage;
  * Main part of API used by the dispatcher and templates to work with the active taskpaper: to edit, delete, search, etc...
  *
  * Creates default taskpapers for Archive, Trash, and a default Tab if config is wrong or missing.
- * Provides access to the currently active Taskpaper and the archive path
+ * Provides access to the currently active Taskpaper and the archive path.
+ * 
+
  */
 class Taskpapers {
 
-    private $_active;          // active Taskpaper instance
-    private $_active_file; // active File instance
+    private $_active_tpp    = null;  // active Taskpaper instance
+    private $_active_file   = null;  // active File instance
+    private $_tabs          = null;  // list of current tabs
     private $_files;
     private $_cache;
 
@@ -33,8 +36,8 @@ class Taskpapers {
         $this->_files = $files;
         $this->_cache = $cache;
         $this->_cache->refresh();
-        $this->_tabs = $cache->fetch_tabs();
-        $this->active($active_tab);
+        $this->_tabs = $this->_cache->fetch_tabs();
+        $this->set($active_tab);
     }
 
 
@@ -53,60 +56,107 @@ class Taskpapers {
 
 
     /**
-     * Set or get currently active taskpaper instance.
+     * Get active taskpaper instance, or specific one if a name is provided.
      *
-     * If no active then uses first available [user] tab.
+     * If active is missing then first available [unrestricted] tab is returned.
+     * If named then the real file must exist, not just the cached version.
      *
-     * @param string $name  name of a different taskpaper, changes to this one.  Can also be an array index 0...n or a reverse index -1...-n (from end)
-     * @return object   returns the current (or new) taskpaper instance
+     * @param string $name  name of a different taskpaper..
+     * @return object|false   returns the current or named taskpaper instance; false if named does not exist.
      */
-    function active($name = null) {
+    function get($name = null) {
 
-        // if the active is already set then get it
-        if (is_null($name) && isset($this->_active)) {
-
-            \log&&msg('getting the currently active taskpaper:', $this->_active_file);
-
-            return $this->_active;
-
-        } else {
-
-            // if an existing name|idx was provided use it;
-            // NOTE: the real file must exist, not just the cached version!
-            $file = $this->_files->item($name);
-
-            // if name was invalid then return the first [user] tab
-            if ( ! $file) {
-                $file = $this->_files->first();
+        // if no name and active tpp exists then return the active tab
+        if (is_null($name)) {
+            if (! is_null($this->_active_file) &&
+                $this->exists($this->_active_file->name)) {
+                $tpp = $this->_active_tpp;
+            } else {
+                $tpp = $this->_set('');
             }
-            $this->_active_file = $file;
-
-            // return a new instance of the active taskpaper
-            $this->_active = $this->_get_taskpaper($file->name);
-
-            \log&&msg('returning a new taskpaper instance');
-
-            return $this->_active;
+        } else {
+            $tpp = $this->_set($name, false);
         }
+        return $tpp;
     }
+    
+    /**
+     * Set currently active taskpaper instance.
+     * 
+     * @param string $name
+     * @return Taskpaper|boolean
+     */
+    function set($name) {
+        $tpp = $this->_set($name, true);
+        \log&&msg('Set active taskpaper to: ', $tpp->name());
+        return $tpp;
+    }
+    
+    
+    /**
+     * If active tpp does not exist default to the first available tab.
+     * 
+     * @param string $id
+     * @param boolean $set_cur
+     * @return boolean 
+     */
+    private function _set($name = null, $set = false) {
+        if (empty($name) || ! $this->exists($name)) {
+            $file = $this->_files->first();
+            $name = $file->name;
+            $set  = true;
+        } else {
+            $file = $this->_files->item($name);
+        }
+        $tpp = $this->_get_taskpaper($name);
+        
+        if ($set || is_null($this->_active_file)) {
+            $this->_active_file = $file;
+            $this->_active_tpp = $tpp;
+        }
+        // tab changed, so update tab list
+        $this->_tabs = $this->_cache->fetch_tabs(true);
+        return $tpp;
+    }
+    
 
+    /**
+     * Creates a new taskpaper.
+     *
+     * IMPORTANT: does not reset the active tpp; call set($name) to activate the new taskpaper
+     *
+     * @param string    $name proposed name of new taskpaper file; could have been sanitised (i.e. changed), hence the reason why the active tpp is not automatically changed.
+     * @return string|bool   approved taskpaper name or false on failure
+     */
+    function create($name, $text = null) {
+        $name = $this->_files->create($name, $text);
+        if ($name !== false) {
+            $this->_cache->refresh();
+
+            \log&&msg("created a new taskpaper called: $name");
+
+        }
+        return $name;
+    }
+    
+    
     function exists($name) {
         return $this->_files->exists($name);
     }
 
+    
     /**
      * Removes the active taskpaper file to the _deleted folder or specific taskpaper file if $name is provided.
      *
-     * @return string The next available taskpaper tab (name only)
+     * @return boolean success|faliure
      */
     function delete($name = null) {
-        $name = ($name === null) ? $this->_active_file->name : $name;
-        if ( ! $this->_active_file->restricted()) {
-            $next_tab = $this->_files->delete($name);
-            $this->_active = null;
-            $this->_active_file = '';
+        $name = (is_null($name)) ? $this->_active_file->name : $name;
+        $next_file = $this->_files->delete($name);
+        if ( ! $next_file == false) {
             $this->_cache->refresh();
-            return $next_tab->name;
+            $this->set($next_file->name);
+            return true;
         } else {
             return false;
         }
@@ -122,41 +172,8 @@ class Taskpapers {
         // TODO: rename is not working
         if ($file !== false) {
             $this->_cache->refresh();
-            $this->_active->name($file->name);
+            $this->_set($file->name);
             return $file->name;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Creates a new taskpaper.
-     *
-     * NOTE: does not reset the active one; call active($name) to active the new taskpaper
-     *
-     * @param string    $name propposed name of new taskpaper file; could be sanitised (i.e. changed)!
-     * @return string|bool   approved taskpaper name or false on failure
-     */
-    function create($name, $text) {
-        $name = $this->_files->create($name, $text);
-        if ($name !== false) {
-            $this->_cache->refresh();
-
-            \log&&msg("created a new taskpaper called: $name");
-
-        }
-        return $name;
-    }
-
-    /**
-     * returns a different taskpaper instance, without being the active,
-     * for future API use
-     */
-    function item($name) {
-        if ($name == $this->_active_file) {
-            return $this->active();
-        } elseif ($this->exists($name)) {
-            return $this->_get_taskpaper($name);
         } else {
             return false;
         }
@@ -184,25 +201,25 @@ class Taskpapers {
         return $this->_files->trash_file()->path;
     }
 
-
-
     private function _get_taskpaper($name) {
         return new Taskpaper($this->_cache, $name,
                                 $this->trash_path(), $this->archive_path());
     }
 }
 
-
+ /** 
+  * This class is completely STATIC and allows the $content to be shared and changed by all implementing classes.
+  */
 class TaskpaperPersist {
 
     protected static $_content;
     protected static $_cache;
     protected static $_name;
 
-    function __construct(storage\Cache $cache, $name) {
-        self::$_cache = $cache;
+    static function init(storage\Cache $cache, $name) {
+        self::$_cache   = $cache;
+        self::$_name    = $name;
         self::$_content = $cache->fetch($name);
-        self::$_name = $name;
     }
 
     /**
@@ -210,7 +227,7 @@ class TaskpaperPersist {
      *
      * @see Cache->refresh()
      */
-    function refresh() {
+    static function refresh() {
         self::$_content = self::$_cache->refresh()->fetch(self::$_name);
     }
 
@@ -220,7 +237,7 @@ class TaskpaperPersist {
      * This could be:
      * UPDATE_RAW: direct edits, i.e. by passing in the changes plain text string
      * UPDATE_PARSED:  where for example a line was deleted, edited, changed
-     *              In this case 'update' uses the current in-memory TaskData to recreate the
+     *              In this case 'update' uses the current in-memory Content to recreate the
      *              edited tasks)
      * UPDATE_STATE: where only state was changed (state highlighting, completed)
      *             only the text file needs to be updated, cache is updated in-place, and
@@ -228,21 +245,20 @@ class TaskpaperPersist {
      *
      * @param String $raw   plain text string of tasks
      */
-    function update($edit_type, $updates = null) {
+    static function update($edit_type, $updates = null) {
         self::$_content = self::$_cache->update(self::$_content, $edit_type, $updates);
     }
 
-    function restricted() {
+    static function is_restricted() {
         return (self::$_content->tab_type != TAB_NORMAL);
     }
 
-    protected function _raw($key, $text = null) {
+    static function raw_item($key, $text = null) {
         if (is_null($text)) {
             return self::$_content->raw_items[$key];
         } else {
             self::$_content->raw_items[$key] = $text;
-            $this->update(UPDATE_RAWITEM);
-            return $this;
+            self::update(UPDATE_RAWITEM);
         }
     }
 }
@@ -250,54 +266,55 @@ class TaskpaperPersist {
 
 
 /**
- * Models a single taskpaper, usually the currently active one
- * Constructs arrays from the taskpaper text file (or session if not changed).
+ * Models a single taskpaper, usually the currently active one.
+ * 
+ * Constructs arrays from the taskpaper text file (or session array if unchanged).
  * Includes tasks, tags, projects, and various indexes needed for filtering and searching
- * All taskpaper data is build by and stored in TaskData
+ * All taskpaper data is build by and stored in a Content class.
  *
  * Provides methods to add, remove, edit and search, and access the tag and
  * project lists. Plus to save and update the tasks
  *
- * NOTE: taskpaper has no notion of state; that is left to the Dispatcher and State objects
- * It is concerned with content and manipulating it
+ * NOTE: taskpaper has no notion of state; that is left to the State objects.
+ * It is concerned with content and manipulating it.
  */
 class Taskpaper extends TaskpaperPersist {
 
     private $_trash_path = '';
     private $_archive_path = '';
-    public $items;
 
     /**
      * @param storage\cache $cache
      */
     function __construct(storage\Cache $cache, $name, $trash_path, $archive_path) {
-        parent::__construct($cache, $name);
+        parent::init($cache, $name);
 
         $this->_archive_path = $archive_path;
-        $this->_trash_path = $trash_path;
-        $this->items = new Items($this, self::$_content);
+        $this->_trash_path   = $trash_path;
     }
+    
 
     /**
-     * Set or Get the Taskpaper name.
+     * Get the Taskpaper name.
      */
-    function name($name = null) {
-        if (is_null($name)) {
-            return self::$_name;
-        } else {
-            self::$_content->name = self::$_name = $name;
-            return $this;
-        }
+    function name() {
+        return self::$_name;
     }
 
     /**
-     * List of ALL item types: Page, Project, Task, Info.
+     * Item OR List of all items, in raw text order: Page, Project, Task, Info.
+     * 
+     * @param string $key   If null return array list of all items, otherwise return specific item refered to by key.
      *
-     * @return AllItems    array/iterator of ALL Item types
+     * @return [...]Item | Items    specific item OR array/iterator of ALL Item types
      */
-    function items() {
-        $items = new Items($this, self::$_content);
-        return $items;
+    function items($key = null) {
+        $items = new Items();
+        if ($key === null) {
+            return $items;
+        } else {
+            return $items[$key];
+        }
     }
 
     /**
@@ -327,7 +344,9 @@ class Taskpaper extends TaskpaperPersist {
             
         // or insert into a specific Project
         } elseif ($project_num >= 0) {
-            if ($project_num > $max) $project_num = $max;
+            if ($project_num > $max) {
+                $project_num = $max;
+            }
             if ($at_top) {
                 // find this project's index
                 $proj = array_search($project_num, self::$_content->project_index);
@@ -402,7 +421,7 @@ class Taskpaper extends TaskpaperPersist {
      * @return Array of parsed Projects
      */
     function projects() {
-        return new ProjectItems($this, self::$_content);
+        return new ProjectItems();
     }
 
     /**
@@ -417,7 +436,7 @@ class Taskpaper extends TaskpaperPersist {
 
     function reorder($new_order, $project = null) {
         self::$_content->reorder($new_order, $project);
-        self::update(UPDATE_STATE);
+        self::update(UPDATE_PARSED);
     }
 
     /**
@@ -429,6 +448,10 @@ class Taskpaper extends TaskpaperPersist {
         return new Search($this, self::$_content);
     }
 
+    
+    function restricted() {
+        return parent::is_restricted();
+    }
 
 
     private function _remove_done($target_path) {
@@ -451,22 +474,23 @@ class Taskpaper extends TaskpaperPersist {
         }
         $tasks = '';
         foreach ($keys as $key) {
+            $tab = self::$_content->name;
             $task = self::$_content->parsed_items[$key];
-            $tasks .= "\n" . $task->raw . "\n" . $term['note_prefix'] . "\n";
-            if ($task->note->len > 0) {
-                $tasks .= $task->note->text . "\n";
-            }
-            $tab_name = self::$_content->name;
-            $project = self::$_content->project_by_task($key);
+            $project = $task->project_name;
+            $notes = ($task->note->len > 0) ? $task->note->text . "\n" : '';
+            $tasks .= $task->raw . "\n";
+            $tasks .= $term['note_prefix'] . "\n";
             $tasks .= \tpp\lang('deleted_lbl') . " "
-                    . $tab_name
-                    . " | " . $project->text
-                    . " | " . date("d-M-Y H:i");
-            $tasks .= "\n" . $term['note_prefix'];
+                    . date("d-M-Y H:i")
+                    . " | " . $tab
+                    . " | " . $project . "\n";
+            $tasks .= $notes;
+            $tasks .= $term['note_prefix'] . "\n";
         }
-        $file = fopen($target_path, 'a');
-        fwrite($file, $tasks);
-        fclose($file);
+        // this seems unwieldy but I can't find a better way to append to the top!
+        $text = file_get_contents($target_path);
+        $text = $tasks . $text;
+        file_put_contents($target_path, $text);
     }
 
     private function _remove($keys) {
@@ -487,7 +511,7 @@ class BasicItems extends TaskpaperPersist implements \ArrayAccess, \Iterator {
     protected $_items = array();
 
     function __construct() {
-        $this->_items = self::$_content->parsed_items;
+        $this->_items = &self::$_content->parsed_items;
     }
 
     function item($key) {
@@ -557,6 +581,10 @@ class BasicItems extends TaskpaperPersist implements \ArrayAccess, \Iterator {
 
 
 class Items extends BasicItems {
+    
+    function __construct() {
+        parent::__construct();
+    }
 
     function count() {
         return self::$_content->task_count;
@@ -573,13 +601,13 @@ class Items extends BasicItems {
 class ProjectItems extends BasicItems {
 
     function __construct() {
-        $this->_items = self::$_content->projects;
-        $this->_count = self::$_content->project_count;
+        $this->_items = &self::$_content->projects;
+        $this->_count = &self::$_content->project_count;
     }
 
     function item($index) {
-        $index = self::$_content->project_by_index($index);
-        return new ProjectItem($index);
+        $project = self::$_content->project_by_index($index);
+        return new ProjectItem($project);
     }
 
     function count() {
@@ -724,7 +752,7 @@ class BasicItem extends TaskpaperPersist {
      */
     function raw($value = null) {
         $key = $this->key();
-        return parent::_raw($key, $value);
+        return parent::raw_item($key, $value);
     }
 
     function hidden() {
@@ -745,6 +773,10 @@ class InfoItem extends BasicItem {
  * A project line in the task list
  */
 class ProjectItem extends BasicItem {
+    
+    function is_empty() {
+        return empty($this->_parsed->children);
+    }
 
     function numbered_text() {
         return $this->index() . ' ' . $this->_parsed->text;
@@ -773,40 +805,51 @@ class TaskItem extends BasicItem {
      *
      * Current state highlighting will be restored should the task be "undone".
      *
-     * @param boolean $value The new "Done" state (true/false)
+     * @param boolean $value The new "Done" state:  true/false or 'swap' to invert the current setting
      * @return boolean The current "Done" state
      */
     function done($value = null) {
         if (is_null($value)) {
             return $this->_parsed->done;
         } else {
-            $this->_parsed->done = (bool) $value;
+            if ($value == 'swap') {
+                $this->_parsed->done = ! $this->_parsed->done;
+            } else {
+                $this->_parsed->done = (bool) $value;
+            }
             $updates = $this->_to_state($this->_parsed);
             $this->_update(UPDATE_STATE, $updates);
+            return $this;
         }
     }
 
     /**
      * Set/get the action , i.e. highlighting: next, wait, maybe, etc...
      *
-     * @param integer $value Constant ACTION_* (states)
-     * @return boolean
+     * @param null | integer $action
+     * @return integer | chainable
      */
-    function action($value = null) {
-        if (is_null($value)) {
+    function action($action = null) {
+        if (is_null($action)) {
             return $this->_parsed->action;
         } else {
-            $value = ($value > MAX_ACTION) ? 0 : (int) $value;
-            $this->_parsed->action = $value;
+            if ($action < 0) {
+                $action = 0;
+            } elseif ($action > MAX_ACTION) {
+                $action = MAX_ACTION;
+            }
+            $this->_parsed->action = $action;
 
             $updates = $this->_to_state($this->_parsed);
             $this->_update(UPDATE_STATE, $updates);
+            return $this;
         }
     }
 
     function tags() {
         return $this->_parsed->tags;
     }
+    
     function date() {
         $date = $this->_parsed->date;
         $fdate = '';
@@ -862,7 +905,7 @@ class TaskItem extends BasicItem {
      * @return bool
      */
     function restricted() {
-        return self::restricted();
+        return self::is_restricted();
     }
 
 

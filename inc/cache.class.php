@@ -64,8 +64,9 @@ class Cache {
      * UPDATE_STATE:  no need to rebuild entire cache for simple state changes (done|highlighting) or sorting.
      * UPDATE_PARSED: assume significant parsed items edit.
      *      i.e. tags, dates, added, position changes, etc...,
-     *      needs full-rebuild, as other helper arrays need to be updated too!
-     * UPDATE_RAWITEMS:  just some of the raw item lines were edited
+     *      *** Note: needs full-rebuild, as other helper arrays need to be updated too! ***
+     * UPDATE_RAWITEMS:  one or more of the raw item lines were edited
+     *      Full rebuild as above.
      * UPDATE_RAW:  entire plain-text string was edited
      * UPDATE_FILE: plain text source file was edited or changed
      *
