@@ -279,7 +279,6 @@ a:hover:hover {
 #view-tasks ul { list-style:none; }
 #view-tasks ul#sortable li { cursor:ns-resize; }
 #view-tasks li {
-  border:1px transparent solid;
   line-height:110%;
   margin-top:1px;
   padding-top:2px;
@@ -291,7 +290,7 @@ a:hover:hover {
   text-indent:-2em;
 }
 #view-tasks li:hover { background:#fafafa; }
-#view-tasks li .check-done {
+#view-tasks li .bullet {
   height:11px;
   margin:0px;
   padding:2px 4px;
@@ -299,18 +298,12 @@ a:hover:hover {
   width:11px;
 }
 #view-tasks li.project {
-  border:1px transparent solid;
   color:#dc322f;
-  display:block;
   font-size:110%;
   margin-bottom:3px;
   margin-left:0.2em;
   margin-top:12px;
-  -moz-border-radius:2.5px;
-  -webkit-border-radius:2.5px;
-  border-radius:2.5px;
 }
-#view-tasks li.project:hover { background:#fafafa; }
 #view-tasks li.project p {
   display:inline;
   padding:2px 0;
@@ -325,8 +318,11 @@ a:hover:hover {
   color:#073642;
   display:inline;
   margin-left:0px;
-  padding:2px 3px;
+  padding:1px 3px;
   vertical-align:3px;
+  -moz-border-radius:2.5px;
+  -webkit-border-radius:2.5px;
+  border-radius:2.5px;
 }
 #view-tasks li.task p:hover { cursor:pointer; }
 #view-tasks li.task .tag, #view-tasks li.task .date-tag, #view-tasks li.task .project {
@@ -348,27 +344,6 @@ a:hover:hover {
   box-shadow:0px 0px 15px rgba(127,127,127,0.35);
   cursor:pointer;
 }
-#view-tasks li.task span.task-buttons {
-  display:inline-block;
-  left:-68px;
-  opacity:0.3;
-  position:absolute;
-  top:-18px;
-  width:72px !important;
-}
-#view-tasks li.task span.task-buttons:hover { opacity:0.65; }
-#view-tasks li.task span.task-buttons input {
-  float:left;
-  height:14px;
-  padding:4px 5px;
-  width:14px;
-}
-#view-tasks li.task span.task-buttons input:hover {
-  cursor:pointer;
-  height:18px;
-  padding:2px 3px;
-  width:18px;
-}
 #view-tasks li.info {
   margin-top:4px;
   margin-left:0.6em;
@@ -389,6 +364,7 @@ a:hover:hover {
   font-style:normal;
   font-size:85%;
   list-style:none;
+  margin-bottom:3px;
   margin-left:0;
   margin-top:-2px;
   padding-left:0;
@@ -413,6 +389,7 @@ a:hover:hover {
   font-style:normal;
   font-size:85%;
   list-style:none;
+  margin-bottom:3px;
   margin-left:0;
   margin-top:-2px;
   padding-left:0;
@@ -501,10 +478,6 @@ a:hover:hover {
 .strike {
   color:#c9c7c6 !important;
   text-decoration:line-through;
-}
-.starred {
-  background:#ffffb7;
-  padding:0 4px 0 4px;
 }
 .filters li span {
   border:1px solid #d7d5d4;
@@ -621,6 +594,27 @@ a:hover:hover {
   height:28px;
   padding:0px;
   width:28px;
+}
+.task-buttons {
+  display:inline-block;
+  left:-68px;
+  opacity:0.3;
+  position:absolute;
+  top:-18px;
+  width:72px !important;
+}
+.task-buttons:hover { opacity:0.65; }
+.task-buttons input {
+  float:left;
+  height:14px;
+  padding:4px 5px;
+  width:14px;
+}
+.task-buttons input:hover {
+  cursor:pointer;
+  height:18px;
+  padding:2px 3px;
+  width:18px;
 }
 .task-buttons-inner {
   border:1px solid #d7d5d4;

@@ -94,7 +94,6 @@ a:hover {
 
 .hover() {
     &:hover {
-        //border: 1px dotted @base1;
         box-shadow: 0px 0px 15px rgba(127, 127, 127, 0.35);
         cursor: pointer;
     }
@@ -110,7 +109,6 @@ a:hover {
 .box-hover() {
     &:hover {
         background: @task-select;
-        //border: 1px @border dotted;
     }
     .rounded();
 }
@@ -153,7 +151,6 @@ a:hover {
 
 .tabs {
     border-bottom: 1px solid @tab-border;
-    //font-family: "Segoe UI";
     font-size: 14px;
     list-style: none;
     margin: 0;
@@ -299,6 +296,7 @@ a:hover {
     }
 }
 
+
 .logo {
     font-family: "Open Sans", "Narkism", "Droid Sans", "Trebuchet", "Arial";
     left: 0px;
@@ -339,6 +337,7 @@ a:hover {
     overflow: hidden;
 }
 
+
 .columns {
     display: table;
     float: left;
@@ -358,7 +357,6 @@ a:hover {
         width: @project-col;
     }
     .tasks {
-
     }
     .meta {
         background: @base2;
@@ -482,7 +480,6 @@ a:hover {
     }
 
     li {
-        border: 1px transparent solid;
         line-height: 110%;
         margin-top: 1px;
         padding-top: 2px;
@@ -490,7 +487,7 @@ a:hover {
         .box-hover();
         .hanging-indent();
 
-        .check-done {
+        .bullet {
             height: 11px;
             margin: 0px;
             padding: 2px 4px;
@@ -499,14 +496,12 @@ a:hover {
         }
 
         &.project {
-            border: 1px transparent solid;
             color: @red;
-            display: block;
             font-size: 110%;
             margin-bottom: 3px;
             margin-left: 0.2em;
             margin-top: 12px;
-            .box-hover();
+
             p {
                 display: inline;
                 padding: 2px 0;
@@ -525,11 +520,12 @@ a:hover {
                 color: @base02;
                 display: inline;
                 margin-left: 0px;
-                padding: 2px 3px;
+                padding: 1px 3px;
                 vertical-align: 3px;
                 &:hover {
                     cursor: pointer;
                 }
+                .rounded();
             }
 
             // little project/tag labels at end of task when searching
@@ -548,10 +544,6 @@ a:hover {
                 padding: 2px 4px;
                 .hover();
             }
-
-            span.task-buttons {
-                .task-buttons();
-            }
         }
 
         // info lines in task list
@@ -559,6 +551,7 @@ a:hover {
             margin-top: 4px;
             margin-left: 0.6em;
             margin-bottom: 4px;
+
             p {
                 color: @base00;
                 display: inline;
@@ -577,6 +570,7 @@ a:hover {
             font-style: normal;
             font-size: 85%;
             list-style: none;
+            margin-bottom: 3px;
             margin-left: 0;
             margin-top: -2px;
             padding-left: 0;
@@ -671,10 +665,6 @@ a:hover {
     text-decoration: line-through;
 }
 
-.starred {
-    background: @bk-yellow;
-    padding: 0 4px 0 4px;
-}
 
 // the filters list
 .filters li span {
@@ -835,7 +825,7 @@ a:hover {
 
 
 // floating toolbar for each task item
-.task-buttons() {
+.task-buttons {
     display: inline-block;
     left: -68px;
     opacity: @faded;
@@ -861,6 +851,7 @@ a:hover {
 }
 
 
+// allows nice arrow pointer on right side of box
 .task-buttons-inner {
     border: 1px solid @border;
     display: inline-block;

@@ -102,27 +102,27 @@ define('ITEM_INFO', 4);
 define('ITEM_NOTE', 5); // not used currently
 
 
-/**
- * Enum: Different insertion types used by the Content _insert function.
- *
- * @see Content
- */
-define('INS_END', 0);
-define('INS_BEGIN', 1);
-define('INS_REPLACE', 2);
-define('INS_BEFORE', 3);
-define('INS_AFTER', 4); // not used currently
+///**
+// * Enum: Different insertion types used by the Content _insert function.
+// *
+// * @see Content
+// */
+//define('INS_END', 0);
+//define('INS_BEGIN', 1);
+//define('INS_REPLACE', 2);
+//define('INS_BEFORE', 3);
+//define('INS_AFTER', 4); // not used currently
 
 
-/**
- * Enum: Return result for Content _insert function.
- *
- * @see Content
- */
-define('RES_SUCCESS', 0);
-define('RES_INVALID_TYPE', 1);
-define('RES_NO_SPACE', 2);
-define('RES_NO_SUCH_KEY', 3);
+///**
+// * Enum: Return result for Content _insert function.
+// *
+// * @see Content
+// */
+//define('RES_SUCCESS', 0);
+//define('RES_INVALID_TYPE', 1);
+//define('RES_NO_SPACE', 2);
+//define('RES_NO_SUCH_KEY', 3);
 
 
 // Regex patterns, terms and symbols used globally in app
@@ -148,7 +148,7 @@ $cur_lang = \tpp\ini('language');
 $lang_path = 'conf/lang_' . $cur_lang . '.php';
 $lang_en_path = 'conf/lang_en.php';
 
-// default english lang strings (in case of missing items or language)
+// default english lang strings (in case of missing localised items or language)
 $lang = array();
 require_once(APP_PATH . $lang_en_path);
 if (file_exists($lang_path)) {
@@ -162,7 +162,7 @@ $location = setlocale(LC_ALL, $cur_lang);
 DEFINE('LOCATION', $location);
 
 
-// used in TaskItem
+// used in TaskItem and Parser
 define('MAX_ACTION', count(\tpp\lang('state_order')) - 2);
 
 

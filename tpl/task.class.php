@@ -3,7 +3,7 @@ namespace tpp\view;
 use tpp\model;
 
 /**
- * Special Task template includes markup functions.
+ * Special Task template which includes markup functions.
  *
  * Use this when you need access to the project/tasks/notes/tag markup functions
  */
@@ -20,7 +20,6 @@ class TaskTemplate extends Template {
             $done     = '';
             $tags     = '';
             $date_tag = '';
-            $dated    = '';
             $decorate = '';
             $project  = '';
 
@@ -48,7 +47,7 @@ class TaskTemplate extends Template {
             }
             $todo   = empty($date_tag) ? 'images/todo.png' : 'images/event.png';
             $src    = ($item->done()) ? 'images/done.png' : $todo;
-            $check  = '<input type="image" class="check-done' . $dated . '" src="' . $src . '" id="'. $item->key() . '" title="">';
+            $check  = '<input type="image" class="bullet check-done" src="' . $src . '" id="'. $item->key() . '" title="">';
 
             $p      = '<p' . $decorate . '>' . $text . '</p>';
             $markup = $li . $check . $p . $tags . $date_tag . $project . $note . '</li>';
@@ -60,7 +59,7 @@ class TaskTemplate extends Template {
             $markup = $li . $p . $note . '</li>';
 
         } elseif ($item instanceof model\InfoItem) {
-            $bullet = '<img class="check-done" src="images/bullet.png" />';
+            $bullet = '<img class="bullet" src="images/bullet.png" />';
             $text   = '<p>' . $text . '</p>';
             $markup = $li . $bullet . $text . $note . '</li>';
         }
