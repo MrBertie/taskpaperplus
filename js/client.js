@@ -61,8 +61,6 @@ var app = (function () {
         // set initial page address correctly (deep link after the #)
         page_address    = $("#page-address").val();
         $.address.value(page_address);
-        
-        $body.data('editable', null);
 
         // allow use of tab key in all textareas, makes it easier to add notes
         $.fn.tabOverride.tabSize(4);
@@ -95,12 +93,6 @@ var app = (function () {
         var has_draft = typeof (data.draft) !== "undefined",
             long_value = typeof (data.value) !== "undefined" && data.value.length > 200,
             post = has_draft || long_value;
-
-        // close any editable boxes that might be still open
-        if (data.action !== 'editable' && $body.data('editable') !== null) {
-            $body.data('editable').editable('destroy');
-            $body.data('editable', null);
-        }
 
         callback = callback || false;
 
@@ -187,46 +179,48 @@ var app = (function () {
     
     
     pub.make_editable = function () {
-        if ($body.data('editable') === null) {
-            $('li.editable').editable(function (value) {
-                var $that = $(this);
-                request({action: 'editable', key: $that.attr("id"), value: value}, function () {
-                    $body.data('editable', null);
-                    show_message(lang.edit_msg);
-                });
+        $('li.editable').editable(function (value) {
+            var $that = $(this);
+            request({action: 'editable', key: $that.attr("id"), value: value}, function () {
+                show_message(lang.edit_msg);
+                // no need to rest the editable function as this is done
+                // by the render function later
+            });
+        },
+        {
+            type:      'textarea',
+            indicator: 'css/img/indicator.gif',
+            event:     'dblclick',
+            onblur:    'ignore',
+            cssclass:  'editable-box',
+            cols:      40,
+            rows:      3,
+            submit:    '<img class="top" src="images/save.png" title="' + lang.save_tip + '">',
+            cancel:    '<img class="bottom" src="images/cancel.png" title="' + lang.cancel_tip + '">',
+            data:     function () {
+                // the raw text is stored in the name attribute
+                var text = $(this).attr("name");
+                return text;
             },
-            {
-                type:      'textarea',
-                indicator: 'css/img/indicator.gif',
-                event:     'dblclick',
-                onblur:    'ignore',
-                cssclass:  'editable-box',
-                cols:      40,
-                rows:      3,
-                submit:    '<img class="top" src="images/save.png" title="' + lang.save_tip + '">',
-                cancel:    '<img class="bottom" src="images/cancel.png" title="' + lang.cancel_tip + '">',
-                data:     function () {
-                    // the raw text is stored in the name attribute
-                    var text = $(this).attr("name");
-                    return text;
-                },
-                onedit:   function () {
-                    hide_task_button_tpl();
-                    $body.data('editable', this);
-                    var $form = $(this).children('form');
-                    var $edit_area = $form.children('textarea');
-                    $edit_area.bind('keydown', 'ctrl+return meta+return', function () {
-                        $form.trigger('submit');
-                    });
-                    var txt = $edit_area[0];
-                    txt.selectionStart = txt.selectionEnd = txt.value.length;
-                },
-                onreset:  function () {
-                    $body.data('editable', null);
-                }
-           });
-        }
-    }
+            onedit:   function () {
+                // prevent mulitple edit instances!
+                $('li.editable').editable('disable');
+                // get rid of the floating toolbar
+                hide_task_button_tpl();
+                var $form = $(this).children('form');
+                var $edit_area = $form.children('textarea');
+                $edit_area.bind('keydown', 'ctrl+return meta+return', function () {
+                    $form.trigger('submit');
+                });
+                var txt = $edit_area[0];
+                txt.selectionStart = txt.selectionEnd = txt.value.length;
+            },
+            onreset:    function () {
+                // return the editable function on reset
+                $('li.editable').editable('enable');
+            }
+       });
+    };
     
     
     /*
