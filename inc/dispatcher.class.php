@@ -361,6 +361,14 @@ class Dispatcher extends DispatcherBase {
         \tpp\ini('insert_pos', $pos);
         $this->respond(eRespType::DONE);
     }
+
+
+    protected function toggle_notes() {
+        $cur = \tpp\ini('note_state');
+        $state = ($cur == 'max' ? 'min' : 'max');
+        \tpp\ini('note_state', $state);
+        $this->respond(eRespType::DONE);
+    }
     
     
     protected function url($url_hash) {

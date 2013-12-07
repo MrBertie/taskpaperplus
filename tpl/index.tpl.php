@@ -89,5 +89,6 @@
     <input id="task-buttons-tpl" type="hidden" value='<?php echo $this->task_buttons; ?>' />
     <input id="debug-mode"       type="hidden" value='<?php echo $this->debug_mode; ?>' />
     <input id="insert_pos"       type="hidden" value='<?php echo $this->insert_pos; ?>' />
+    <input id="note_state"       type="hidden" value='<?php echo $this->note_state; ?>' />
 </body>
 </html>

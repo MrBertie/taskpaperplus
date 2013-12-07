@@ -37,8 +37,6 @@ class Parser {
      * Parse the main taskpaper page
      * This includes the display Title and Number
      *
-     * @global type $token
-     * @param Line $this->lines   the line tokeniser instance
      * @return array    AST of the taskpaper
      */
     private function term_start() {
@@ -334,8 +332,7 @@ class Parser {
      *
      * Currently: String text, Bool done, Enum state, Array tags, DateTime date
      *
-     * @global  array $token
-     * @param   array $line    a matched task line to be parsed
+     * @param   string  $task
      * @return  array
      */
     private function parse_task($task) {
@@ -414,7 +411,7 @@ class Parser {
 /**
  * Class to iterate all lines from a text string.
  *
- * '\n' is assumed as the line separater
+ * '\n' is assumed as the line separator
  */
 class Lines {
 
@@ -436,7 +433,7 @@ class Lines {
     /**
      * Move forward in the text.
      *
-     * @return $this (Chainable)
+     * @return Lines $this (Chainable)
      */
     function move() {
         $this->pos++;
@@ -444,14 +441,16 @@ class Lines {
     }
 
     /**
-     * Current value
+     * Current value.
      *
-     * @return value | boolean false
+     * Note: the right hand side is trimmed for spaces to avoid the 'invisible space' problem
+     *
+     * @return string | boolean (false)
      */
 
     function cur() {
         if ($this->valid()) {
-            return $this->lines[$this->pos];
+            return rtrim($this->lines[$this->pos]);
         } else {
             return false;
         }

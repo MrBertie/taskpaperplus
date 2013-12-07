@@ -10,6 +10,7 @@ $(document).ready(function () {
     app.add_events();
     app.make_editable();
     app.make_sortable();
+    app.set_notes();
     app.loaded();
 });
 
@@ -34,10 +35,11 @@ var app = (function () {
         task_button_tpl = '',     // template for task line buttons
         task_prefix     = '',     // used to recognise a task in the search box
         page_address    = '',     // current (deep link) page address
-        restricted      = false,  // restricd = trash or archive
+        restricted      = false,  // restricted = trash or archive
         debug_mode      = false,  // is debug mode on?
         is_index        = true,   // initial index page load (i.e. not ajax)
-        $insert_pos;
+        $insert_pos,
+        $note_state;
 
 
     pub.init = function () {
@@ -48,16 +50,17 @@ var app = (function () {
         $text_area      = $("#edit-tasks>textarea");
         $body           = $('body');
         $search_box     = $("#search-box");
-        
+
         lang            = JSON.parse($("#jslang").html());
-        
+
         task_button_tpl = $('#task-buttons-tpl').val();
         task_prefix     = $('#task-prefix').val();
         debug_mode      = $('#debug-mode').val() === '1';
         $insert_pos     = $('#insert_pos');
-        
+        $note_state      = $('#note_state');
+
         pub.toggle_insert();
-        
+
         // set initial page address correctly (deep link after the #)
         page_address    = $("#page-address").val();
         $.address.value(page_address);
@@ -221,6 +224,22 @@ var app = (function () {
             }
        });
     };
+
+
+    pub.set_notes = function() {
+        var note_state = $note_state.val();
+        if (note_state === 'max') {
+            $(".reveal").hide();
+            $(".hidden-note").show();
+            $("#note-state img#max").hide();
+            $("#note-state img#min").show();
+        } else if (note_state === 'min') {
+            $(".reveal").show();
+            $(".hidden-note").hide();
+            $("#note-state img#max").show();
+            $("#note-state img#min").hide();
+        }
+    }
     
     
     /*
@@ -243,6 +262,7 @@ var app = (function () {
             $task_list.html(response.tasks);
             pub.make_sortable();
             pub.make_editable();
+            pub.toggle_notes();
         }
         if (response.projects !== undefined) {
             $("#projects").html(response.projects);
@@ -367,6 +387,13 @@ var app = (function () {
                     var pos = $insert_pos.val();
                     $insert_pos.val(pos === 'top' ? 'bottom' : 'top');
                     pub.toggle_insert();
+                });
+            })
+            .on("click", "#note-state", function() {
+                request({action: 'toggle_notes'}, function() {
+                    var pos = $note_state.val();
+                    $note_state.val(pos === 'max' ? 'min' : 'max');
+                    pub.set_notes();
                 });
             });
 

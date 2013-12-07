@@ -36,6 +36,7 @@ class Views {
         $view->jslang       = json_encode($jslang);
         $view->page_address = $address;
         $view->insert_pos   = \tpp\ini('insert_pos');
+        $view->note_state   = \tpp\ini('note_state');
         $view->task_prefix  = $term['task_prefix'];
 
         // child views

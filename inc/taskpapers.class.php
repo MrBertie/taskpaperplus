@@ -827,7 +827,7 @@ class TaskItem extends BasicItem {
      * Set/get the action , i.e. highlighting: next, wait, maybe, etc...
      *
      * @param null | integer $action
-     * @return integer | chainable
+     * @return integer | TaskItem
      */
     function action($action = null) {
         if (is_null($action)) {
