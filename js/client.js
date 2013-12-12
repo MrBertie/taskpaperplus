@@ -60,6 +60,7 @@ var app = (function () {
         $note_state      = $('#note_state');
 
         pub.toggle_insert();
+        pub.set_notes();
 
         // set initial page address correctly (deep link after the #)
         page_address    = $("#page-address").val();
