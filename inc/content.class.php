@@ -174,7 +174,8 @@ class Content {
      * @param array $order  New sorting order (array of IDs)
      * @param string $project Specific Project that should be sorted
      */
-    function reorder($order, $project = null) {
+    function reorder_tasks($order, $project = null) {
+        array_unshift($order, '000');
         $order = array_flip($order);
         $sorted_items = array_merge($order, $this->parsed_items);
 
@@ -188,54 +189,20 @@ class Content {
     }
 
 
-// Currently unused, maybe added sometime to allow
-// entire projects to be removed
-
-//    /**
-//     * Remove a Project and all its child Tasks and Info lines
-//     */
-//    private function remove_project($key) {
-//        if (array_key_exists($key, $this->raw_items)) {
-//            // remove all tasks in this project first
-//            $id = $this->project_index[$key];
-//            $to_remove = array_keys($this->task_project, $id);
-//            foreach (keys($to_remove) as $key) {
-//                $this->remove_task($key);
-//            }
-//            // now remove the project itself
-//            unset($this->raw_items[$key],
-//                  $this->projects[$id],
-//                  $this->project_index[$key]
-//                  );
-//            $this->project_count--;
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
-//
-//
-//    /**
-//     * Remove either tasks or info lines.
-//     */
-//    private function remove_task($key) {
-//        if (array_key_exists($key, $this->raw_items)) {
-//            unset($this->raw_items[$key],
-//                  $this->tasks[$key]
-//                  );
-//            if ($this->types[$key] == ITEM_TASK) {
-//                unset($this->task_date[$key],
-//                      $this->task_state[$key],
-//                      $this->task_project[$key]
-//                      );
-//            }
-//            unset ($this->types[$key]);
-//            $this->task_count--;
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
+    function reorder_projects($order) {
+        array_unshift($order, '000');
+        $new_order = array();
+        foreach ($order as $key) {
+            $new_order[] = $key;
+            $project = $this->project_by_key($key);
+            foreach ($project->children as $child) {
+                $new_order[] = $child->key;
+            }
+        }
+        $new_order = array_flip($new_order);
+        $sorted_items = array_merge($new_order, $this->parsed_items);
+        $this->parsed_items = $sorted_items;
+    }
 }
 
 
@@ -290,7 +257,7 @@ class ContentBuilder {
      * Used by the cache.class update function.
      * 
      * @param \tpp\model\Content $content
-     * @return type
+     * @return array
      */
     function parsed_items_to_raw(Content $content) {
         $raw_items = $this->_rebuild_raw_items($content->parsed_items);
@@ -343,6 +310,8 @@ class ContentBuilder {
      */
     private function _rebuild_raw_items(Array $parsed_items) {
         $prev = array();
+        $raw_items = array();
+
         foreach($parsed_items as $key => $parsed) {
             if ($parsed->type == 'project' && ! empty($prev)) {
                 $raw_items[] = '';

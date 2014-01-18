@@ -434,8 +434,14 @@ class Taskpaper extends TaskpaperPersist {
         return self::$_content->project_index[$key];
     }
 
-    function reorder($new_order, $project = null) {
-        self::$_content->reorder($new_order, $project);
+    function reorder_tasks($new_order, $project = null) {
+        self::$_content->reorder_tasks($new_order, $project);
+        self::update(UPDATE_PARSED);
+    }
+
+
+    function reorder_projects($new_order) {
+        self::$_content->reorder_projects($new_order);
         self::update(UPDATE_PARSED);
     }
 
@@ -774,8 +780,8 @@ class InfoItem extends BasicItem {
  */
 class ProjectItem extends BasicItem {
     
-    function is_empty() {
-        return empty($this->_parsed->children);
+    function empty_orphans() {
+        return $this->_parsed->index == 0 && empty($this->_parsed->children);
     }
 
     function numbered_text() {

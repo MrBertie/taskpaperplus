@@ -66,7 +66,10 @@ class Views {
         $active = $this->_taskpapers->get();
 
         $view = new TaskTemplate('project');
-        $view->tasks      = $active->search()->by_project($index);
+        $result           = $active->search()->by_project($index);
+        $view->tasks      = $result;
+        $view->task_count = $result->count();
+        $view->projects   = $view->tasks->projects();
         $view->header     = $view->tasks->title();
         $view->restricted = $active->restricted();
         return $view;

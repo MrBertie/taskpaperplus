@@ -97,7 +97,7 @@ a:hover:hover {
   color:#93a1a1;
   font-size:90%;
   position:absolute;
-  right:-10px;
+  right:0;
   top:-6px;
 }
 .tabs p.today:hover { color:#6c71c4; }
@@ -205,12 +205,12 @@ a:hover:hover {
   vertical-align:top;
 }
 .columns .projects {
-  background:#eee8d5;
+  background:#efeee8;
   border-right:1px solid #d7d5d4;
   width:18%;
 }
 .columns .meta {
-  background:#eee8d5;
+  background:#efeee8;
   border-left:1px solid #d7d5d4;
   width:12%;
 }
@@ -231,10 +231,12 @@ a:hover:hover {
   padding-left:0.3em;
   text-indent:-0.3em;
 }
-.projects ol li:hover {
+.projects ol li p { display:inline; }
+.projects ol li p:hover {
   cursor:pointer;
   text-shadow:0px 0px 15px rgba(100,169,220,0.9);
 }
+.projects ol li:not(:first-child):hover { cursor:ns-resize; }
 .meta h1 { color:#268bd2; }
 .meta h1:nth-child(3) { margin-top:1em; }
 .meta li {
@@ -260,7 +262,7 @@ a:hover:hover {
   vertical-align:middle;
 }
 #view-tasks #indicators .insert img { display:none; }
-#view-tasks #indicators .insert img:hover {
+#view-tasks #indicators span img:hover {
   opacity:0.65;
   cursor:pointer;
 }
@@ -346,7 +348,7 @@ a:hover:hover {
 }
 #view-tasks li.info {
   margin-top:4px;
-  margin-left:0.6em;
+  margin-left:0.8em;
   margin-bottom:4px;
 }
 #view-tasks li.info p {

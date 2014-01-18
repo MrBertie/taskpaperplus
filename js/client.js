@@ -9,7 +9,8 @@ $(document).ready(function () {
     app.show('view');
     app.add_events();
     app.make_editable();
-    app.make_sortable();
+    app.sortable_tasks();
+    app.sortable_projects();
     app.set_notes();
     app.loaded();
 });
@@ -166,19 +167,30 @@ var app = (function () {
     };
 
 
-    pub.make_sortable = function () {
+    pub.sortable_tasks = function () {
         // 'sortable' function needs to be added on each refresh
         if ($task_list.children("#sortable").length) {
             $task_list.children("#sortable").sortable({
                 update: function (action, ui) {
                     var order = $(this).sortable('toArray');
-                    request({action: 'sort', value: order});
+                    request({action: 'sort_tasks', value: order});
                 }
             });
-            $("#sortable").show();
+            $("#is-sortable").show();
         } else {
-            $("#sortable").hide();
+            $("#is-sortable").hide();
         }
+    };
+
+
+    pub.sortable_projects = function () {
+        $('#projects').children("#sortable").sortable({
+            items: "li:not(.not-sortable)",
+            update: function (action, ui) {
+                var order = $(this).sortable('toArray');
+                request({action: 'sort_projects', value: order});
+            }
+        });
     };
     
     
@@ -261,12 +273,13 @@ var app = (function () {
 
         if (response.tasks !== undefined) {
             $task_list.html(response.tasks);
-            pub.make_sortable();
+            pub.sortable_tasks();
             pub.make_editable();
-            pub.toggle_notes();
+            pub.set_notes();
         }
         if (response.projects !== undefined) {
             $("#projects").html(response.projects);
+            pub.sortable_projects();
         }
         if (response.tags !== undefined) {
             $("#tags").html(response.tags);
@@ -548,7 +561,7 @@ var app = (function () {
             .on("click", "#replace-button", function () {
                 var find_text = $("#find-word").val();
                 var replace_text = $("#replace-word").val();
-                if(find_text !== "" && replace_text !== "") {
+                if (find_text !== "" && replace_text !== "") {
                     find_text = new RegExp(find_text, "gi");
                     var edit_text = $text_area.val();
                     edit_text = edit_text.replace(find_text, replace_text);

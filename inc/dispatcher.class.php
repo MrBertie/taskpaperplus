@@ -13,8 +13,7 @@ class Dispatcher extends DispatcherBase {
 
     
     /**
-     * @param Request   $request    An instance of the http request (@see class Request)
-     * @param App       $app        An instance of the web-app class, for use by the dispatch functions
+     * @param tpp\App $app An instance of the web-app class, for use by the dispatch functions
      */
     function __construct(tpp\App $app) {
         $this->app     = $app;
@@ -252,14 +251,19 @@ class Dispatcher extends DispatcherBase {
         return $success;
     }
 
-    protected function sort($order) {
+    protected function sort_tasks($order) {
         $address = $this->app->state()->address;
         if ($address->action == 'project') {
             $project = $address->value;
         } else {
             $project = null;
         }
-        $this->app->taskpaper()->reorder($order, $project);
+        $this->app->taskpaper()->reorder_tasks($order, $project);
+        $this->route();
+    }
+
+    protected function sort_projects($order) {
+        $this->app->taskpaper()->reorder_projects($order);
         $this->route();
     }
 
@@ -390,8 +394,8 @@ class Dispatcher extends DispatcherBase {
      * 
      * If tab does not exist it will be created.  If the tab name is the same as the previous state then the tab state will be reset.
      *
-     * @param string | Address $address  Full page address OR just Tab name
-     * @aram $text  Text content if this is a new tab
+     * @param Address $address  Full page address OR just Tab name
+     * @return false    on failure only
      */
     private function _show(Address $address) {
 

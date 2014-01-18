@@ -87,7 +87,7 @@ $lang['tag_header']     = 'Tags';
 $lang['project_header'] = 'Topics';
 $lang['filter_header']  = 'Filters';
 $lang['search_header']  = 'Search: ';
-
+$lang['project_title']  = 'Topic';
 
 // new tab sample content
 $lang['new_tab_content'] = "New project:\n- new task #tag\n    a simple note";

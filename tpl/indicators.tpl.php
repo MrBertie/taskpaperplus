@@ -7,5 +7,5 @@
         <img id="top" src="images/insert_top.png" alt="insert" />
         <img id="bottom" src="images/insert_bottom.png" alt="insert" />
     </span>
-    <img id="sortable" src="images/sortable.png" alt='sortable'title="<?php echo \tpp\lang('sortable_tip'); ?>" />
+    <img id="is-sortable" src="images/sortable.png" alt="sortable" title="<?php echo \tpp\lang('sortable_tip'); ?>" />
 </div>

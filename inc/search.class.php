@@ -26,13 +26,16 @@ class Search {
 
     function by_project($index) {
         // returns a specific project
-        $name = $this->_content->project_by_index($index)->text;
+        $project_key = array(array_search($index, $this->_content->project_index) => 0);
+        $project = array_intersect_key($this->_content->raw_items, $project_key);
         // get a list of tasks (key only) in this project
         $task_keys = array_keys($this->_content->task_project, $index);
         // now finally extract the right task lines
         $task_keys = array_flip($task_keys);
         $tasks = array_intersect_key($this->_content->raw_items, $task_keys);
-        return $this->_filter_and_sort_tasks($tasks, $name, array(), false);    // do not show projects
+        // no sorting necessary
+        $items = array_merge($project, $tasks);
+        return $this->_filter_and_sort_tasks($items);
     }
 
     function by_tag($tag) {
@@ -65,6 +68,8 @@ class Search {
 
 
     // ********
+
+
     private function _filter_and_sort_tasks($tasks, $title = '', array $sort_filters = array()) {
         global $term;
 
@@ -72,7 +77,10 @@ class Search {
         if (!empty($sort_filters)) {
             list($tasks, $dates) = $this->_sort_results($tasks, $sort_filters);
         }
-        $task_hits = count($tasks);
+        // get the real "task" count!
+        $tasks_only = array_flip(array_keys($this->_content->types, 'task'));
+        $task_hits = count(array_intersect_key($tasks, $tasks_only));
+
         $groups = array();
         if ($this->_group_dates) {
             $prev_month = '';

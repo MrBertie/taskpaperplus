@@ -44,7 +44,9 @@
             <div class="columns">
                 <div class="projects column">
                     <h1><?php echo \tpp\lang('project_header'); ?></h1>
-                    <?php echo $this->projects; ?>
+                    <div id="projects">
+                        <?php echo $this->projects; ?>
+                    </div>
                 </div>
 
                 <div class="tasks column">
@@ -63,9 +65,13 @@
 
                 <div class="meta column">
                     <h1><?php echo \tpp\lang('filter_header'); ?></h1>
-                    <?php echo $this->filters; ?>
+                    <ul class="filters">
+                        <?php echo $this->filters; ?>
+                    </ul>
                     <h1><?php echo \tpp\lang('tag_header'); ?></h1>
-                    <?php echo $this->tags; ?>
+                    <ul id="tags">
+                        <?php echo $this->tags; ?>
+                    </ul>
                 </div>
             </div>
 

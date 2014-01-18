@@ -17,10 +17,8 @@ class TaskTemplate extends Template {
 
         if ($item instanceof model\TaskItem) {
             $colours  = \tpp\lang('state_colours');
-            $done     = '';
             $tags     = '';
             $date_tag = '';
-            $decorate = '';
             $project  = '';
 
             // done always takes precedence; however if not-done, the old state returns
@@ -82,8 +80,8 @@ class TaskTemplate extends Template {
         if ( ! empty($text)) {
             $note = '<ul>';
             if ($multi) {
-                $full_text = str_replace("\n", '<br/>', $this->_h($text));
-                $title = strtok($this->_h($text), "\n") .
+                $full_text = str_replace("\n", '<br/>', $text);
+                $title = strtok($$text, "\n") .
                          '<span class="more">' . '…' . '</span>';
                 $note .= '<li class="hidden-note reveal" title="">' .
                          '<p>' . $full_text . '</p></li>' .

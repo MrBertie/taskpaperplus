@@ -1,16 +1,17 @@
-<div id="projects">
-    <ol>
-    <?php
-    foreach ($this->projects as $project) {
-        global $term;
-        if ($project->is_empty()) continue;
-        $index = $project->index();
-        $text = $project->text();
-        if ($index > 0) {
-            $text = $index . $term['proj_sep']  . $text;
-        }
-        echo '<li id="' . $project->key() . '" data-index="' . $index . '" title="">' . $text . '</li>';
+<ol id="sortable">
+<?php
+foreach ($this->projects as $project) {
+    global $term;
+    if ($project->empty_orphans()) continue;
+    $index = $project->index();
+    $text = $project->text();
+    if ($index > 0) {
+        $text = $index . $term['proj_sep']  . $text;
+        $not_sortable = '';
+    } else {
+        $not_sortable = ' class="not-sortable"';
     }
-    ?>
-    </ol>
-</div>
+    echo '<li id="' . $project->key() . '"' . $not_sortable . '" data-index="' . $index . '" title=""><p>' . $text . '</p></li>';
+}
+?>
+</ol>

@@ -38,6 +38,7 @@
 @tab-border: #C9C7C6;
 @task-select:#FAFAFA;
 @aside:      #E6EAEF;
+@sidebar:    #EFEEE8;
 @tag:        #EAEFF7;
 @date-tag:   #EFE8CF;
 @proj-tag:   #DC9897;
@@ -207,7 +208,7 @@ a:hover {
         color: @base1;
         font-size: 90%;
         position: absolute;
-        right: -10px;
+        right: 0;
         top: -6px;
         &:hover {
             color: @violet;
@@ -352,14 +353,14 @@ a:hover {
     }
 
     .projects {
-        background: @base2;
+        background: @sidebar;
         border-right: 1px solid @border;
         width: @project-col;
     }
     .tasks {
     }
     .meta {
-        background: @base2;
+        background: @sidebar;
         border-left: 1px solid @border;
         width: @tag-col;
     }
@@ -394,7 +395,13 @@ a:hover {
             margin-bottom: 2px;
             margin-left: 0.6em;
             .hanging-indent(0.3em);
-            .text-hover();
+            p {
+                display: inline;
+                .text-hover();
+            }
+        }
+        li:not(:first-child):hover {
+          cursor: ns-resize;
         }
     }
 }
@@ -445,6 +452,8 @@ a:hover {
         }
         .insert img {
             display: none;
+        }
+        span img {
             &:hover {
                 opacity: @bright;
                 cursor: pointer;
@@ -549,7 +558,7 @@ a:hover {
         // info lines in task list
         &.info {
             margin-top: 4px;
-            margin-left: 0.6em;
+            margin-left: 0.8em;
             margin-bottom: 4px;
 
             p {
