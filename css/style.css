@@ -236,7 +236,7 @@ a:hover:hover {
   cursor:pointer;
   text-shadow:0px 0px 15px rgba(100,169,220,0.9);
 }
-.projects ol li:not(:first-child):hover { cursor:ns-resize; }
+.projects ol li:not(.not-sortable):hover { cursor:ns-resize; }
 .meta h1 { color:#268bd2; }
 .meta h1:nth-child(3) { margin-top:1em; }
 .meta li {
