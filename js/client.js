@@ -252,7 +252,7 @@ var app = (function () {
             $("#note-state img#max").show();
             $("#note-state img#min").hide();
         }
-    }
+    };
     
     
     /*

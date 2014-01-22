@@ -84,7 +84,7 @@ var app = (function () {
         var ajax = function(name, $form, responder) {
             $.post(
                 ajax_file,
-                $form.serialize() + '&login&' + name,
+                $form.serialize() + '&login=true&' + name + '=true',
                 responder,
                 'json'
             );

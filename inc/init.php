@@ -102,29 +102,6 @@ define('ITEM_INFO', 4);
 define('ITEM_NOTE', 5); // not used currently
 
 
-///**
-// * Enum: Different insertion types used by the Content _insert function.
-// *
-// * @see Content
-// */
-//define('INS_END', 0);
-//define('INS_BEGIN', 1);
-//define('INS_REPLACE', 2);
-//define('INS_BEFORE', 3);
-//define('INS_AFTER', 4); // not used currently
-
-
-///**
-// * Enum: Return result for Content _insert function.
-// *
-// * @see Content
-// */
-//define('RES_SUCCESS', 0);
-//define('RES_INVALID_TYPE', 1);
-//define('RES_NO_SPACE', 2);
-//define('RES_NO_SUCH_KEY', 3);
-
-
 // Regex patterns, terms and symbols used globally in app
 require_once(APP_PATH . 'conf/term.php');
 
@@ -171,7 +148,7 @@ $timezone = ini('timezone');
 // @ to avoid error NOTICE if timezone does not exist
 if (@date_default_timezone_set($timezone) === false) {
     // this will return a suitable default if user has not set the timezone in his server
-    $timezone = date_default_timezone_get();
+    $timezone = 'UTC';
     date_default_timezone_set($timezone);
 }
 DEFINE('TIMEZONE', $timezone);
