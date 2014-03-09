@@ -742,4 +742,22 @@ class IntervalFilter extends DateTokenFilter {
         // note: date class will swap start and end dates based on eq
         return array($start_date, $end_date, $eq);
     }
+
+
+    private function _filter_by_date($filter, $date) {
+        $filter = str_replace('/', '.', $filter);  // allow for Euro style date formats
+        $filters = explode('->', $filter);
+        $begin = (empty($filters[0]) ? null : strtotime($filters[0]));
+        $end   = (empty($filters[1]) ? null : strtotime($filters[1]));
+
+        $matched = false;
+        if ($begin !== null && $end !== null) {
+            $matched = ($date >= $begin && $date <= $end);
+        } elseif ($begin !== null) {
+            $matched = ($date >= $begin);
+        } elseif ($end !== null) {
+            $matched = ($date <= $end);
+        }
+        return $matched;
+    }
 }

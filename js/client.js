@@ -169,8 +169,9 @@ var app = (function () {
 
     pub.sortable_tasks = function () {
         // 'sortable' function needs to be added on each refresh
-        if ($task_list.children("#sortable").length) {
-            $task_list.children("#sortable").sortable({
+        if ($task_list.children(".sortable").length) {
+            $task_list.children(".sortable").sortable({
+                handle: ".drag-handle",
                 update: function (action, ui) {
                     var order = $(this).sortable('toArray');
                     request({action: 'sort_tasks', value: order});
@@ -184,8 +185,9 @@ var app = (function () {
 
 
     pub.sortable_projects = function () {
-        $('#projects').children("#sortable").sortable({
+        $('#projects').children(".sortable").sortable({
             items: "li:not(.not-sortable)",
+            handle: ".drag-handle",
             update: function (action, ui) {
                 var order = $(this).sortable('toArray');
                 request({action: 'sort_projects', value: order});

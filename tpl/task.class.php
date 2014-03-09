@@ -14,6 +14,7 @@ class TaskTemplate extends Template {
 
         $markup = '';
         list($li, $text, $note) = $this->basic_markup($item);
+        $handle = '<img class="drag-handle" src="images/grab.png" alt="sortable" />';
 
         if ($item instanceof model\TaskItem) {
             $colours  = \tpp\lang('state_colours');
@@ -48,21 +49,21 @@ class TaskTemplate extends Template {
             $check  = '<input type="image" class="bullet check-done" src="' . $src . '" id="'. $item->key() . '" title="">';
 
             $p      = '<p' . $decorate . '>' . $text . '</p>';
-            $markup = $li . $check . $p . $tags . $date_tag . $project . $note . '</li>';
+            $markup = $check . $p . $tags . $date_tag . $project . $note;
 
         } elseif ($item instanceof model\ProjectItem) {
             $index  = $item->index();
             $pfx    = ($index > 0) ? $index . $term['proj_sep'] : '';
             $p      = '<p data-index="' . $index . '" title="">' . $pfx . $text . '</p>';
-            $markup = $li . $p . $note . '</li>';
+            $markup = $p . $note;
 
         } elseif ($item instanceof model\InfoItem) {
             $bullet = '<img class="bullet" src="images/bullet.png" />';
             $text   = '<p>' . $text . '</p>';
-            $markup = $li . $bullet . $text . $note . '</li>';
+            $markup = $bullet . $text . $note;
         }
 
-        return $markup . "\n";
+        return $li . $markup . $handle . '</li>' . "\n";
     }
 
 

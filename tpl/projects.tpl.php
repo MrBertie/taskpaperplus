@@ -1,4 +1,4 @@
-<ol id="sortable">
+<ol class="sortable">
 <?php
 foreach ($this->projects as $project) {
     global $term;
@@ -11,7 +11,8 @@ foreach ($this->projects as $project) {
     } else {
         $not_sortable = ' class="not-sortable"';
     }
-    echo '<li id="' . $project->key() . '"' . $not_sortable . '" data-index="' . $index . '" title=""><p>' . $text . '</p></li>';
+    $handle = '<img class="drag-handle" src="images/grab.png" alt="sortable" />';
+    echo '<li id="' . $project->key() . '"' . $not_sortable . '" data-index="' . $index . '" title=""><p>' . $text . '</p>' . $handle . '</li>';
 }
 ?>
 </ol>

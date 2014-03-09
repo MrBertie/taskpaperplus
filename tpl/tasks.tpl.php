@@ -1,9 +1,9 @@
 <h1>
     <?php echo \tpp\lang('task_header'); ?>
-    <span class="freq">(<?php echo $this->task_count; ?>)</span>
+    <span class="freq"><?php echo $this->task_count; ?></span>
 </h1>
 
-<ul id="sortable">
+<ul class="sortable">
     <?php
     foreach ($this->tasks as $task) {
         if ($task->hidden()) continue;

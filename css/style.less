@@ -10,7 +10,7 @@
 @yellow:     #b58900;
 @orange:     #cb4b16;
 @red:        #dc322f;
-@red:        #D12D2D;
+@red:        #B3211F; // bit darker!
 @magenta:    #d33682;
 @violet:     #6c71c4;
 @blue:       #268bd2;
@@ -31,15 +31,16 @@
 @bk-brown:   #EAE0C9;
 @bk-gray:    #EAEAEA;
 
-// other colours
+// app specific other colours
+@surround:   #F7F5EE;
+@nav:        @aside;
 @background: #F7F5EE;
-@surround:   #F4F0E3;
-@backdrop:   #D9D5C1;
+@aside:      #F0F0F0;
+@sidebar:    @aside;
 @border:     #D7D5D4;
+@border:     #E1E0DF;
 @tab-border: #C9C7C6;
 @task-select:#FAFAFA;
-@aside:      #E6EAEF;
-@sidebar:    #EFEEE8;
 @tag:        #EAEFF7;
 @date-tag:   #EFE8CF;
 @proj-tag:   #DC9897;
@@ -65,7 +66,7 @@ html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, 
 
 /* basic font and sizes */
 body {
-    background-color: @background;
+    background-color: @surround;
     color: @base02;
     font-size: 14px;
     line-height: 18px;
@@ -104,6 +105,7 @@ a:hover {
 .text-hover() {
     &:hover {
         cursor: pointer;
+        color: black;
         text-shadow: 0px 0px 15px rgba(100, 169, 220, .9);
     }
 }
@@ -113,6 +115,23 @@ a:hover {
         background: @task-select;
     }
     .rounded();
+}
+
+.drag-handle {
+  display: none;
+  height: 36px;
+  padding: 0;
+  position: absolute;
+  right: 0;
+  top: -8px;
+}
+
+.drag-handle-hover() {
+  &:hover > .drag-handle {
+    cursor: ns-resize;
+    display: inline;
+    opacity: .2;
+  }
 }
 
 .rounded(@rad: 2.5px) {
@@ -125,6 +144,7 @@ a:hover {
 
 // the "something's happening" throbber
 #indicator {
+    border: 0;
     background-image: url(img/indicator3.gif);
     background-repeat: no-repeat;
     display: none;
@@ -152,7 +172,7 @@ a:hover {
 //********************************
 
 .tabs {
-    border-bottom: 1px solid @tab-border;
+    border-bottom: 1px solid @border;
     font-size: 14px;
     list-style: none;
     margin: 0;
@@ -178,8 +198,8 @@ a:hover {
     }
 
     li.selected {
-        background: @aside;
-        border: 1px solid @tab-border;
+        background: @nav;
+        border: 1px solid @border;
         border-bottom: 0;
         margin-left: 0px;
         z-index: 100;
@@ -199,6 +219,7 @@ a:hover {
     }
 
     a img {
+        border: 0;
         height: 16px;
         margin-bottom: 3px;
         opacity: @bright;
@@ -224,7 +245,7 @@ a:hover {
 // **************************
 
 #header {
-    background-color: @aside;
+    background-color: @nav;
     border-bottom: 1px solid @border;
     margin-bottom: 0px;
     padding: 8px 220px 8px 120px;
@@ -240,6 +261,7 @@ a:hover {
             right: -32px;
             top: 4px;
             img {
+                border: 0;
                 width: 16px;
             }
             &:hover {
@@ -333,7 +355,7 @@ a:hover {
 // *************************
 
 #content {
-    border: 1px solid @tab-border;
+    border: 1px solid @border;
     border-bottom: 0;
     border-top: 0;
     overflow: hidden;
@@ -384,25 +406,23 @@ a:hover {
 // PROJECTS SIDEBAR
 
 .projects {
-    h1 {
-        color: @red;
-    }
+    color: @red;
     ol {
         list-style: none;
         li {
-            color: @red;
             font-family: "Calibri";
             font-size: 115%;
             margin-bottom: 2px;
             margin-left: 0.6em;
+            position: relative;
             .hanging-indent(0.3em);
             p {
                 display: inline;
                 .text-hover();
             }
         }
-        li:not(.not-sortable):hover {
-          cursor: ns-resize;
+        li:not(.not-sortable) {
+            .drag-handle-hover();
         }
     }
 }
@@ -482,10 +502,10 @@ a:hover {
     }
 
     ul {
+        position: relative;
         list-style: none;
-
-        &#sortable li {
-            cursor: ns-resize;
+        &.sortable li {
+            .drag-handle-hover();
         }
     }
 
@@ -728,17 +748,19 @@ a:hover {
     color: @base1;
     display: inline;
     font-weight: normal;
-    font-size: 9px;
+    font-size: 60%;
     font-family: Arial;
-    margin-left: 0.35em;
     vertical-align: top;
+}
+.tag ~ .freq {
+    margin-left: 0.35em;
 }
 
 
 #footer {
-    background-color: @aside;
+    background-color: @nav;
     border-top: 1px solid @border;
-    border-bottom: 1px solid @tab-border;
+    border-bottom: 1px solid @border;
     border-left: 0;
     border-right: 0;
     clear: both;
@@ -843,10 +865,11 @@ a:hover {
     top: -18px;
     width: 72px !important;
     &:hover {
-        opacity: @bright;
+        opacity: .97;
     }
 
     input {
+        border: 0;
         float: left;
         height: 14px;
         padding: 4px 5px;
@@ -865,7 +888,7 @@ a:hover {
 .task-buttons-inner {
     border: 1px solid @border;
     display: inline-block;
-    background: @bk-gray;
+    background: @background;
     padding: 3px 5px 4px;
     position: relative;
     width: 72px;
@@ -883,17 +906,17 @@ a:hover {
 
     &:after {
         border-color: rgba(244, 240, 227, 0);
-	border-left-color: @bk-gray;
-	border-width: 10px;
-	top: 50%;
-	margin-top: -10px;
+        border-left-color: @background;
+        border-width: 10px;
+        top: 50%;
+        margin-top: -10px;
     }
     &:before {
         border-color: rgba(215, 213, 212, 0);
-	border-left-color: @border;
-	border-width: 12px;
-	top: 50%;
-	margin-top: -12px;
+        border-left-color: @border;
+        border-width: 12px;
+        top: 50%;
+        margin-top: -12px;
     }
 }
 

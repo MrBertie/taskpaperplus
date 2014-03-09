@@ -14,7 +14,7 @@ Project list template
     ?>
 </ul>
 
-<ul id="sortable">
+<ul class="sortable">
     <?php
     foreach($this->tasks as $task) {
         echo $this->mark_up_item($task, false);
