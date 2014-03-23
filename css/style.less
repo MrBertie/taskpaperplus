@@ -11,6 +11,7 @@
 @orange:     #cb4b16;
 @red:        #dc322f;
 @red:        #B3211F; // bit darker!
+@red:        #B51B23;
 @magenta:    #d33682;
 @violet:     #6c71c4;
 @blue:       #268bd2;
@@ -33,10 +34,13 @@
 
 // app specific other colours
 @surround:   #F7F5EE;
+@surround:   #FAF8F1;
 @nav:        @aside;
+@nav:        @bk-blue;
 @background: #F7F5EE;
 @aside:      #F0F0F0;
 @sidebar:    @aside;
+@tasks:      #FEFEFE;
 @border:     #D7D5D4;
 @border:     #E1E0DF;
 @tab-border: #C9C7C6;
@@ -49,9 +53,9 @@
 @pencil:     #607D86;
 
 // sizes
-@content-width:     98%;
-@project-col:       18%;
-@tag-col:           12%;
+@content-width:     100%;
+@project-col:       20%;
+@tag-col:           13%;
 
 // opacity
 @faded:     0.3;
@@ -157,7 +161,7 @@ a:hover {
     z-index: 100;
 }
 
-// area of viewport used for content display
+// area of view-port used for content display
 #frame {
     margin-left: auto;
     margin-right: auto;
@@ -230,7 +234,7 @@ a:hover {
         color: @base1;
         font-size: 90%;
         position: absolute;
-        right: 0;
+        right: 15px;
         top: -6px;
         &:hover {
             color: @violet;
@@ -324,11 +328,10 @@ a:hover {
 .logo {
     font-family: "Open Sans", "Narkism", "Droid Sans", "Trebuchet", "Arial";
     left: 0px;
-    padding: 16px 10px 16px 18px;
+    padding: 16px 10px 16px 16px;
     position: absolute;
     top: 0px;
     width: 120px;
-
     a {
         float: left;
         position: relative;
@@ -355,7 +358,7 @@ a:hover {
 // *************************
 
 #content {
-    border: 1px solid @border;
+    //border: 1px solid @border;
     border-bottom: 0;
     border-top: 0;
     overflow: hidden;
@@ -371,20 +374,21 @@ a:hover {
     .column {
         border: 0;
         display: table-cell;
-        padding: 10px 12px;
+        padding: 10px 15px;
         vertical-align: top;
     }
 
     .projects {
         background: @sidebar;
-        border-right: 1px solid @border;
+        //border-right: 1px solid @border;
         width: @project-col;
     }
     .tasks {
+        background: @tasks;
     }
     .meta {
         background: @sidebar;
-        border-left: 1px solid @border;
+        //border-left: 1px solid @border;
         width: @tag-col;
     }
     // main content headers
@@ -763,14 +767,12 @@ a:hover {
     border-bottom: 1px solid @border;
     border-left: 0;
     border-right: 0;
-    clear: both;
     float: left;
     font-size: 90%;
     height: 20px;
     line-height: 20px;
     margin: 0;
-    padding: 5px 10px;
-    position: relative;
+    padding: 5px 25px 5px 15px;
     text-align: center;
     vertical-align: middle;
     width: 100%;
@@ -799,7 +801,7 @@ a:hover {
         border-style: solid;
         color: @base01;
         float: right;
-        margin: 0 15px 0 5px;
+        margin: 0 25px 0 5px;
         vertical-align: top;
     }       
 }

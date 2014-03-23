@@ -3,7 +3,7 @@ html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, 
   padding:0;
 }
 body {
-  background-color:#f7f5ee;
+  background-color:#faf8f1;
   color:#073642;
   font-size:14px;
   line-height:18px;
@@ -54,7 +54,7 @@ a:hover:hover {
   margin-left:auto;
   margin-right:auto;
   padding-top:15px;
-  width:98%;
+  width:100%;
 }
 .tabs {
   border-bottom:1px solid #e1e0df;
@@ -79,7 +79,7 @@ a:hover:hover {
   position:relative;
 }
 .tabs li.selected {
-  background:#f0f0f0;
+  background:#e1efff;
   border:1px solid #e1e0df;
   border-bottom:0;
   margin-left:0px;
@@ -108,12 +108,12 @@ a:hover:hover {
   color:#93a1a1;
   font-size:90%;
   position:absolute;
-  right:0;
+  right:15px;
   top:-6px;
 }
 .tabs p.today:hover { color:#6c71c4; }
 #header {
-  background-color:#f0f0f0;
+  background-color:#e1efff;
   border-bottom:1px solid #e1e0df;
   margin-bottom:0px;
   padding:8px 220px 8px 120px;
@@ -177,7 +177,7 @@ a:hover:hover {
 .logo {
   font-family:"Open Sans", "Narkism", "Droid Sans", "Trebuchet", "Arial";
   left:0px;
-  padding:16px 10px 16px 18px;
+  padding:16px 10px 16px 16px;
   position:absolute;
   top:0px;
   width:120px;
@@ -202,7 +202,6 @@ a:hover:hover {
 }
 .logo p.red { color:#d1a4a7; }
 #content {
-  border:1px solid #e1e0df;
   border-bottom:0;
   border-top:0;
   overflow:hidden;
@@ -216,18 +215,17 @@ a:hover:hover {
 .columns .column {
   border:0;
   display:table-cell;
-  padding:10px 12px;
+  padding:10px 15px;
   vertical-align:top;
 }
 .columns .projects {
   background:#f0f0f0;
-  border-right:1px solid #e1e0df;
-  width:18%;
+  width:20%;
 }
+.columns .tasks { background:#fefefe; }
 .columns .meta {
   background:#f0f0f0;
-  border-left:1px solid #e1e0df;
-  width:12%;
+  width:13%;
 }
 .columns h1 {
   display:block;
@@ -235,7 +233,7 @@ a:hover:hover {
   margin-bottom:8px;
   padding-bottom:4px;
 }
-.projects { color:#b3211f; }
+.projects { color:#b51b23; }
 .projects ol { list-style:none; }
 .projects ol li {
   font-family:"Calibri";
@@ -327,7 +325,7 @@ a:hover:hover {
   width:11px;
 }
 #view-tasks li.project {
-  color:#b3211f;
+  color:#b51b23;
   font-size:110%;
   margin-bottom:5px;
   margin-left:0.2em;
@@ -546,19 +544,17 @@ a:hover:hover {
 }
 .tag ~ .freq { margin-left:0.35em; }
 #footer {
-  background-color:#f0f0f0;
+  background-color:#e1efff;
   border-top:1px solid #e1e0df;
   border-bottom:1px solid #e1e0df;
   border-left:0;
   border-right:0;
-  clear:both;
   float:left;
   font-size:90%;
   height:20px;
   line-height:20px;
   margin:0;
-  padding:5px 10px;
-  position:relative;
+  padding:5px 25px 5px 15px;
   text-align:center;
   vertical-align:middle;
   width:100%;
@@ -587,7 +583,7 @@ a:hover:hover {
   border-style:solid;
   color:#586e75;
   float:right;
-  margin:0 15px 0 5px;
+  margin:0 25px 0 5px;
   vertical-align:top;
 }
 .version {
@@ -777,7 +773,7 @@ input:disabled { opacity:0.3; }
   z-index:0;
 }
 #login-err ul {
-  color:#b3211f;
+  color:#b51b23;
   text-align:left;
   font-size:15px;
   line-height:20px;
