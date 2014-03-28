@@ -19,6 +19,7 @@
     <script type="text/javascript" src="./lib/jquery.hotkeys.js"></script>
     <script type="text/javascript" src="./lib/taboverride.js"></script>
     <script type="text/javascript" src="./lib/jquery.taboverride.js"></script>
+    <script type="text/javascript" src="./lib/jquery.placeholder.js"></script>
     <script type="text/javascript" src="./js/client.js"></script>
 
     <script id="jslang" type="application/json"><?php echo $this->jslang; ?></script>

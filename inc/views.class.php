@@ -58,6 +58,7 @@ class Views {
         $view             = new TaskTemplate('tasks');
         $view->tasks      = $active->items();
         $view->task_count = $view->tasks->count();
+        $view->restricted = $active->restricted();
         return $view;
     }
 

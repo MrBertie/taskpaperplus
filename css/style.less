@@ -31,30 +31,35 @@
 @bk-edit:    #FFFFAA;
 @bk-brown:   #EAE0C9;
 @bk-gray:    #EAEAEA;
+@bk-white:   #FEFEFE;
 
-// app specific other colours
-@surround:   #F7F5EE;
+
+// App specific other colours
+// this is the best place to tune things yourself.
 @surround:   #FAF8F1;
-@nav:        @aside;
+@surround:   #D7DADE;
 @nav:        @bk-blue;
 @background: #F7F5EE;
-@aside:      #F0F0F0;
-@sidebar:    @aside;
-@tasks:      #FEFEFE;
-@border:     #D7D5D4;
+@sidebar:    #EFF3F7;
+@tasks:      @bk-white;
+@project:    #506477;
+@meta:       #747677;
+@border:     #BEC1C4;
 @border:     #E1E0DF;
 @tab-border: #C9C7C6;
-@task-select:#FAFAFA;
+@task-select:@sidebar;
 @tag:        #EAEFF7;
+@tag:        @bk-blue;
 @date-tag:   #EFE8CF;
 @proj-tag:   #DC9897;
 @strike:     @tab-border;
 @eraser:     #D1A4A7;
 @pencil:     #607D86;
 
+
 // sizes
 @content-width:     100%;
-@project-col:       20%;
+@project-col:       23%;
 @tag-col:           13%;
 
 // opacity
@@ -81,7 +86,7 @@ body {
     z-index: 0;
 }
 h1 {
-    font-size: 140%;
+    font-size: 139%;
     font-weight: normal;
     margin: 0.2em 0 0.4em 0;
 }
@@ -96,6 +101,11 @@ a:hover {
     text-decoration: underline;
     .text-hover();
 }
+
+.placeholder {
+    color: @tab-border; 
+}
+
 
 // some general styling mixins
 
@@ -123,18 +133,18 @@ a:hover {
 
 .drag-handle {
   display: none;
-  height: 36px;
+  //height: 24px;
   padding: 0;
   position: absolute;
-  right: 0;
-  top: -8px;
+  right: 3px;
+  top: 0px;
 }
 
 .drag-handle-hover() {
   &:hover > .drag-handle {
     cursor: ns-resize;
     display: inline;
-    opacity: .2;
+    opacity: .25;
   }
 }
 
@@ -143,7 +153,6 @@ a:hover {
     -webkit-border-radius: @rad;
     border-radius: @rad;
 }
-
 
 
 // the "something's happening" throbber
@@ -165,7 +174,7 @@ a:hover {
 #frame {
     margin-left: auto;
     margin-right: auto;
-    padding-top: 15px;
+    padding-top: 10px;
     width: @content-width;
 }
 
@@ -176,7 +185,7 @@ a:hover {
 //********************************
 
 .tabs {
-    border-bottom: 1px solid @border;
+    border-bottom: 1px solid @tab-border;
     font-size: 14px;
     list-style: none;
     margin: 0;
@@ -203,7 +212,7 @@ a:hover {
 
     li.selected {
         background: @nav;
-        border: 1px solid @border;
+        border: 1px solid @tab-border;
         border-bottom: 0;
         margin-left: 0px;
         z-index: 100;
@@ -252,7 +261,7 @@ a:hover {
     background-color: @nav;
     border-bottom: 1px solid @border;
     margin-bottom: 0px;
-    padding: 8px 220px 8px 120px;
+    padding: 8px 220px 8px 140px;
     position: relative;
 
     .search {
@@ -275,8 +284,9 @@ a:hover {
         #search-box {
             border: 1px solid @border;
             font: 14px Verdana, helvetica, sans-serif;
-            height: 1.32em;
+            height: 1.35em;
             margin-bottom: 2px;
+            overflow: auto; // removes the IE9 scrollbars!
             padding: 3px 6px;
             resize: none;
             vertical-align: middle;
@@ -358,7 +368,6 @@ a:hover {
 // *************************
 
 #content {
-    //border: 1px solid @border;
     border-bottom: 0;
     border-top: 0;
     overflow: hidden;
@@ -374,21 +383,20 @@ a:hover {
     .column {
         border: 0;
         display: table-cell;
-        padding: 10px 15px;
+        padding: 10px 18px;
         vertical-align: top;
     }
 
     .projects {
         background: @sidebar;
-        //border-right: 1px solid @border;
         width: @project-col;
     }
     .tasks {
         background: @tasks;
+        padding: 10px 15px;
     }
     .meta {
         background: @sidebar;
-        //border-left: 1px solid @border;
         width: @tag-col;
     }
     // main content headers
@@ -410,16 +418,18 @@ a:hover {
 // PROJECTS SIDEBAR
 
 .projects {
-    color: @red;
+    color: @project;
     ol {
         list-style: none;
         li {
-            font-family: "Calibri";
-            font-size: 115%;
-            margin-bottom: 2px;
+            font-size: 100%;
+            padding: 2px 3px 2px;
             margin-left: 0.6em;
             position: relative;
             .hanging-indent(0.3em);
+            &:hover {
+                background: @bk-white;
+            }
             p {
                 display: inline;
                 .text-hover();
@@ -437,10 +447,10 @@ a:hover {
 
 .meta {
     h1 {
-        color: @blue;
+        color: @meta;
     }
     h1:nth-child(3) {
-        margin-top: 1em;
+        margin-top: 1.2em;
     }
     li {
         line-height: 1.4em;
@@ -449,7 +459,7 @@ a:hover {
         margin-left: 0.4em;
     }
     ul#tags li {
-        line-height: 1.1em;
+        line-height: 1.18em;
     }
     .tag {
         opacity: 1;
@@ -500,7 +510,7 @@ a:hover {
     h2 {
         border-bottom: 1px solid @base2;
         color: @base01;
-        font-size: 115%;
+        font-size: 123%;
         padding-bottom: 2px;
         padding-left: 0.1em;
     }
@@ -514,9 +524,8 @@ a:hover {
     }
 
     li {
-        line-height: 110%;
-        margin-top: 1px;
-        padding-top: 2px;
+        line-height: 115%;
+        padding: 3px 3px 3px;
         position: relative;
         .box-hover();
         .hanging-indent();
@@ -525,14 +534,14 @@ a:hover {
             height: 11px;
             margin: 0px;
             padding: 2px 4px;
-            vertical-align: 1px;
+            vertical-align: -3px;
             width: 11px;
         }
 
         &.project {
-            color: @red;
-            font-size: 110%;
-            margin-bottom: 5px;
+            color: @project;
+            font-size: 118%;
+            margin-bottom: 3px;
             margin-left: 0.2em;
             margin-top: 12px;
 
@@ -547,15 +556,14 @@ a:hover {
         }
 
         &.task {
-            margin-left: 0.8em;
+            margin-left: 1em;
 
             // body text with a task
             p {
                 color: @base02;
                 display: inline;
                 margin-left: 0px;
-                padding: 1px 3px;
-                vertical-align: 3px;
+                padding: 0px 4px;
                 &:hover {
                     cursor: pointer;
                 }
@@ -564,11 +572,9 @@ a:hover {
 
             // little project/tag labels at end of task when searching
             .tag, .date-tag, .project {
-                border-style: dotted;
+                border: 0;
                 font-size: 75%;
                 margin-left: 7px;
-                vertical-align: 4px;
-                .rounded();
             }
 
             .project {
@@ -582,17 +588,14 @@ a:hover {
 
         // info lines in task list
         &.info {
-            margin-top: 4px;
-            margin-left: 0.8em;
-            margin-bottom: 4px;
+            margin-left: 1em;
 
             p {
                 color: @base00;
                 display: inline;
                 font-size: 97%;
                 font-weight: normal;
-                padding: 2px 3px;
-                vertical-align: 3px;
+                padding: 0px 3px;
             }
         }
 
@@ -603,11 +606,10 @@ a:hover {
             display: list-item;
             font-style: normal;
             font-size: 85%;
+            line-height: 120%;
             list-style: none;
-            margin-bottom: 3px;
             margin-left: 0;
-            margin-top: -2px;
-            padding-left: 0;
+            padding: 3px 0px 0px 0px;
             text-indent: 0;
 
             p {
@@ -618,10 +620,8 @@ a:hover {
                 padding: 0 0 2px 0;
             }
             .more {
-                //color: @border;
                 font-weight: bold;
                 margin-left: 0.6em;
-                vertical-align: bottom;
             }
         }
 
@@ -650,7 +650,7 @@ a:hover {
         border: 1px solid @border;
         clear: both;
         float: left;
-        font: 14px verdana, helvetica,sans-serif;
+        font: 14px "Segoe UI", verdana, helvetica,sans-serif;
         height: 500px;
         line-height: 150%;
         margin-bottom: 6px;
@@ -678,7 +678,7 @@ a:hover {
 
 
 .tag {
-    color: @base1;
+    color: @base0;
     background: @tag;
     border: 1px solid @border;
     font-size: 80%;
@@ -764,7 +764,7 @@ a:hover {
 #footer {
     background-color: @nav;
     border-top: 1px solid @border;
-    border-bottom: 1px solid @border;
+    border-bottom: 1px solid @tab-border;
     border-left: 0;
     border-right: 0;
     float: left;
@@ -807,7 +807,7 @@ a:hover {
 }
 
 .version {
-    color: @tab-border;
+    color: @base1;
     font-size: 75%;
     float: left;
     margin: 15px 0 30px 0;
@@ -861,19 +861,21 @@ a:hover {
 // floating toolbar for each task item
 .task-buttons {
     display: inline-block;
-    left: -68px;
+    left: -67px;
     opacity: @faded;
     position: absolute;
-    top: -18px;
-    width: 72px !important;
+    top: -17px;
+    width: 72px;
     &:hover {
         opacity: .97;
     }
 
     input {
         border: 0;
+        display: inline-block;
         float: left;
         height: 14px;
+        overflow: visible;
         padding: 4px 5px;
         width: 14px;
         &:hover {
@@ -881,6 +883,9 @@ a:hover {
             height: 18px;
             padding: 2px 3px;
             width: 18px;
+        }
+        &.clear-left {
+            clear: left;
         }
     }
 }
@@ -890,7 +895,7 @@ a:hover {
 .task-buttons-inner {
     border: 1px solid @border;
     display: inline-block;
-    background: @background;
+    background: @tasks;
     padding: 3px 5px 4px;
     position: relative;
     width: 72px;
@@ -908,7 +913,7 @@ a:hover {
 
     &:after {
         border-color: rgba(244, 240, 227, 0);
-        border-left-color: @background;
+        border-left-color: @tasks;
         border-width: 10px;
         top: 50%;
         margin-top: -10px;

@@ -11,8 +11,9 @@ define('APP_PATH', $path . '/');
 define('APP_NAME', basename($path));
 
 
-// session start up
-session_name(APP_NAME);
+// session start up, get a valid session name
+$session_name = $result = preg_replace("/[^a-zA-Z0-9]+/", "", APP_NAME);
+session_name($session_name);
 session_start();
 
 //session_destroy();

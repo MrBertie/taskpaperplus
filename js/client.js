@@ -354,6 +354,8 @@ var app = (function () {
 
 
     pub.add_events = function () {
+    
+        $('input, textarea').placeholder();
 
         $(".logo").on("click", "a", function() {
             request({action: 'all'});

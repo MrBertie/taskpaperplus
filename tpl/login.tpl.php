@@ -9,6 +9,7 @@
 
         <link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
         <script type="text/javascript" src="./lib/jquery.js"></script>
+        <script type="text/javascript" src="./lib/jquery.placeholder.js"></script>
         <script type="text/javascript" src="./js/login.js"></script>
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
         

@@ -28,13 +28,13 @@ global $lang;
  *             or just be available from the search box, or used in other filters (false)
  */
 $lang['filter_settings'] = array(
-    'next'      => array('*next | >week /date', 'Next action plus next week', 'yellow', true),
-    'soon'      => array('*todo >month /date', 'Due in next month', 'green', true),
+    'next'      => array('*next | >week /date', 'Next action plus coming week', 'yellow', true),
     'waiting'   => array('*wait', 'Waiting on someone/something', 'cyan', true),
     'delegated' => array('*deleg', 'Delegated to someone else', 'violet', true),
     'todo'      => array('*todo', 'All incomplete tasks', 'blue', true),
     'done'      => array('*done', 'Completed tasks only', 'gray', true),
     'dated'     => array('*todo =date /date', 'Incomplete tasks with a date', 'green', true),
+    'month'     => array('*todo >month /date', 'Due in next month', 'green', true),
     'late'      => array('*todo <today /date', 'Incomplete tasks with expired date', 'red', true),
 );
 

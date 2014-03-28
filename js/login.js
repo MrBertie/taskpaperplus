@@ -37,6 +37,8 @@ var app = (function () {
     };
     
     pub.add_events = function() {
+    
+        $('input, textarea').placeholder();
         
         $tabs.on("click", "li", function (e) {
             e.preventDefault();

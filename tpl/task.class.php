@@ -44,7 +44,7 @@ class TaskTemplate extends Template {
                            '" data-index="' . $item->project_index() . '">' .
                            $name . '</span>';
             }
-            $todo   = empty($date_tag) ? 'images/todo.png' : 'images/event.png';
+            $todo   = empty($date_tag) ? 'images/todo.png' : 'images/event2.png';
             $src    = ($item->done()) ? 'images/done.png' : $todo;
             $check  = '<input type="image" class="bullet check-done" src="' . $src . '" id="'. $item->key() . '" title="">';
 
@@ -82,7 +82,7 @@ class TaskTemplate extends Template {
             $note = '<ul>';
             if ($multi) {
                 $full_text = str_replace("\n", '<br/>', $text);
-                $title = strtok($$text, "\n") .
+                $title = strtok($text, "\n") .
                          '<span class="more">' . '…' . '</span>';
                 $note .= '<li class="hidden-note reveal" title="">' .
                          '<p>' . $full_text . '</p></li>' .
