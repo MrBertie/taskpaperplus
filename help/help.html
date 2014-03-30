@@ -31,11 +31,11 @@ However don't let the light, uncluttered, understated, interface fool you... Tas
 
 ----
 
-It's a portable browser-based todo program *(i.e. it runs in a web browser; however it doesn't need an internet connection--it has its own local webserver)*. Under the skin your precious tasks are just plain text files written in a clear, logical way. It'll take you just a few minutes to feel comfortable; just in case you forget the syntax there's a compact cheatsheet at the bottom of the edting page. (If you've ever used a wiki then think of it as a wiki-for-tasks.)
+It's a portable browser-based todo program *(i.e. it runs in a web browser; however it doesn't need an internet connection--it has its own local webserver)*. Under the skin your precious tasks are just plain text files written in a clear, logical way. It'll take you just a few minutes to feel comfortable; just in case you forget the syntax there's a compact cheatsheet at the bottom of the editing page. (If you've ever used a wiki then think of it as a wiki-for-tasks.)
 
 ----
 
-Behind the scenes the task lists are stored as plain text files, so your data is not locked up in some mysterious, invisible, database or human (un)readable XML format.  Because after all: **all your tasks belong you**, its just standard plain text: readable, openable, viewable, useable...anywhere!
+Behind the scenes the task lists are stored as plain text files, so your data is not locked up in some mysterious, invisible, database or human (un)readable XML format.  Because after all: **all your tasks belong you**, its just standard plain text: readable, open-able, viewable, usable...anywhere!
 
 
 <a id="overview"></a>
@@ -61,13 +61,13 @@ Make use of the colourful "GTD" style filters at the top of the right sidebar to
 
 ----
 
-Easily add tags to any task to help you find and group your task list according to your needs... need to group by person assigned, or by urgency, or by area, no problem, just tag it! Taskpaper+ is very freeform; mold it to your personal needs and make it work for you like any good tool.
+Easily add tags to any task to help you find and group your task list according to your needs... need to group by person assigned, or by urgency, or by area, no problem, just tag it! Taskpaper+ is very free-form; mould it to your personal needs and make it work for you like any good tool.
 
 ![Tags](images/tags.png)
 
 ----
 
-Divide your tasks up into managable topics, that automatically show up in the left sidebar giving you an effortless overview of your task list. Click any subheading to quickly focus on that topic.
+Divide your tasks up into manageable topics, that automatically show up in the left sidebar giving you an effortless overview of your task list. Click any subheading to quickly focus on that topic.
 
 ![Topics](images/topics.png)
 
@@ -79,7 +79,7 @@ Powerful Search box, with familiar Google-like syntax. Simply type the words, ta
 
 ----
 
-Here's an example of a search result. Multiple words and commands can be used to narrow down what you are looking for; matching topics are also included in the result list
+Here's an example of a search result. Multiple words and commands can be used to narrow down what you are looking for — matching topics are also included in the result list
 
 ![Search results](images/text_search.png)
 
@@ -113,9 +113,7 @@ Undoubtedly the most important step: getting the program started. I hope that I 
 
 Therefore open the folder and double-click `start-nginx.exe`. If all goes well you should see a new window that allows you to start a small local webserver needed to run Taskpaper+.  Press the `Start` button, and minimize the window.
 
-Now open Firefox/Chrome/Opera and type `http://localhost/taskpaper` into the address bar. A new Taskpaper+ page should open and off you go. Time to getting clicking, ticking, typing, and doing!
-
-*Caveat: Internet Explorer just doesn't work properly, and I doubt I'll ever get round to making it work due to lack of energy/interest...on my part, not yours!*
+Now open your regular web browser (Firefox/Chrome/Opera/IE9+) and type `http://localhost/taskpaper` into the address bar. A new Taskpaper+ page should open and off you go. Time to getting clicking, ticking, typing, and doing!
 
 
 <a id="syntax"></a>
@@ -139,7 +137,7 @@ Or in _Markdown_ style:
     1. Home Items
     ======
 
-Whichever you prefer, or looks more readable to you.  The number is used to change the order of the tabs, and the title will replace the tab's file name that is displayed.  The `.` after the number is necessary.
+Whichever you prefer, or looks more readable to you.  The number is used to change the order of the tabs, and the title will replace the tab's file name that is displayed.  *The `.` after the number is necessary.*
 
 You can also add a note using the note syntax below, this will be used to create a Tool-tip when you hover your mouse over the tab.
 
@@ -217,7 +215,7 @@ To show that a task is done, just put an `X` at the start of the line. Simple, v
 
 Action Highlighting
 ------
-To highlight the action state of a task you can simply put a [space] followed by `*` (asterisks) at the end of the line. One `*` means 'next', `**` means 'wait', `***` means 'maybe'. For the adventurous this can be customised in the `lang.php` and `config.php` files, but the default should be useful enough!
+To highlight the action state of a task you can simply put a [space] followed by `*` (asterisks) at the end of the line. One `*` means 'next', `**` means 'waiting', `***` means 'delegated'. For the adventurous this can be customised in the `lang.php` and `config.php` files, but the defaults should be useful enough!
 
     - this task will be highlighted yellow *
     - this task will be highlighted blue **
@@ -265,7 +263,7 @@ You can also edit tasks in-place too! Just double-click the text of any task and
 
 ![Editing in place](images/edit_in_place.png)
 
-TIP: One really handy feature is adding new tasks using the 'Search Box' at the top of the tab. Just type a task with or without the `-` at the beginning and press `Ctrl+Enter` when you're done. You can also add tags, or even choose the topic by typing `/` followed by the topic number at the end of the new task (e.g. `/1` would mean the topic no. 1; refer to the topic numbers in list in the left sidebar) or by selecting a topic before you enter a new task. By default all new tasks added this way will be put at the top if no topic is provided.
+TIP: One really handy feature is adding new tasks using the 'Search Box' at the top of the tab. Just type a task with or without the `-` at the beginning and press `Ctrl+Enter` when you're done. You can also add tags, or even choose the topic by typing `/` followed by the topic number at the end of the new task (e.g. `/1` would mean the topic no. 1 — refer to the topic numbers in list in the left sidebar) or by selecting a topic before you enter a new task. By default all new tasks added this way will be put at the top if no topic is provided.
 
 In addition, you can use time-periods when adding tasks through the Search Box or Edit-In-Place box, or even the main editing window; for example if you type `=today` this will be changed into a tag corresponding to today's date when the task is added (e.g. #10-Aug-2010 if that were today's date!). The following time periods are recognised:
 
@@ -317,7 +315,7 @@ Archiving and Deleting
 ======
 There are 3 buttons that pop up at the end of the task when you hover over it,  allowing you to highlight, archive and delete that task. Archived tasks will be moved to the "archive" taskpaper file, deleted tasks to the 'trash' taskpaper!
 
-At the top of the task list there is also a button for archiving all completed tasks in one action; handy on Friday when you've had a successful week!
+In the toolbar there is also a button for archiving all completed tasks in one action — handy on Friday when you've had a successful week!
 
 <a id="navigating"></a>
 
@@ -332,19 +330,19 @@ Couldn't be easier...use the tabs at the top to jump between the different taskp
 
 Adding, Removing and Renaming Taskpaper Tabs
 ======
-It is always good to remember that each Taskpaper tab corresponds to a real text file on your computer. There are three toolbar buttons that allow you to add new tabs (files); rename tabs, or delete a tab (i.e. file) completely:
+It is always good to remember that each Taskpaper tab corresponds to a real text file on your computer. There are three toolbar buttons that allow you to add new tabs (remember tabs are just text files behind the scenes), rename tabs, or delete a tab completely:
 
 Where to find the buttons to add, remove and rename Taskpaper tabs
 
 ![Toolbar](images/toolbar.png)
 
-TIP: Taskpaper tabs (files) are not actual deleted, rather moved to a separate folder inside the taskpaper/_deleted folder.
+TIP: Taskpaper tabs are not actual deleted, rather moved to a separate folder inside the taskpaper/_deleted folder.  You can always get them back.
 
 <a id="searching"></a>
 
 Filter and Search
 ======
-Now this is where Taskpaper starts to differentiate itself from plain paper: there are so many ways of searching for and grouping the tasks that are relevant to you
+Here's where Taskpaper starts to differentiate itself from plain paper: there are so many ways of searching for and grouping the tasks that are relevant to you.
 
 ![A simple text search](images/text_search.png)
 
@@ -447,7 +445,7 @@ You can of course print a list of your tasks. Select the tab you want to print, 
 
 The print layout is deliberately much simpler than the screen version; it only displays the task list, without sidebars and menus, and uses bold instead of highlighting to ensure clarity on black and white printouts.
 
-TIP: If you have a long list, I personally find it useful to change the printer settings to landscape, 2 pages per sheet, i.e. booklet format; this looks quite good and is handy as an in-the-pocket daily todo-list.
+TIP: If you have a long list, I personally find it useful to change the printer settings to landscape, 2 pages per sheet, i.e. booklet format; this looks quite good and is handy as a daily in-the-pocket todo-list.
 
 <a id="faq"></a>
 
@@ -455,13 +453,13 @@ Other resources
 ======
 For further information and questions you can check out the [Frequently Asked Questions (FAQ)](help/faq.html), or look at the Issues page on the [Github Repository](https://github.com/MrBertie/taskpaperplus), where you can also request help, report bugs, and better still offer suggestions and advice.  Latest version are always available there.
 
-------
+------s
 
 [About](help/readme.md)
 
 License: The MIT License (MIT)
 
-Copyright: Symon Bent 2013
+Copyright: Symon Bent 2014-Mar-30
 </xmp>
 
 <script src="strapdown.js"></script>
