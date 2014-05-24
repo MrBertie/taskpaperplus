@@ -1,17 +1,15 @@
 /* Solarized Colour Scheme */
-@base03:     #002b36;
+@base03:     #002b36; //darkest gray
 @base02:     #073642;
 @base01:     #586e75;
 @base00:     #657b83;
 @base0:      #839496;
 @base1:      #93a1a1;
 @base2:      #eee8d5;
-@base3:      #fdf6e3;
+@base3:      #fdf6e3; // lightest grey
 @yellow:     #b58900;
 @orange:     #cb4b16;
 @red:        #dc322f;
-@red:        #B3211F; // bit darker!
-@red:        #B51B23;
 @magenta:    #d33682;
 @violet:     #6c71c4;
 @blue:       #268bd2;
@@ -34,25 +32,28 @@
 @bk-white:   #FEFEFE;
 
 
-// App specific other colours
-// this is the best place to tune things yourself.
-@surround:   #FAF8F1;
-@surround:   #D7DADE;
+// App specific colours
+// *** this is the best place to tune things yourself. ***
+//@surround:   #FAF8F1;
+@surround:   #F9F9F9;
 @nav:        @bk-blue;
+//@nav:        #DDE4EA;
+@footer:     @bk-blue;
 @background: #F7F5EE;
 @sidebar:    #EFF3F7;
 @tasks:      @bk-white;
 @project:    #506477;
 @meta:       #747677;
-@border:     #BEC1C4;
-@border:     #E1E0DF;
-@tab-border: #C9C7C6;
+@faint-border:#E9ECEE;
+@light-border:#E1E0DF;
+//@dark-border: #C9C7C6;
+@dark-border: #D4D2D2;
 @task-select:@sidebar;
 @tag:        #EAEFF7;
 @tag:        @bk-blue;
 @date-tag:   #EFE8CF;
 @proj-tag:   #DC9897;
-@strike:     @tab-border;
+@strike:     @dark-border;
 @eraser:     #D1A4A7;
 @pencil:     #607D86;
 
@@ -96,6 +97,7 @@ h1, h2, h3 {
 a {
     color: @blue;
     text-decoration: none;
+    -ms-transition: .5s;
 }
 a:hover {
     text-decoration: underline;
@@ -103,7 +105,7 @@ a:hover {
 }
 
 .placeholder {
-    color: @tab-border; 
+    color: @light-border;
 }
 
 
@@ -132,20 +134,20 @@ a:hover {
 }
 
 .drag-handle {
-  display: none;
-  //height: 24px;
-  padding: 0;
-  position: absolute;
-  right: 3px;
-  top: 0px;
+    display: none;
+    //height: 24px;
+    padding: 0;
+    position: absolute;
+    right: 3px;
+    top: 0px;
 }
 
 .drag-handle-hover() {
-  &:hover > .drag-handle {
-    cursor: ns-resize;
-    display: inline;
-    opacity: .25;
-  }
+    &:hover > .drag-handle {
+        cursor: ns-resize;
+        display: inline;
+        opacity: .25;
+    }
 }
 
 .rounded(@rad: 2.5px) {
@@ -174,7 +176,7 @@ a:hover {
 #frame {
     margin-left: auto;
     margin-right: auto;
-    padding-top: 10px;
+    padding-top: 15px;
     width: @content-width;
 }
 
@@ -185,7 +187,7 @@ a:hover {
 //********************************
 
 .tabs {
-    border-bottom: 1px solid @tab-border;
+    border-bottom: 1px solid @dark-border;
     font-size: 14px;
     list-style: none;
     margin: 0;
@@ -212,7 +214,7 @@ a:hover {
 
     li.selected {
         background: @nav;
-        border: 1px solid @tab-border;
+        border: 1px solid @dark-border;
         border-bottom: 0;
         margin-left: 0px;
         z-index: 100;
@@ -259,7 +261,7 @@ a:hover {
 
 #header {
     background-color: @nav;
-    border-bottom: 1px solid @border;
+    border-bottom: 1px solid @dark-border;
     margin-bottom: 0px;
     padding: 8px 220px 8px 140px;
     position: relative;
@@ -282,7 +284,7 @@ a:hover {
             }
         }
         #search-box {
-            border: 1px solid @border;
+            border: 1px solid @dark-border;
             font: 14px Verdana, helvetica, sans-serif;
             height: 1.35em;
             margin-bottom: 2px;
@@ -298,10 +300,13 @@ a:hover {
                 height: 4.5em;
             }
             &::-webkit-input-placeholder {
-                color: @border !important;
+                color: @base1 !important;
             }
             &:-moz-placeholder {
-                color: @border !important;
+                color: @base1 !important;
+            }
+            &:-ms-input-placeholder {
+                color: @base1 !important;
             }
             .rounded();
         }
@@ -345,9 +350,8 @@ a:hover {
     a {
         float: left;
         position: relative;
-        right: 0;
-        top: -2px;
         .text-hover();
+        vertical-align: top;
     }
 
     p {
@@ -355,7 +359,6 @@ a:hover {
         float: left;
         font-size: 1.4em;
         font-weight: bold;
-        vertical-align: top;
         &.red {
             color: @eraser;
         }
@@ -383,20 +386,21 @@ a:hover {
     .column {
         border: 0;
         display: table-cell;
-        padding: 10px 18px;
+        padding: 15px 18px 40px;
         vertical-align: top;
     }
 
     .projects {
         background: @sidebar;
+        border-right: 1px solid @faint-border;
         width: @project-col;
     }
     .tasks {
         background: @tasks;
-        padding: 10px 15px;
     }
     .meta {
         background: @sidebar;
+        border-left: 1px solid @faint-border;
         width: @tag-col;
     }
     // main content headers
@@ -534,19 +538,22 @@ a:hover {
             height: 11px;
             margin: 0px;
             padding: 2px 4px;
+            position: relative;
             vertical-align: -3px;
+            z-index: 2;
             width: 11px;
         }
 
         &.project {
             color: @project;
-            font-size: 118%;
             margin-bottom: 3px;
             margin-left: 0.2em;
             margin-top: 12px;
 
             p {
                 display: inline;
+                font-family: "Calibri";
+                font-size: 130%;
                 padding: 2px 0;
                 .text-hover();
             }
@@ -564,9 +571,6 @@ a:hover {
                 display: inline;
                 margin-left: 0px;
                 padding: 0px 4px;
-                &:hover {
-                    cursor: pointer;
-                }
                 .rounded();
             }
 
@@ -578,7 +582,7 @@ a:hover {
             }
 
             .project {
-                border: 1px dotted @border;
+                border: 1px dotted @light-border;
                 color: @proj-tag;
                 font-size: 85%;
                 padding: 2px 4px;
@@ -604,8 +608,8 @@ a:hover {
             border: 0;
             color: @base1;
             display: list-item;
-            font-style: normal;
             font-size: 85%;
+            font-style: normal;
             line-height: 120%;
             list-style: none;
             margin-left: 0;
@@ -615,6 +619,8 @@ a:hover {
             p {
                 color: @base1;
                 display: block !important;
+                font-family: "Segoe UI";
+                font-size: 100%;
                 line-height: 130%;
                 margin-left: 0;
                 padding: 0 0 2px 0;
@@ -647,7 +653,7 @@ a:hover {
 
     textarea {
         background: @bk-yellow;
-        border: 1px solid @border;
+        border: 1px solid @light-border;
         clear: both;
         float: left;
         font: 14px "Segoe UI", verdana, helvetica,sans-serif;
@@ -660,7 +666,7 @@ a:hover {
     }
     .find-replace-bar {
         background: @base2;
-        border: 1px @border solid;
+        border: 1px @light-border solid;
         float: right;
         margin: 0 0 4px 0;
         padding: 5px;
@@ -680,7 +686,7 @@ a:hover {
 .tag {
     color: @base0;
     background: @tag;
-    border: 1px solid @border;
+    border: 1px solid @light-border;
     font-size: 80%;
     opacity: @bright;
     padding: 2px 5px;
@@ -702,7 +708,7 @@ a:hover {
 
 // the filters list
 .filters li span {
-    border: 1px solid @border;
+    border: 1px solid @light-border;
     color: @base00;
     font-size: 90%;
     padding: 1px 5px 2px;
@@ -762,15 +768,15 @@ a:hover {
 
 
 #footer {
-    background-color: @nav;
-    border-top: 1px solid @border;
-    border-bottom: 1px solid @tab-border;
+    background-color: @footer;
+    border-top: 1px solid @dark-border;
+    border-bottom: 1px solid @dark-border;
     border-left: 0;
     border-right: 0;
     float: left;
     font-size: 90%;
-    height: 20px;
-    line-height: 20px;
+    height: 24px;
+    line-height: 24px;
     margin: 0;
     padding: 5px 25px 5px 15px;
     text-align: center;
@@ -796,14 +802,14 @@ a:hover {
         margin-right: 5px;
     }
     select {
-        border-color: @border;
+        border-color: @dark-border;
         border-width: 1px;
         border-style: solid;
         color: @base01;
         float: right;
-        margin: 0 25px 0 5px;
+        margin: 2px 25px 0 5px;
         vertical-align: top;
-    }       
+    }
 }
 
 .version {
@@ -864,7 +870,8 @@ a:hover {
     left: -67px;
     opacity: @faded;
     position: absolute;
-    top: -17px;
+    top: -15px;
+    z-index: 1;
     width: 72px;
     &:hover {
         opacity: .97;
@@ -893,7 +900,7 @@ a:hover {
 
 // allows nice arrow pointer on right side of box
 .task-buttons-inner {
-    border: 1px solid @border;
+    border: 1px solid @light-border;
     display: inline-block;
     background: @tasks;
     padding: 3px 5px 4px;
@@ -920,7 +927,7 @@ a:hover {
     }
     &:before {
         border-color: rgba(215, 213, 212, 0);
-        border-left-color: @border;
+        border-left-color: @light-border;
         border-width: 12px;
         top: 50%;
         margin-top: -12px;
@@ -938,7 +945,7 @@ input:disabled {
 
     text, textarea {
         background: @bk-yellow;
-        border: 1px solid @border;
+        border: 1px solid @light-border;
         font: 14px "Segoe UI";
         margin: 0 0px 3px 7px;
         margin-left: 5px;
@@ -990,14 +997,14 @@ input:disabled {
     }
     table {
         background: @base2;
-        border: 1px solid @border;
+        border: 1px solid @light-border;
         border-collapse: collapse;
         margin-bottom: 10px;
         margin-top: 10px;
     }
     th, td {
         border-collapse: collapse;
-        border-color: @border;
+        border-color: @light-border;
         border-style: solid;
         border-width: 1px;
         padding: 0.4em;
@@ -1010,6 +1017,11 @@ input:disabled {
 
 // LOGIN form
 
+body.login {
+    background: @surround;
+}
+
+
 #login-msg {
     height: 240px;
     left: 50%;
@@ -1020,7 +1032,7 @@ input:disabled {
     width: 400px;
     z-index: 0;
     p {
-        color: @border;
+        color: @light-border;
         text-align: center;
         font-size: 24px;
         line-height: 30px;
@@ -1044,10 +1056,8 @@ input:disabled {
         line-height: 20px;
     }
 }
-   
 
 #login-form {
-
     font-family: Segoe UI, Arial;
     height: 240px;
     margin: -150px 0 0 -230px;
@@ -1058,11 +1068,11 @@ input:disabled {
     z-index: 0;
 
     .logo {
-        
+
     }
-    
+
     form {
-        border: 1px solid @border;
+        border: 1px solid @light-border;
         border-top: 0;
         padding: 30px 30px 26px 30px;
     }
@@ -1078,7 +1088,7 @@ input:disabled {
     }
 
     .inputs input {
-        border: 1px solid @border;
+        border: 1px solid @light-border;
         margin: 0 0 10px 0;
         padding: 5px 10px 5px 10px;
         width: 316px;
@@ -1094,9 +1104,9 @@ input:disabled {
         margin: 25px 0 0 0;
     }
 
-    .submit {		
+    .submit {
         background-color: @aside;
-        border-color: @tab-border;
+        border-color: @dark-border;
         border-style: solid;
         border-width: 1px;
         color: @base02;
@@ -1109,12 +1119,12 @@ input:disabled {
         width: 120px;
     }
 
-    .submit:hover, .submit:focus {		
+    .submit:hover, .submit:focus {
         background-color: @base2;
-    }	
+    }
 
-    .submit:active {		
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;		
+    .submit:active {
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
         -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
         -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
         outline: none;
@@ -1125,7 +1135,7 @@ input:disabled {
     }
 
     .actions a {
-        color: @blue;    
+        color: @blue;
         float: right;
         line-height: 35px;
         margin-left: 10px;

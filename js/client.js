@@ -70,7 +70,7 @@ var app = (function () {
         // allow use of tab key in all textareas, makes it easier to add notes
         $.fn.tabOverride.tabSize(4);
         $(document).tabOverride(true, "textarea");
-        
+
         // debug mode toggle message (double-click version number)
         lang['debug_msg'] = 'Do you want to toggle debug mode?';
         if (debug_mode === true) {
@@ -91,7 +91,7 @@ var app = (function () {
      * e.g. for clean-up or result messages
      */
     var request = function (data, callback) {
-        
+
         if (is_index) return;
 
         // set POST based on draft or size of value!
@@ -137,16 +137,16 @@ var app = (function () {
             return true;
         }
         if (response !== undefined &&
-                response !== null &&
-                response.type !== 'error' &&
-                response.type !== 'missing') {
+            response !== null &&
+            response.type !== 'error' &&
+            response.type !== 'missing') {
 
             restricted = response.restricted;
             update_view(response);
 
-            if (response.type === 'address' && 
-                    response.address !== '' && 
-                    $.address.value() !== response.address) {
+            if (response.type === 'address' &&
+                response.address !== '' &&
+                $.address.value() !== response.address) {
                 $.address.value(response.address);
             }
             return true;
@@ -194,50 +194,50 @@ var app = (function () {
             }
         });
     };
-    
-    
+
+
     pub.make_editable = function () {
         $('li.editable').editable(function (value) {
-            var $that = $(this);
-            request({action: 'editable', key: $that.attr("id"), value: value}, function () {
-                show_message(lang.edit_msg);
-                // no need to rest the editable function as this is done
-                // by the render function later
-            });
-        },
-        {
-            type:      'textarea',
-            indicator: 'css/img/indicator.gif',
-            event:     'dblclick',
-            onblur:    'ignore',
-            cssclass:  'editable-box',
-            cols:      40,
-            rows:      3,
-            submit:    '<img class="top" src="images/save.png" title="' + lang.save_tip + '">',
-            cancel:    '<img class="bottom" src="images/cancel.png" title="' + lang.cancel_tip + '">',
-            data:     function () {
-                // the raw text is stored in the name attribute
-                var text = $(this).attr("name");
-                return text;
-            },
-            onedit:   function () {
-                // prevent mulitple edit instances!
-                $('li.editable').editable('disable');
-                // get rid of the floating toolbar
-                hide_task_button_tpl();
-                var $form = $(this).children('form');
-                var $edit_area = $form.children('textarea');
-                $edit_area.bind('keydown', 'ctrl+return meta+return', function () {
-                    $form.trigger('submit');
+                var $that = $(this);
+                request({action: 'editable', key: $that.attr("id"), value: value}, function () {
+                    show_message(lang.edit_msg);
+                    // no need to rest the editable function as this is done
+                    // by the render function later
                 });
-                var txt = $edit_area[0];
-                txt.selectionStart = txt.selectionEnd = txt.value.length;
             },
-            onreset:    function () {
-                // return the editable function on reset
-                $('li.editable').editable('enable');
-            }
-       });
+            {
+                type:      'textarea',
+                indicator: 'css/img/indicator.gif',
+                event:     'dblclick',
+                onblur:    'ignore',
+                cssclass:  'editable-box',
+                cols:      40,
+                rows:      3,
+                submit:    '<img class="top" src="images/save.png" title="' + lang.save_tip + '">',
+                cancel:    '<img class="bottom" src="images/cancel.png" title="' + lang.cancel_tip + '">',
+                data:     function () {
+                    // the raw text is stored in the name attribute
+                    var text = $(this).attr("name");
+                    return text;
+                },
+                onedit:   function () {
+                    // prevent mulitple edit instances!
+                    $('li.editable').editable('disable');
+                    // get rid of the floating toolbar
+                    hide_task_button_tpl();
+                    var $form = $(this).children('form');
+                    var $edit_area = $form.children('textarea');
+                    $edit_area.bind('keydown', 'ctrl+return meta+return', function () {
+                        $form.trigger('submit');
+                    });
+                    var txt = $edit_area[0];
+                    txt.selectionStart = txt.selectionEnd = txt.value.length;
+                },
+                onreset:    function () {
+                    // return the editable function on reset
+                    $('li.editable').editable('enable');
+                }
+            });
     };
 
 
@@ -255,8 +255,8 @@ var app = (function () {
             $("#note-state img#min").hide();
         }
     };
-    
-    
+
+
     /*
      * refreshes various parts of the view based on JSON data
      * returned to render function
@@ -309,7 +309,7 @@ var app = (function () {
 
         $("#message-banner span").text(text);
         var left = ($(window).width() - $message_banner.width()) / 2;
-        
+
         $message_banner
             .removeClass()
             .addClass('bk-' + colour)
@@ -326,8 +326,8 @@ var app = (function () {
     var throbber_off = function () {
         $("#indicator").hide();
     };
-    
-    
+
+
     pub.toggle_insert = function () {
         if ($insert_pos.val() === 'top') {
             $("#insert img#top").show();
@@ -337,8 +337,8 @@ var app = (function () {
             $("#insert img#bottom").show();
         }
     };
-    
-    
+
+
     var hide_task_button_tpl = function (target) {
         if (target === undefined) {
             $(".task-buttons").remove();
@@ -354,13 +354,13 @@ var app = (function () {
 
 
     pub.add_events = function () {
-    
+
         $('input, textarea').placeholder();
 
         $(".logo").on("click", "a", function() {
             request({action: 'all'});
         });
-        
+
         $(".version")
             // toggle debug-mode
             .on("dblclick", "span", function(e) {
@@ -385,7 +385,7 @@ var app = (function () {
                     show_message(['Cache cleared!', 'yellow']);
                 });
             });
-            
+
         $("#footer")
             .on("click", "#logout", function() {
                 request({action: "logout"}, function() {
@@ -398,7 +398,7 @@ var app = (function () {
                     window.setTimeout("window.location.reload()", 1000);
                 });
             });
-            
+
         $("#indicators")
             .on("click", "#insert", function() {
                 request({action: 'toggle_insert'}, function() {
@@ -417,7 +417,7 @@ var app = (function () {
 
 
         // Search Box
-        
+
         $body.bind('keydown', 'shift+return', function (e) {
             e.preventDefault();
             $search_box.focus();
@@ -444,10 +444,10 @@ var app = (function () {
         var add_task = function () {
             var expression = $search_box.val();
             if (expression !== '') {
-                // add the task prefix if missing
-                if (expression.charAt(0) !== task_prefix) {
-                    expression = task_prefix + " " + expression;
-                }
+                /* // add the task prefix if missing
+                 if (expression.charAt(0) !== task_prefix) {
+                 expression = task_prefix + " " + expression;
+                 } */
                 // new task to be added
                 request({action: 'add', value: expression}, function () {
                     show_message(lang.add_msg);
@@ -463,7 +463,7 @@ var app = (function () {
             var expression = $search_box.val();
             if (expression !== "") {
                 request({action: 'search', value: expression});
-            // enter in a blank box == reset (common practice)
+                // enter in a blank box == reset (common practice)
             } else {
                 request({action: 'all'});
             }
@@ -474,10 +474,11 @@ var app = (function () {
             .bind('keydown', 'esc', reset_search)
             .bind('keydown', 'return', function (e) {
                 var val = $(this).val();
-                // check for a task entry (always "- " at beginning) and allow returns
-                if (val.substr(0, 2) === (task_prefix + " ")) {
+                // check for a task entry (always "- " at beginning) or
+                // in "big" text box mode and allow returns (assume task is being entered
+                if (val.substr(0, 2) === (task_prefix + " ") || $(this).hasClass("big")) {
                     return;
-                // ignore empty returns
+                    // ignore empty returns
                 } else if (val === '') {
                     reset_search();
                 } else {
@@ -490,6 +491,9 @@ var app = (function () {
                 if ($(this).val() === task_prefix) {
                     $(this).addClass("big");
                 }
+            })
+            .on("dblclick", function() {
+                $(this).toggleClass("big");
             })
             .on("click", function () {
                 show_reset_search();
@@ -555,7 +559,7 @@ var app = (function () {
         };
 
         $edit_tasks
-                
+
             .on("click", "input.cancel-button", reset)
 
             // this is the 'Save' button, for editing area
@@ -579,7 +583,7 @@ var app = (function () {
         $("#tabs").on("click", "li", function (e) {
             e.preventDefault();
             var draft = '',
-                  tab = $(this).attr("name");
+                tab = $(this).attr("name");
 
             // pass the draft text state if the edit area is visible
             if ($edit_tasks.css("display") !== "none") {
@@ -594,7 +598,7 @@ var app = (function () {
                         $text_area.focus();
                     });
                 }
-            // standard tab change    
+                // standard tab change
             } else {
                 request({action: 'tab', value: tab, draft: draft});
             }
@@ -685,7 +689,7 @@ var app = (function () {
 
         $.address.externalChange(function (e) {
             var address = e.pathNames,
-                    tab = address[0];
+                tab = address[0];
             // ignore page load events or invalid addresses (i.e. at least tab must be provided)
             if (is_index === 'false' && tab !== undefined) {
                 request({action: 'url', value: address});
