@@ -141,8 +141,10 @@ class Dispatcher extends DispatcherBase {
 
 
     protected function before() {
+        global $config;
+        
         // first confirm is user is logged in
-        $logged_in = $this->app->user->do_login();
+        $logged_in = ($config['use_auth']) ? $this->app->user->do_login() : true;
         return $logged_in;
     }
 

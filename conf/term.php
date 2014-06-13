@@ -36,7 +36,7 @@ $term['date']             = '~' . $date_only . '~';                             
 $term['tag']              = '/' . $term['tag_prefix'] . '(?![0-9])(' . $i8n_word . '+)/';    // normal tag--note #1, #2, #45, are viewed as numbers not tags!
 $term['tag_date']         = '~' . $term['tag_prefix'] . '(' . $date_only . ')~';    // date tag
 $term['action']           = '/' . $action . '(\n|$)/';                              // action on the end
-$term['info']             = '/^(?!' . $term['done_prefix'] . '?' . $term['task_prefix'] . ').+(?<!' . $term['proj_suffix'] . ')$/';
+$term['info']             = '/^(?!(\s*$|' . $term['done_prefix'] . '?' . $term['task_prefix'] . '.+|.+' . $term['proj_suffix'] . '$))/';
 $term['indent_note']      = '/^\s{2,4}(.+)/';                                       // indented style note
 
 // basic task text formatting (used in task.tpl.php)

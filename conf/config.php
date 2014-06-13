@@ -20,6 +20,7 @@ $config['cache_dir']        = '_cache/';
 
 $config['hide_tips']        = false;    // hide all pop up tool tips
 $config['edit_new_tab']     = true;     // open new tabs in 'edit' state
+$config['use_auth']         = false;    // force login/authentication
 
 $config['title']            = 'Taskpaper+';
 $config['default_active']   = 'tasks';

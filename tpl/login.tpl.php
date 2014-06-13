@@ -15,7 +15,7 @@
         
     </head>
     
-    <body>
+    <body class="login">
         
         <div class="logo">
             <p class="red">Task</p><p>paper+</p>
