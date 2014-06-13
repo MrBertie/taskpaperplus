@@ -33,10 +33,12 @@ a:hover:hover {
 .placeholder { color:#e1e0df; }
 .drag-handle {
   display:none;
+  height:22px;
   padding:0;
   position:absolute;
   right:3px;
   top:0px;
+  width:32px;
 }
 #indicator {
   border:0;
@@ -577,7 +579,7 @@ a:hover:hover {
   border-style:solid;
   color:#586e75;
   float:right;
-  margin:2px 25px 0 5px;
+  margin:3px 25px 0 5px;
   vertical-align:top;
 }
 .version {
@@ -744,7 +746,7 @@ input:disabled { opacity:0.3; }
   padding:0.4em;
 }
 #cheatsheet td { padding-left:0.8em; }
-body.login { background:#f9f9f9; }
+body.login { background:#faf8f1; }
 #login-msg {
   height:240px;
   left:50%;
