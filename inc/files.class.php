@@ -274,9 +274,6 @@ class File extends FilesCommon {
 
     function delete() {
         $result = parent::_delete($this);
-        if ($result !== false) {
-            unset ($this);
-        }
         return $result;
     }
 
